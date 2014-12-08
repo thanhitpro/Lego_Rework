@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<brick>
+	<model id="10">
+		<name>Roof_tile_33_2x2_Double</name>
+		<defaultsizebrick x="2" y="2" z="0.6666666666667" />
+		<calibratevec x="20" y="20" z="12" />
+		<extrapositionvec x="0" y="0" z="4" />
+		<rotations numberofrotation="2">
+			<rotation id="0">
+				<sizebrick x="2" y="2" z="0.6666666666667" />
+				<translatefordraw x="0" y="0" z="0" />
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.6666666666667" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="1">
+				<sizebrick x="2" y="2" z="0.6666666666667" />
+				<translatefordraw x="0" y="0" z="0" />				
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.6666666666667" />
+					</box>
+				</boxcolliders>
+			</rotation>			
+		</rotations>
+	</model>
+</brick>

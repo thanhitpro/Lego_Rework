@@ -1,0 +1,138 @@
+package magiclab.lego.util;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+import magiclab.lego.core.Square;
+import magiclab.lego.xml.XmlBrick;
+import processing.core.PImage;
+import remixlab.dandelion.geom.Vec;
+import remixlab.proscene.Scene;
+
+public class Util {
+	public static final float BRICK_SIZE = 20;
+	public static final float BRICK_HEIGHT = 24;
+	public static final float BRICK_DOT_HEIGHT = 4;
+	public static String BRICK_2x1 = "brick_2x1";
+	public static int PLANE_WIDTH = 20;
+	public static int PLANE_HEIGHT = 20;
+	public static int PLANE_WIDTH_DEFAULT = 20;
+	public static int PLANE_HEIGHT_DEFALUT = 20;
+	public static int MODEL_SCALE = 2;
+	public static int OBJECT_SCALE = 5;
+
+	public static ArrayList<String> MODEL_NAME_LIST;
+	public static Vec DEFAULT_ROTATE = new Vec(3.14159265359f / 2, 0, 0);
+	public static float ROTATE_ANGLE_ADDED = 3.14159265359f / 2;
+	public static String DEFAULT_BRICK_NAME = "Brick_1x2";
+	public static Scene CURRENT_SCENE = null;
+	public static ArrayList<Vec> CALIBRATE_VEC_MODEL;
+	public static ArrayList<Vec> EXTRA_POSITION_VEC;
+	public static double PI = Math.PI;
+	public static String KEY_SWITCH_BRICK = "0123456789";
+	public static boolean DRAW_AXES = false;
+	public static String FONT_FILE_NAME_DEFAULT = "SegoeUI-Light-48.vlw";
+	public static int FONT_SIZE_DEFAULT = 48;
+	public static Dictionary<String, XmlBrick> XML_BRICK_DICTIONARY = new Hashtable<String, XmlBrick>();
+	public static int EXTEND_BOX_SELECTED = 1;
+	public static ArrayList<Square> LIST_SQUARE_ON_TOP_BRICKS = new ArrayList<Square>();
+	// public static String PLUS_PATH_RESOURCE = "";
+	// public static String PLUS_PATH_CLASS_NAME = "";
+	public static String PLUS_PATH_RESOURCE = "res\\";
+	//public static String PLUS_PATH_RESOURCE = "res/";
+	public static String PLUS_PATH_CLASS_NAME = "magiclab.lego.brick.object.";
+	public static String MODEL_NAME_FILE = Util.PLUS_PATH_RESOURCE
+			+ "ModelNameList.txt";
+	public static String CALIBRATE_VEC_FILE = Util.PLUS_PATH_RESOURCE
+			+ "CalibrateVecList.txt";
+	public static String EXTRA_POSITION_VEC_FILE = "ExtraPostionVec.txt";
+	public static PImage tempImage;
+	public static PImage eyeImage;
+
+	public static void LoadModelName() {
+		MODEL_NAME_LIST = new ArrayList<String>();
+		BufferedReader in;
+		try {
+			in = new BufferedReader(new FileReader(new File(MODEL_NAME_FILE)));
+		} catch (FileNotFoundException e) {
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter("the-file-name.txt", "UTF-8");
+				writer.println(MODEL_NAME_FILE);
+				writer.println(e.getMessage());
+				writer.close();
+			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			System.out.println("File not found exception: " + MODEL_NAME_FILE);
+			return;
+		}
+		String line = null;
+		try {
+			while ((line = in.readLine()) != null)
+				MODEL_NAME_LIST.add(line);
+		} catch (IOException e) {
+			System.out.println("Error when reading file: " + line);
+			return;
+		}
+
+		try {
+			in.close();
+		} catch (IOException e) {
+			System.out.println("Error when closing file");
+			return;
+		}
+	}
+
+	@SuppressWarnings("resource")
+	public static void LoadCalibrateVec() {
+		CALIBRATE_VEC_MODEL = new ArrayList<Vec>();
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(
+					new FileReader(new File(CALIBRATE_VEC_FILE)));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found exception: "
+					+ CALIBRATE_VEC_FILE);
+			return;
+		}
+		String line = null;
+		try {
+			while ((line = in.readLine()) != null) {
+				String[] vec = line.split(" ");
+				Vec temp = new Vec(Float.parseFloat(vec[0]),
+						Float.parseFloat(vec[1]), Float.parseFloat(vec[2]));
+				CALIBRATE_VEC_MODEL.add(temp);
+
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Cannot parse value: " + line);
+			return;
+		} catch (IOException e) {
+			System.out.println("Error when reading file: " + line);
+			return;
+		}
+		try {
+			in.close();
+		} catch (IOException e) {
+			System.out.println("Error when closing file");
+			return;
+		}
+	}
+
+	public static Vec newVecFromVec(Vec vec) {
+		if (vec == null)
+			return null;
+		return new Vec(vec.x(), vec.y(), vec.z());
+	}
+}

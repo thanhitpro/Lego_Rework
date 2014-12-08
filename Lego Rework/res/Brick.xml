@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<brick>
+	<models numberofmodel="14">
+		<model id="1">
+			<name>Brick_1x2</name>
+			<defaultsizebrick x="2" y="1" z="1" />
+			<calibratevec x="20" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="2" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="2" z="1" />
+					<translatefordraw x="-10" y="10" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="11">
+			<name>Roof_tile_2x2</name>
+			<defaultsizebrick x="2" y="2" z="1" />
+			<calibratevec x="20" y="20" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="4">
+				<rotation id="0">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="2">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="3">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="3">
+			<name>Brick_1x4</name>
+			<defaultsizebrick x="4" y="1" z="1" />
+			<calibratevec x="40" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="4" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="4">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="2" y="0" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="3" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="4" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="4" z="1" />
+					<translatefordraw x="-30" y="30" z="0" />
+					<dots numberofdot="4">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="2" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="0" y="3" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="4" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="2">
+			<name>Brick_1x3</name>
+			<defaultsizebrick x="3" y="1" z="1" />
+			<calibratevec x="30" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="3" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="3">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="2" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="3" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="3" z="1" />
+					<translatefordraw x="-20" y="30" z="0" />
+					<dots numberofdot="3">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="2" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="3" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="0">
+			<name>Brick_1x1</name>
+			<defaultsizebrick x="1" y="1" z="1" />
+			<calibratevec x="10" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="1">
+				<rotation id="0">
+					<sizebrick x="1" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="4">
+			<name>Brick_1x6</name>
+			<defaultsizebrick x="6" y="1" z="1" />
+			<calibratevec x="60" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="6" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="6">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="2" y="0" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="3" y="0" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="4" y="0" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="5" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="6" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="6" z="1" />
+					<translatefordraw x="-50" y="50" z="0" />
+					<dots numberofdot="6">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="2" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="0" y="3" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="0" y="4" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="0" y="5" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="6" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="5">
+			<name>Brick_1x8</name>
+			<defaultsizebrick x="8" y="1" z="1" />
+			<calibratevec x="80" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="8" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="8">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="2" y="0" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="3" y="0" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="4" y="0" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="5" y="0" z="0" />
+						</dot>
+						<dot id="6">
+							<position x="6" y="0" z="0" />
+						</dot>
+						<dot id="7">
+							<position x="7" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="8" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="8" z="1" />
+					<translatefordraw x="-70" y="70" z="0" />
+					<dots numberofdot="8">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="2" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="0" y="3" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="0" y="4" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="0" y="5" z="0" />
+						</dot>
+						<dot id="6">
+							<position x="0" y="6" z="0" />
+						</dot>
+						<dot id="7">
+							<position x="0" y="7" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="8" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="6">
+			<name>Brick_2x2</name>
+			<defaultsizebrick x="2" y="2" z="1" />
+			<calibratevec x="20" y="20" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="1">
+				<rotation id="0">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="4">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="1" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="7">
+			<name>Brick_2x3</name>
+			<defaultsizebrick x="2" y="3" z="1" />
+			<calibratevec x="30" y="20" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="3" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="6">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="2" y="0" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="1" y="1" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="2" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="3" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="2" y="3" z="1" />
+					<translatefordraw x="-10" y="10" z="0" />
+					<dots numberofdot="6">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="2" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="4">
+							<position x="1" y="1" z="0" />
+						</dot>
+						<dot id="5">
+							<position x="1" y="2" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="3" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="8">
+		<name>Round_1x1</name>
+			<defaultsizebrick x="1" y="1" z="1" />
+			<calibratevec x="10" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="1">
+				<rotation id="0">
+					<sizebrick x="1" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="9">
+			<name>Round_2x2</name>
+			<defaultsizebrick x="2" y="2" z="1" />
+			<calibratevec x="20" y="20" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="1">
+				<rotation id="0">
+					<sizebrick x="2" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="4">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+						<dot id="2">
+							<position x="0" y="1" z="0" />
+						</dot>
+						<dot id="3">
+							<position x="1" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="10">
+			<name>Roof_tile_1x2</name>
+			<defaultsizebrick x="1" y="2" z="1" />
+			<calibratevec x="10" y="20" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="4">
+				<rotation id="0">
+					<sizebrick x="1" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="2" y="1" z="1" />
+					<translatefordraw x="10" y="-10" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="1" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="2">
+					<sizebrick x="1" y="2" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="2" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="3">
+					<sizebrick x="2" y="1" z="1" />
+					<translatefordraw x="10" y="-10" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="12">
+		<name>Nose_cone_small_1x1</name>
+			<defaultsizebrick x="1" y="1" z="1" />
+			<calibratevec x="10" y="10" z="14" />
+			<extrapositionvec x="0" y="0" z="4" />
+			<rotations numberofrotation="1">
+				<rotation id="0">
+					<sizebrick x="1" y="1" z="1" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="1">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="1" depth="1" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+		<model id="13">
+			<name>Plate_1x2</name>
+			<defaultsizebrick x="2" y="1" z="0.33333333333334" />
+			<calibratevec x="20" y="10" z="6" />
+			<rotations numberofrotation="2">
+				<rotation id="0">
+					<sizebrick x="2" y="1" z="0.33333333333334" />
+					<translatefordraw x="0" y="0" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="1" y="0" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="2" height="1" depth="0.33333333333334" />
+						</box>
+					</boxcolliders>
+				</rotation>
+				<rotation id="1">
+					<sizebrick x="1" y="2" z="0.33333333333334" />
+					<translatefordraw x="-10" y="10" z="0" />
+					<dots numberofdot="2">
+						<dot id="0">
+							<position x="0" y="0" z="0" />
+						</dot>
+						<dot id="1">
+							<position x="0" y="1" z="0" />
+						</dot>
+					</dots>
+					<boxcolliders numberofboxcolider="1">
+						<box id="0">
+							<position x="0" y="0" z="0" />
+							<size width="1" height="2" depth="0.33333333333334" />
+						</box>
+					</boxcolliders>
+				</rotation>
+			</rotations>
+		</model>
+	</models>
+</brick>

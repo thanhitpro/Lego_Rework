@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<brick>
+	<model id="5">
+		<name>Brick_1x8</name>
+		<defaultsizebrick x="8" y="1" z="1" />
+		<calibratevec x="80" y="10" z="24" />
+		<extrapositionvec x="0" y="0" z="4" />
+		<rotations numberofrotation="2">
+			<rotation id="0">
+				<sizebrick x="8" y="1" z="1" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="8">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="2" y="0" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="3" y="0" z="0" />
+					</dot>
+					<dot id="4">
+						<position x="4" y="0" z="0" />
+					</dot>
+					<dot id="5">
+						<position x="5" y="0" z="0" />
+					</dot>
+					<dot id="6">
+						<position x="6" y="0" z="0" />
+					</dot>
+					<dot id="7">
+						<position x="7" y="0" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="8" height="1" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="1">
+				<sizebrick x="1" y="8" z="1" />
+				<translatefordraw x="-70" y="70" z="0" />
+				<dots numberofdot="8">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="0" y="2" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="0" y="3" z="0" />
+					</dot>
+					<dot id="4">
+						<position x="0" y="4" z="0" />
+					</dot>
+					<dot id="5">
+						<position x="0" y="5" z="0" />
+					</dot>
+					<dot id="6">
+						<position x="0" y="6" z="0" />
+					</dot>
+					<dot id="7">
+						<position x="0" y="7" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="1" height="8" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+		</rotations>
+	</model>
+</brick>
