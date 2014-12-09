@@ -11,8 +11,10 @@ import magiclab.lego.brick.object.Brick_1x2;
 import magiclab.lego.core.Box;
 import magiclab.lego.core.ObjectSelected;
 import magiclab.lego.core.Square;
+import magiclab.lego.gameState.GroupBrickState;
 import magiclab.lego.plane.PlaneLego;
 import magiclab.lego.util.Util;
+import magiclab.lego.xml.XmlRotation;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -98,6 +100,7 @@ public class GameManager {
 	 */
 	private int selectedBrickID;
 	private ArrayList<Integer> selectedBrickIDMulti;
+
 	public ArrayList<Integer> getSelectedBrickIDMulti() {
 		return selectedBrickIDMulti;
 	}
@@ -122,8 +125,18 @@ public class GameManager {
 	 * Expand size
 	 */
 	private Vec expandSize;
+	/*
+	 * Game modified
+	 */
 	private boolean gameModified;
+	/*
+	 * Hold ctr key
+	 */
 	private boolean holdControlKey;
+	/*
+	 * Group brick follow mouse
+	 */
+	private GroupBrickState groupBrickStates;
 
 	public GameManager(PApplet parent) {
 		super();
@@ -147,6 +160,9 @@ public class GameManager {
 		selectedBrickIDMulti.clear();
 		selectedBrickFlag = false;
 		gameModified = false;
+		holdControlKey = false;
+		selectedBrickIDMulti = new ArrayList<>();
+		groupBrickStates = new GroupBrickState();
 	}
 
 	public void setup() {
@@ -170,6 +186,7 @@ public class GameManager {
 		gameModified = false;
 		holdControlKey = false;
 		selectedBrickIDMulti = new ArrayList<>();
+		groupBrickStates = new GroupBrickState();
 	}
 
 	private void setupBrickModel() {
@@ -628,6 +645,38 @@ public class GameManager {
 			 * parent.shape(faces[i]); }
 			 */
 			parent.popMatrix();
+
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.setTranslation(Vec.subtract(brickFollowMouse
+							.getTranslation(), groupBrickStates
+							.getBrickPosition().get(i)));
+					parent.pushMatrix();
+
+					parent.translate(tempBrick.getTranslation().x()
+							+ tempBrick.getCalibrateVec().x(), tempBrick
+							.getTranslation().y()
+							+ tempBrick.getCalibrateVec().y(), tempBrick
+							.getTranslation().z()
+							+ tempBrick.getCalibrateVec().z());
+					if (tempBrick.getTranslateForDrawAfterRotate() != null) {
+						parent.translate(tempBrick
+								.getTranslateForDrawAfterRotate().x(),
+								tempBrick.getTranslateForDrawAfterRotate().y(),
+								tempBrick.getTranslateForDrawAfterRotate().z());
+					}
+
+					parent.scale(tempBrick.getScaleRatio());
+					parent.rotateX(tempBrick.getRotation().x());
+					parent.rotateY(tempBrick.getRotation().y());
+					brickFollowMouse.getModel().setFill(
+							parent.color(tempBrick.getColor().x(), tempBrick
+									.getColor().y(), tempBrick.getColor().z()));
+					parent.shape(tempBrick.getModel());
+					parent.popMatrix();
+				}
+			}
 		}
 
 	}
@@ -822,11 +871,20 @@ public class GameManager {
 
 	private void deleteBrickByKey() {
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
-			Brick selectedBrick = bricks.get(selectedBrickIDMulti.get(i));
+			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
 			selectedBrick.setDeleteFlag(true);
-			removeBrickFromGame(selectedBrickIDMulti.get(i));
-			bricks.remove((int)selectedBrickIDMulti.get(i));
+			removeBrickFromGame((int) selectedBrickIDMulti.get(i));
 		}
+
+		ArrayList<Brick> tempBricks = new ArrayList<Brick>();
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			tempBricks.add(bricks.get((int) selectedBrickIDMulti.get(i)));
+		}
+
+		for (int i = 0; i < tempBricks.size(); i++) {
+			bricks.remove(tempBricks.get(i));
+		}
+
 		gameModified = true;
 		objectHovered.reset();
 	}
@@ -849,28 +907,53 @@ public class GameManager {
 					.getModelName());
 			brickForPlacing.setup(brickFollowMouse);
 			setIDForBrick(brickForPlacing);
-			bricks.add(brickForPlacing);
-			selectedBrickFlag = false;
-			selectedBrickID = -1;
-			gameModified = true;
-			selectedBrickIDMulti.clear();
+			bricks.add(brickForPlacing);			
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 
+		/*
+		 * Draw group brick stated follow mouse
+		 */
+		if (groupBrickStates.getBrickStates().size() > 0) {
+			for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+				Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+				tempBrick.setTranslation(Vec.subtract(brickFollowMouse
+						.getTranslation(), groupBrickStates.getBrickPosition()
+						.get(i)));
+
+				try {
+					Brick brickForPlacingGroupBrick = brickFactory
+							.createBrick(tempBrick.getModelName());
+					brickForPlacingGroupBrick.setup(tempBrick);
+					setIDForBrick(brickForPlacingGroupBrick);
+					bricks.add(brickForPlacingGroupBrick);					
+				} catch (NoSuchMethodException | SecurityException
+						| InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		selectedBrickFlag = false;
+		selectedBrickID = -1;
+		gameModified = true;
+		selectedBrickIDMulti.clear();
+		groupBrickStates.reset();
 	}
 
 	public void selectBrick() {
 		if (disableBrickFollowMouse && objectHovered.getIndexNameObject() == 1) {
 			boolean selectedBrick = false;
 			for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
-				if (selectedBrickIDMulti.get(i) == objectHovered
+				if (((int) selectedBrickIDMulti.get(i)) == objectHovered
 						.getIndexObject()) {
 					selectedBrick = true;
 					if (holdControlKey) {
-						selectedBrickIDMulti.remove(i);	
+						selectedBrickIDMulti.remove(i);
 					} else {
 						selectedBrickIDMulti.clear();
 					}
@@ -941,17 +1024,17 @@ public class GameManager {
 				parent.stroke(39, 255, 228);
 				parent.noFill();
 				parent.pushMatrix();
-				Brick tempBrick = bricks.get(selectedBrickIDMulti.get(i));
+				Brick tempBrick = bricks.get((int) selectedBrickIDMulti.get(i));
 				Vec translateVecForBox = new Vec(tempBrick.getSizeBrick().x()
 						/ 2 * Util.BRICK_SIZE, tempBrick.getSizeBrick().y() / 2
 						* Util.BRICK_SIZE, tempBrick.getSizeBrick().z() / 2
 						* Util.BRICK_HEIGHT + 2);
 				parent.translate(tempBrick.getTranslation().x()
 						+ translateVecForBox.x(),
-						bricks.get(selectedBrickIDMulti.get(i))
+						bricks.get((int) selectedBrickIDMulti.get(i))
 								.getTranslation().y()
 								+ translateVecForBox.y(),
-						bricks.get(selectedBrickIDMulti.get(i))
+						bricks.get((int) selectedBrickIDMulti.get(i))
 								.getTranslation().z()
 								+ translateVecForBox.z());
 				for (int j = 0; j < tempBrick.getBoxCollider().getBoxes()
@@ -1066,6 +1149,70 @@ public class GameManager {
 	public void keyReleaseProcess() {
 		if (parent.keyCode == 17) {
 			holdControlKey = false;
+		}
+	}
+
+	public void mouseDragProcess() {
+		if (holdControlKey) {
+			if (objectHovered.getIndexNameObject() == 0
+					|| objectHovered.getIndexNameObject() == 1) {
+				if (selectedBrickIDMulti
+						.indexOf(objectHovered.getIndexObject()) != -1) {
+					Brick brickDrag = bricks
+							.get(objectHovered.getIndexObject());
+					Brick brick;
+					try {
+						brick = brickFactory.createBrick(brickDrag
+								.getModelName());
+						brick.setModel(brickDrag.getModel());
+						brick.setModelName(brickDrag.getModelName());
+						brick.setRotation(Util.newVecFromVec(brickDrag
+								.getRotation()));
+						brick.setScaleRatio(brickDrag.getScaleRatio());
+						brick.setSizeBrick(Util.newVecFromVec(brickDrag
+								.getSizeBrick()));
+						brick.setTranslation(Util.newVecFromVec(brickDrag
+								.getTranslation()));
+						brick.setTimesRotation(brickDrag.getTimesRotation());
+						brick.setTranslateForDrawAfterRotate(brickDrag
+								.getTranslateForDrawAfterRotate());
+						brick.setColor(Util.newVecFromVec(brickDrag.getColor()));
+						XmlRotation xmlRotation = brick.getXmlBrick()
+								.getRotations().get(brick.getTimesRotation());
+						brick.generateBoxCollider(xmlRotation.getBoxColliders());
+						// brick.setup(brickDrag);
+						curBrick.setModelName(brick.getModelName());
+						brickFollowMouse = brick;
+					} catch (NoSuchMethodException | SecurityException
+							| InstantiationException | IllegalAccessException
+							| IllegalArgumentException
+							| InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					/*
+					 * Add brick to a group
+					 */
+					addBrickToGroupBrick();
+					deleteBrickByKey();
+					selectedBrickIDMulti.clear();
+					objectHovered.setIndexNameObject(-1);
+				}
+			}
+		}
+	}
+
+	private void addBrickToGroupBrick() {
+		Brick brickDrag = bricks.get(objectHovered.getIndexObject());
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
+			Vec position = Vec.subtract(brickDrag.getTranslation(),
+					selectedBrick.getTranslation());
+
+			if (!position.equals(new Vec(0, 0, 0))) {
+				groupBrickStates.getBrickStates().add(selectedBrick);
+				groupBrickStates.getBrickPosition().add(position);
+			}
+
 		}
 	}
 

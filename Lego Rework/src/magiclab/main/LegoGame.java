@@ -2,7 +2,6 @@ package magiclab.main;
 
 import java.util.ArrayList;
 
-import jogamp.common.Debug;
 import magic.lego.controller.GameManager;
 import magiclab.lego.util.Util;
 import processing.core.PApplet;
@@ -112,7 +111,9 @@ public class LegoGame extends PApplet {
 	public void mouseDragged() {
 		// TODO Auto-generated method stub
 		super.mouseDragged();
-		System.out.println("Drag");
+		gameManager.mouseDragProcess();
+		objectPicking();
+		gameManager.mouseHoverProcess();
 	}
 	
 	@Override
