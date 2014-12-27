@@ -21,6 +21,18 @@ public class Util {
 	public static final float BRICK_SIZE = 20;
 	public static final float BRICK_HEIGHT = 24;
 	public static final float BRICK_DOT_HEIGHT = 4;
+	public static int LEFT_WIDTH = 10;
+	public static int RIGHT_WIDTH = 10;
+	public static int UP_HEIGHT = 10;
+	public static int DOWN_HEIGHT = 10;
+	public static int LEFT_WIDTH_DEFAULT = 10;
+	public static int RIGHT_WIDTH_DEFAULT = 10;
+	public static int UP_HEIGHT_DEFAULT = 10;
+	public static int DOWN_HEIGHT_DEFAULT = 10;
+	public static int LEFT_WIDTH_FIX = 10;
+	public static int RIGHT_WIDTH_FIX = 10;
+	public static int UP_HEIGHT_FIX = 10;
+	public static int DOWN_HEIGHT_FIX = 10;
 	public static String BRICK_2x1 = "brick_2x1";
 	public static int PLANE_WIDTH = 20;
 	public static int PLANE_HEIGHT = 20;
@@ -47,7 +59,7 @@ public class Util {
 	// public static String PLUS_PATH_RESOURCE = "";
 	// public static String PLUS_PATH_CLASS_NAME = "";
 	public static String PLUS_PATH_RESOURCE = "res\\";
-	//public static String PLUS_PATH_RESOURCE = "res/";
+	// public static String PLUS_PATH_RESOURCE = "res/";
 	public static String PLUS_PATH_CLASS_NAME = "magiclab.lego.brick.object.";
 	public static String MODEL_NAME_FILE = Util.PLUS_PATH_RESOURCE
 			+ "ModelNameList.txt";
@@ -73,7 +85,7 @@ public class Util {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			System.out.println("File not found exception: " + MODEL_NAME_FILE);
 			return;
 		}

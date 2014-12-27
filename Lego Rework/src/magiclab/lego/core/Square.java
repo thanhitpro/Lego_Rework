@@ -8,6 +8,15 @@ public class Square {
 	private Vec position;
 	private float width;
 	private float height;
+	private String indexSquare;
+
+	public String getIndexSquare() {
+		return indexSquare;
+	}
+
+	public void setIndexSquare(String indexSquare) {
+		this.indexSquare = indexSquare;
+	}
 
 	public Vec getPosition() {
 		return position;
@@ -38,10 +47,12 @@ public class Square {
 		this.position = position;
 		this.width = brickSize;
 		this.height = brickSize2;
+		this.indexSquare = "";
 	}
 
 	public Square() {
 		super();
+		this.indexSquare = "";
 	}
 
 	public boolean container(Vec point) {

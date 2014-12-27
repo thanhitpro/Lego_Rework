@@ -15,6 +15,8 @@ public class PlaneLego implements DrawableObject {
 
 	public PlaneLego() {
 		super();
+		pShapes = new ArrayList<PShape>();
+		pSquarePosition = new ArrayList<Square>();
 	}
 
 	public PlaneLego(int width, int height, ArrayList<PShape> pShapes) {
@@ -90,6 +92,11 @@ public class PlaneLego implements DrawableObject {
 	public void mouseClicked() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void reset() {
+		pShapes.clear();
+		pSquarePosition.clear();
 	}
 
 }

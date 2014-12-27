@@ -365,6 +365,7 @@ public class Brick implements DrawableObject {
 							+ Util.BRICK_DOT_HEIGHT)));
 			square.setWidth(Util.BRICK_SIZE);
 			square.setHeight(Util.BRICK_SIZE);
+			square.setIndexSquare("");
 			squareOnTopBrick.add(square);
 			Util.LIST_SQUARE_ON_TOP_BRICKS.add(square);
 		}
@@ -414,6 +415,7 @@ public class Brick implements DrawableObject {
 							* Util.BRICK_SIZE, startGeneratePosition.z());
 					Square square = new Square(framePosition, Util.BRICK_SIZE,
 							Util.BRICK_SIZE);
+					square.setIndexSquare("");
 					boolean checkExist = false;
 
 					for (int l = 0; l < Util.LIST_SQUARE_ON_TOP_BRICKS.size(); l++) {

@@ -171,8 +171,9 @@ public class GuiGame extends JFrame {
 					int width = Integer.valueOf(widthText.getText());
 					int height = Integer.valueOf(heightText.getText());
 					if (width > Util.PLANE_WIDTH_DEFAULT
-							&& height >= Util.PLANE_HEIGHT_DEFALUT)
-						legoGame.resetPlane(width, height);
+							&& height >= Util.PLANE_HEIGHT_DEFALUT) {
+
+					}
 				}
 
 			}
@@ -287,7 +288,8 @@ public class GuiGame extends JFrame {
 	}
 
 	protected static void closeGame() {
-		if (legoGame.gameManager.getBricks().size() > 0 && legoGame.gameManager.isGameModified()) {
+		if (legoGame.gameManager.getBricks().size() > 0
+				&& legoGame.gameManager.isGameModified()) {
 			int checkSave = JOptionPane.showConfirmDialog(null,
 					"Do you want to save changes to '" + fileName + "'?");
 			if (checkSave == 0) {

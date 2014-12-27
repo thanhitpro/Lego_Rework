@@ -316,8 +316,8 @@ public class GameManager {
 	}
 
 	public void setupPlane() {
-		for (int i = -(Util.PLANE_WIDTH / 2); i < Util.PLANE_WIDTH / 2; i++) {
-			for (int j = -(Util.PLANE_HEIGHT / 2); j < Util.PLANE_HEIGHT / 2; j++) {
+		for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
+			for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
 
 				/*
 				 * Roofing square for the plane Each square has size 20x20
@@ -327,6 +327,8 @@ public class GameManager {
 				squarePosition.setHeight(Util.BRICK_SIZE);
 				squarePosition.setPosition(new Vec(Util.BRICK_SIZE * i,
 						Util.BRICK_SIZE * j, 0));
+				squarePosition.setIndexSquare(squarePosition.getPosition().x()
+						+ "x" + squarePosition.getPosition().y());
 				PShape pShape;
 				// pShape = parent.loadShape("circle95.svg");
 				pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
@@ -759,6 +761,69 @@ public class GameManager {
 		Square squareHovered = planeLego.getpSquarePosition().get(
 				objectHovered.getIndexObject());
 		displayBrickFollowMouse(squareHovered);
+		
+		/*
+		 * Check remove expanded plane area
+		 */
+		if (Util.LEFT_WIDTH > -(squareHovered.getPosition().x() / Util.BRICK_SIZE)
+				&& Util.LEFT_WIDTH > Util.LEFT_WIDTH_DEFAULT) {
+			int leftValueReduce = (Util.LEFT_WIDTH - (int) (-squareHovered
+					.getPosition().x() / Util.BRICK_SIZE));
+			for (int i = 0; i < leftValueReduce; i++) {
+				for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
+					planeLego.getpShapes().remove(
+							planeLego.getpShapes().size() - 1);
+					planeLego.getpSquarePosition().remove(
+							planeLego.getpSquarePosition().size() - 1);
+				}
+			}
+			Util.LEFT_WIDTH -= leftValueReduce;
+		}
+		if (Util.RIGHT_WIDTH > (squareHovered.getPosition().x() / Util.BRICK_SIZE)
+				&& Util.RIGHT_WIDTH > Util.RIGHT_WIDTH_DEFAULT) {
+			int rightValueReduce = Util.RIGHT_WIDTH
+					- (int) (squareHovered.getPosition().x() / Util.BRICK_SIZE)
+					- 1;
+			for (int i = 0; i < rightValueReduce; i++) {
+				for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
+					planeLego.getpShapes().remove(
+							planeLego.getpShapes().size() - 1);
+					planeLego.getpSquarePosition().remove(
+							planeLego.getpSquarePosition().size() - 1);
+				}
+			}
+			Util.RIGHT_WIDTH -= rightValueReduce;
+		}
+		if (Util.UP_HEIGHT > -(squareHovered.getPosition().y() / Util.BRICK_SIZE)
+				&& Util.UP_HEIGHT > Util.UP_HEIGHT_DEFAULT) {
+			int upValueReduce = Util.UP_HEIGHT
+					- (int) (-squareHovered.getPosition().y() / Util.BRICK_SIZE);
+			for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
+				for (int j = 0; j < upValueReduce; j++) {
+					planeLego.getpShapes().remove(
+							planeLego.getpShapes().size() - 1);
+					planeLego.getpSquarePosition().remove(
+							planeLego.getpSquarePosition().size() - 1);
+				}
+			}
+
+			Util.UP_HEIGHT -= upValueReduce;
+		}
+		if (Util.DOWN_HEIGHT > (squareHovered.getPosition().y() / Util.BRICK_SIZE)
+				&& Util.DOWN_HEIGHT > Util.DOWN_HEIGHT_DEFAULT) {
+			int downValueReduce = Util.DOWN_HEIGHT
+					- (int) (squareHovered.getPosition().y() / Util.BRICK_SIZE)
+					- 1;
+			for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
+				for (int j = 0; j < downValueReduce; j++) {
+					planeLego.getpShapes().remove(
+							planeLego.getpShapes().size() - 1);
+					planeLego.getpSquarePosition().remove(
+							planeLego.getpSquarePosition().size() - 1);
+				}
+			}
+			Util.DOWN_HEIGHT -= downValueReduce;
+		}
 	}
 
 	private void displayBrickFollowMouse(Square squareHovered) {
@@ -907,7 +972,31 @@ public class GameManager {
 					.getModelName());
 			brickForPlacing.setup(brickFollowMouse);
 			setIDForBrick(brickForPlacing);
-			bricks.add(brickForPlacing);			
+			bricks.add(brickForPlacing);
+			/*
+			 * if ((int) brickForPlacing.getTranslation().x() / Util.BRICK_SIZE
+			 * < (-Util.LEFT_WIDTH_FIX)) { Util.LEFT_WIDTH = (int)
+			 * (-brickForPlacing.getTranslation().x() / Util.BRICK_SIZE);
+			 * Util.LEFT_WIDTH_FIX = (int)
+			 * (-brickForPlacing.getTranslation().x() / Util.BRICK_SIZE); }
+			 * 
+			 * if ((int) brickForPlacing.getTranslation().x() / Util.BRICK_SIZE
+			 * > Util.RIGHT_WIDTH_FIX) { Util.RIGHT_WIDTH = (int)
+			 * (brickForPlacing.getTranslation().x() / Util.BRICK_SIZE);
+			 * Util.RIGHT_WIDTH_FIX = (int)
+			 * (brickForPlacing.getTranslation().x() / Util.BRICK_SIZE); }
+			 * 
+			 * if ((int) brickForPlacing.getTranslation().y() / Util.BRICK_SIZE
+			 * < (-Util.UP_HEIGHT_FIX)) { Util.UP_HEIGHT = (int)
+			 * (-brickForPlacing.getTranslation().y() / Util.BRICK_SIZE);
+			 * Util.UP_HEIGHT_FIX = (int) (-brickForPlacing.getTranslation().y()
+			 * / Util.BRICK_SIZE); } if ((int)
+			 * brickForPlacing.getTranslation().y() / Util.BRICK_SIZE >
+			 * Util.DOWN_HEIGHT_FIX) { Util.DOWN_HEIGHT = (int)
+			 * (brickForPlacing.getTranslation().y() / Util.BRICK_SIZE);
+			 * Util.DOWN_HEIGHT_FIX = (int)
+			 * (brickForPlacing.getTranslation().y() / Util.BRICK_SIZE); }
+			 */
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
@@ -929,11 +1018,10 @@ public class GameManager {
 							.createBrick(tempBrick.getModelName());
 					brickForPlacingGroupBrick.setup(tempBrick);
 					setIDForBrick(brickForPlacingGroupBrick);
-					bricks.add(brickForPlacingGroupBrick);					
+					bricks.add(brickForPlacingGroupBrick);
 				} catch (NoSuchMethodException | SecurityException
 						| InstantiationException | IllegalAccessException
 						| IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -943,6 +1031,7 @@ public class GameManager {
 		gameModified = true;
 		selectedBrickIDMulti.clear();
 		groupBrickStates.reset();
+
 	}
 
 	public void selectBrick() {
@@ -1097,45 +1186,122 @@ public class GameManager {
 	}
 
 	public void checkExpandPlane(Vec pos) {
-
-	}
-
-	public void addExpandPlane(int width, int height) {
-		int startIndex = Util.PLANE_WIDTH * Util.PLANE_HEIGHT;
-
-		int size = planeLego.getpShapes().size();
-		if (startIndex < size) {
-			for (int i = (size - 1); i >= startIndex; i--) {
-				planeLego.getpShapes().remove(i);
-				planeLego.getpSquarePosition().remove(i);
+		if (pos.y() / Util.BRICK_SIZE > Util.DOWN_HEIGHT) {
+			int expandedValue = (Math.round(Math.abs(pos.y()
+					- (Util.DOWN_HEIGHT * Util.BRICK_SIZE))
+					/ Util.BRICK_SIZE));
+			for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
+				for (int j = 0; j < expandedValue; j++) {
+					/*
+					 * Roofing square for the plane Each square has size 20x20
+					 */
+					Square squarePosition = new Square();
+					squarePosition.setWidth(Util.BRICK_SIZE);
+					squarePosition.setHeight(Util.BRICK_SIZE);
+					squarePosition.setPosition(new Vec(Util.BRICK_SIZE * i,
+							Util.BRICK_SIZE * (j + Util.DOWN_HEIGHT), 0));
+					squarePosition.setIndexSquare(squarePosition.getPosition()
+							.x() + "x" + squarePosition.getPosition().y());
+					PShape pShape;
+					pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
+					pShape.setTexture(Util.tempImage);
+					pShape.setStroke(false);
+					planeLego.addShape(pShape);
+					planeLego.addSquarePosition(squarePosition);
+				}
 			}
-		}
-		for (int i = -(width / 2); i < width / 2; i++) {
-			for (int j = -(height / 2); j < height / 2; j++) {
-				if (i >= (-Util.PLANE_WIDTH / 2) && i < (Util.PLANE_WIDTH / 2)
-						&& j >= (-Util.PLANE_HEIGHT / 2)
-						&& j < (Util.PLANE_HEIGHT / 2))
-					continue;
-				/*
-				 * Roofing square for the plane Each square has size 20x20
-				 */
-				Square squarePosition = new Square();
-				squarePosition.setWidth(Util.BRICK_SIZE);
-				squarePosition.setHeight(Util.BRICK_SIZE);
-				squarePosition.setPosition(new Vec(Util.BRICK_SIZE * i,
-						Util.BRICK_SIZE * j, 0));
-				PShape pShape;
-				// pShape = parent.loadShape("circle95.svg");
-				pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
-				pShape.setTexture(Util.tempImage);
-				pShape.setStroke(true);
-				planeLego.addShape(pShape);
-				planeLego.addSquarePosition(squarePosition);
-			}
+			Util.DOWN_HEIGHT += expandedValue;
+			return;
 		}
 
-		planeLego.setWidth(width);
-		planeLego.setHeight(height);
+		if (pos.y() / Util.BRICK_SIZE < -(Util.UP_HEIGHT)) {
+			int expandedValue = (Math.round(Math.abs(pos.y()
+					+ (Util.UP_HEIGHT * Util.BRICK_SIZE))
+					/ Util.BRICK_SIZE));
+			for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
+				for (int j = 0; j < expandedValue; j++) {
+
+					/*
+					 * Roofing square for the plane Each square has size 20x20
+					 */
+					Square squarePosition = new Square();
+					squarePosition.setWidth(Util.BRICK_SIZE);
+					squarePosition.setHeight(Util.BRICK_SIZE);
+					squarePosition.setPosition(new Vec(Util.BRICK_SIZE * i,
+							-Util.BRICK_SIZE * (j + Util.UP_HEIGHT + 1), 0));
+					squarePosition.setIndexSquare(squarePosition.getPosition()
+							.x() + "x" + squarePosition.getPosition().y());
+					PShape pShape;
+					pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
+					pShape.setTexture(Util.tempImage);
+					pShape.setStroke(false);
+					planeLego.addShape(pShape);
+					planeLego.addSquarePosition(squarePosition);
+				}
+			}
+			Util.UP_HEIGHT += expandedValue;
+			return;
+		}
+		if (pos.x() / Util.BRICK_SIZE > (Util.RIGHT_WIDTH)) {
+			int expandedValue = (Math.round(Math.abs(pos.x()
+					- (Util.RIGHT_WIDTH * Util.BRICK_SIZE))
+					/ Util.BRICK_SIZE));
+			for (int i = 0; i < expandedValue; i++) {
+				for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
+
+					/*
+					 * Roofing square for the plane Each square has size 20x20
+					 */
+					Square squarePosition = new Square();
+					squarePosition.setWidth(Util.BRICK_SIZE);
+					squarePosition.setHeight(Util.BRICK_SIZE);
+					squarePosition.setPosition(new Vec(Util.BRICK_SIZE
+							* (i + Util.RIGHT_WIDTH), Util.BRICK_SIZE * j, 0));
+					squarePosition.setIndexSquare(squarePosition.getPosition()
+							.x() + "x" + squarePosition.getPosition().y());
+					PShape pShape;
+					pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
+					pShape.setTexture(Util.tempImage);
+					pShape.setStroke(false);
+					planeLego.addShape(pShape);
+					planeLego.addSquarePosition(squarePosition);
+				}
+			}
+			Util.RIGHT_WIDTH += expandedValue;
+			return;
+		}
+
+		if (pos.x() / Util.BRICK_SIZE < -(Util.LEFT_WIDTH)) {
+			int expandedValue = (Math.round(Math.abs(pos.x()
+					+ (Util.LEFT_WIDTH * Util.BRICK_SIZE))
+					/ Util.BRICK_SIZE));
+			for (int i = 0; i < expandedValue; i++) {
+				for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
+
+					/*
+					 * Roofing square for the plane Each square has size 20x20
+					 */
+					Square squarePosition = new Square();
+					squarePosition.setWidth(Util.BRICK_SIZE);
+					squarePosition.setHeight(Util.BRICK_SIZE);
+					squarePosition
+							.setPosition(new Vec(-Util.BRICK_SIZE
+									* (i + Util.LEFT_WIDTH + 1),
+									Util.BRICK_SIZE * j, 0));
+					squarePosition.setIndexSquare(squarePosition.getPosition()
+							.x() + "x" + squarePosition.getPosition().y());
+					PShape pShape;
+					pShape = parent.createShape(PConstants.RECT, 0, 0, 20, 20);
+					pShape.setTexture(Util.tempImage);
+					pShape.setStroke(false);
+					planeLego.addShape(pShape);
+					planeLego.addSquarePosition(squarePosition);
+				}
+			}
+			Util.LEFT_WIDTH += expandedValue;
+			return;
+		}
+
 	}
 
 	public boolean isGameModified() {
@@ -1214,6 +1380,10 @@ public class GameManager {
 			}
 
 		}
+	}
+
+	public void drawExplanePlane() {
+
 	}
 
 }
