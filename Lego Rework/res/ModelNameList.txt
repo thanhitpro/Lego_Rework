@@ -1,5 +1,5 @@
+_Brick
 Brick_1x1
-Brick_1x1_eye
 Brick_Headlight_1x1
 Brick_1x2
 Brick_1x3
@@ -14,10 +14,12 @@ Brick_Corner_2x2
 Brick_2x3
 Brick_2x6
 Brick_2x8
+_Round
 Round_1x1
 Round_Plate_1x1
 Round_2x2
 Round_Plate_2x2
+_Roof
 Roof_tile_31_1x1
 Roof_tile_1x2
 Roof_tile_1x3
@@ -32,7 +34,7 @@ Roof_tile_Invert_2x3
 Roof_tile_Invert_3x1
 Roof_tile_33_2x2_Double
 Roof_tile_33_2x4_Double
-Nose_cone_small_1x1
+_Plate
 Plate_1x2
 Plate_1x3
 Plate_1x4
@@ -42,6 +44,7 @@ Plate_2x3
 Plate_2x4
 Plate_2x6
 Plate_2x8
+_Tile
 Tile_1x1
 Tile_1x2
 Tile_1x3

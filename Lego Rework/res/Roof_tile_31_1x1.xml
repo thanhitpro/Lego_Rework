@@ -2,17 +2,17 @@
 <brick>
 <model id="1">
 			<name>Roof_tile_31_1x1</name>
-			<defaultsizebrick x="1" y="1" z="1" />
-			<calibratevec x="10" y="20" z="24" />
+			<defaultsizebrick x="1" y="1" z="0.43333333333334" />
+			<calibratevec x="10" y="10" z="0" />
 			<extrapositionvec x="0" y="0" z="4" />
 			<rotations numberofrotation="1">
 				<rotation id="0">
-					<sizebrick x="1" y="1" z="1" />
+					<sizebrick x="1" y="1" z="0.43333333333334" />
 					<translatefordraw x="0" y="0" z="0" />
 					<boxcolliders numberofboxcolider="1">
 						<box id="0">
 							<position x="0" y="0" z="0" />
-							<size width="1" height="1" depth="1" />
+							<size width="1" height="1" depth="0.43333333333334" />
 						</box>
 					</boxcolliders>
 				</rotation>

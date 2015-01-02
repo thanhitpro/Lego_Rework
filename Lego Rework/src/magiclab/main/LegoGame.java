@@ -206,4 +206,16 @@ public class LegoGame extends PApplet {
 		}
 
 	}
+
+	public void cut() {
+		gameManager.cut();
+	}
+
+	public void copy() {
+		gameManager.copy();
+	}
+
+	public void paste() {
+		gameManager.paste();
+	}
 }

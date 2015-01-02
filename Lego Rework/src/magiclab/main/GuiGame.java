@@ -7,8 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -61,6 +64,9 @@ public class GuiGame extends JFrame {
 	private static GuiGame exampleFrame = new GuiGame();
 	private static String filePath = null;
 	private static String fileName = "Untitled";
+	private static GridPane gridPane = new GridPane();
+	private static GridPane gridGroupPane = new GridPane();
+	private static ArrayList<String> collapsedIcon = new ArrayList<String>();
 
 	public GuiGame() {
 		super("Untitled" + " - Lego");
@@ -80,6 +86,12 @@ public class GuiGame extends JFrame {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				collapsedIcon = new ArrayList<String>();
+				collapsedIcon.add("Brick");
+				collapsedIcon.add("Round");
+				collapsedIcon.add("Roof");
+				collapsedIcon.add("Plate");
+				collapsedIcon.add("Tile");
 				initFX();
 			}
 		});
@@ -256,6 +268,36 @@ public class GuiGame extends JFrame {
 				legoGame.undo();
 			}
 		});
+		MenuItem menuCut = new MenuItem("Cut");
+		menuCut.setAccelerator(new KeyCodeCombination(KeyCode.X,
+				KeyCombination.CONTROL_DOWN));
+		menuCut.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.cut();
+			}
+		});
+		MenuItem menuCopy = new MenuItem("Copy");
+		menuCopy.setAccelerator(new KeyCodeCombination(KeyCode.C,
+				KeyCombination.CONTROL_DOWN));
+		menuCopy.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.copy();
+			}
+		});
+		MenuItem menuPaste = new MenuItem("Paste");
+		menuPaste.setAccelerator(new KeyCodeCombination(KeyCode.V,
+				KeyCombination.CONTROL_DOWN));
+		menuPaste.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.paste();
+			}
+		});
 		MenuItem menuRedo = new MenuItem("Redo");
 		menuRedo.setAccelerator(new KeyCodeCombination(KeyCode.Y,
 				KeyCombination.CONTROL_DOWN));
@@ -266,6 +308,10 @@ public class GuiGame extends JFrame {
 				legoGame.redo();
 			}
 		});
+
+		menuEdit.getItems().add(menuCut);
+		menuEdit.getItems().add(menuCopy);
+		menuEdit.getItems().add(menuPaste);
 		menuEdit.getItems().add(menuUndo);
 		menuEdit.getItems().add(menuRedo);
 
@@ -287,7 +333,7 @@ public class GuiGame extends JFrame {
 		return (scene);
 	}
 
-	protected static void closeGame() {
+	public static void closeGame() {
 		if (legoGame.gameManager.getBricks().size() > 0
 				&& legoGame.gameManager.isGameModified()) {
 			int checkSave = JOptionPane.showConfirmDialog(null,
@@ -384,7 +430,6 @@ public class GuiGame extends JFrame {
 		bricksTab.setText("Bricks");
 
 		ScrollPane scrollPane = new ScrollPane();
-		GridPane gridPane = new GridPane();
 		scrollPane.setContent(gridPane);
 		gridPane.setAlignment(Pos.TOP_LEFT);
 		gridPane.setPrefWidth(300);
@@ -399,24 +444,7 @@ public class GuiGame extends JFrame {
 		gridPane.getRowConstraints().add(new RowConstraints(85));
 		gridPane.getRowConstraints().add(new RowConstraints(85));
 
-		for (int i = 0; i < Util.MODEL_NAME_LIST.size(); i++) {
-			int indexValue = i;
-			Button button = new Button();
-			button.setGraphic(new ImageView(Util.MODEL_NAME_LIST.get(i)
-					+ ".png"));
-			button.setBackground(null);
-			button.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					legoGame.selectBrick(indexValue);
-				}
-			});
-
-			GridPane.setRowIndex(button, 1 + i / 3);
-			GridPane.setColumnIndex(button, 1 + i % 3);
-			gridPane.getChildren().add(button);
-		}
+		addIconToPanel();
 
 		bricksTab.setContent(scrollPane);
 
@@ -427,12 +455,30 @@ public class GuiGame extends JFrame {
 
 		Tab groupsTab = new Tab();
 		groupsTab.setText("Groups");
-		HBox hboxGroups = new HBox();
-		groupsTab.setContent(hboxGroups);
+		ScrollPane scrollGroupPane = new ScrollPane();
+		scrollGroupPane.setContent(gridPane);
+		gridGroupPane.setAlignment(Pos.TOP_LEFT);
+		gridGroupPane.setPrefWidth(300);
+		gridGroupPane.getColumnConstraints().add(new ColumnConstraints(10));
+		gridGroupPane.getColumnConstraints().add(new ColumnConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(10));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
+
+		addIconToGroupPanel();
+		
+		groupsTab.setContent(scrollGroupPane);
+		
 
 		tabPane.getTabs().add(bricksTab);
 		tabPane.getTabs().add(templatesTab);
 		tabPane.getTabs().add(groupsTab);
+
 		borderPane.setCenter(tabPane);
 
 		ToolBar toolBar = new ToolBar();
@@ -459,7 +505,67 @@ public class GuiGame extends JFrame {
 		borderPane.prefHeightProperty().bind(scene.heightProperty());
 		borderPane.prefWidthProperty().add(200);
 		root.getChildren().add(borderPane);
+		/*
+		 * Listening tab Panel
+		 */
+		tabPane.getSelectionModel().selectedIndexProperty()
+				.addListener(new ChangeListener<Number>() {
+					@Override
+					public void changed(ObservableValue<? extends Number> arg0,
+							Number arg1, Number arg2) {
+						if (arg2 == (Number) 0) {
+
+						}
+					}
+				});
 		return (scene);
+	}
+
+	private static void addIconToGroupPanel() {
+		gridGroupPane.getChildren().clear();
+		
+	}
+
+	private static void addIconToPanel() {
+		gridPane.getChildren().clear();
+		int indexGrid = 0;
+		for (int i = 0; i < Util.MODEL_NAME_LIST.size(); i++) {
+			int indexValue = i;
+			String modelName = Util.MODEL_NAME_LIST.get(indexValue);
+			Button button = new Button();
+			button.setGraphic(new ImageView(modelName + ".png"));
+			button.setBackground(null);
+			if (modelName.charAt(0) != '_') {
+				String modelBrickCatagory = modelName.substring(0,
+						modelName.indexOf('_'));
+				if (collapsedIcon.indexOf(modelBrickCatagory) != -1) {
+					continue;
+				}
+				button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+						legoGame.selectBrick(indexValue);
+					}
+				});
+			} else {
+				button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+						if (collapsedIcon.indexOf(modelName.substring(1)) != -1) {
+							collapsedIcon.remove(modelName.substring(1));
+						} else {
+							collapsedIcon.add(modelName.substring(1));
+						}
+						addIconToPanel();
+					}
+				});
+			}
+
+			GridPane.setRowIndex(button, 1 + indexGrid / 3);
+			GridPane.setColumnIndex(button, 1 + indexGrid % 3);
+			gridPane.getChildren().add(button);
+			indexGrid++;
+		}
 	}
 
 	public static void main(String args[]) throws InterruptedException {
