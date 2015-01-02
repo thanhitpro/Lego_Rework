@@ -53,7 +53,6 @@ public class LegoGame extends PApplet {
 
 	private void drawScene() {
 		gameManager.drawPlane();
-		gameManager.drawExplanePlane();
 		gameManager.drawBrickFollowMouse();
 		gameManager.drawBrickOnPlane();
 		gameManager.drawBoxCoverBrickHovered();
@@ -162,7 +161,7 @@ public class LegoGame extends PApplet {
 				break;
 			} else {
 				if (pos.z() < 0) {
-					gameManager.checkExpandPlane(pos);	
+					//gameManager.checkExpandPlane(pos);	
 					break;
 				}				
 			}
@@ -200,11 +199,7 @@ public class LegoGame extends PApplet {
 	}
 
 	public void setColor(Vec vec) {
-		gameManager.setCurColor(vec);
-		for (int i = 0; i < gameManager.getSelectedBrickIDMulti().size(); i++) {
-			gameManager.setColorForBick(gameManager.getSelectedBrickIDMulti().get(i));
-		}
-
+		gameManager.setColorForBick(vec);
 	}
 
 	public void cut() {

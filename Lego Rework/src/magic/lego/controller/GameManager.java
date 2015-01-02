@@ -11,6 +11,7 @@ import magiclab.lego.brick.object.Brick_1x2;
 import magiclab.lego.core.Box;
 import magiclab.lego.core.ObjectSelected;
 import magiclab.lego.core.Square;
+import magiclab.lego.core.UndoRedo;
 import magiclab.lego.gameState.GroupBrickState;
 import magiclab.lego.plane.PlaneLego;
 import magiclab.lego.util.Util;
@@ -154,6 +155,7 @@ public class GameManager {
 	 * Group brick follow mouse
 	 */
 	private GroupBrickState groupBrickStates;
+	private UndoRedo undoRedo;
 
 	public GameManager(PApplet parent) {
 		super();
@@ -206,6 +208,8 @@ public class GameManager {
 		selectedBrickIDMulti = new ArrayList<>();
 		copiedBrickIDMulti = new ArrayList<Brick>();
 		groupBrickStates = new GroupBrickState();
+		undoRedo = new UndoRedo();
+		undoRedo.setBricks(bricks);
 	}
 
 	private void setupBrickModel() {
@@ -253,32 +257,27 @@ public class GameManager {
 	}
 
 	public void undo() {
-		if (bricks.size() <= 0)
-			return;
+		/*
+		 * if (bricks.size() <= 0) return;
+		 * 
+		 * if (undoBricks.size() > 0) { Brick undoBrick =
+		 * undoBricks.get(undoBricks.size() - 1); if (undoBrick.isDeleteFlag())
+		 * { setIDForBrick(undoBrick); bricks.add(undoBrick); for (int i = 0; i
+		 * < undoBrick.getSquareOnTopBrick().size(); i++) {
+		 * Util.LIST_SQUARE_ON_TOP_BRICKS.add(undoBrick
+		 * .getSquareOnTopBrick().get(i)); } undoBricks.remove(undoBrick);
+		 * return; } }
+		 * 
+		 * Brick lastBrickOnPlane = bricks.get(bricks.size() - 1);
+		 * lastBrickOnPlane.setDeleteFlag(false);
+		 * addBrickToUndoList(lastBrickOnPlane);
+		 * bricks.remove(lastBrickOnPlane); squareExpand.clear(); for (int i =
+		 * 0; i < lastBrickOnPlane.getSquareOnTopBrick().size(); i++) {
+		 * Util.LIST_SQUARE_ON_TOP_BRICKS.remove(lastBrickOnPlane
+		 * .getSquareOnTopBrick().get(i)); }
+		 */
 
-		if (undoBricks.size() > 0) {
-			Brick undoBrick = undoBricks.get(undoBricks.size() - 1);
-			if (undoBrick.isDeleteFlag()) {
-				setIDForBrick(undoBrick);
-				bricks.add(undoBrick);
-				for (int i = 0; i < undoBrick.getSquareOnTopBrick().size(); i++) {
-					Util.LIST_SQUARE_ON_TOP_BRICKS.add(undoBrick
-							.getSquareOnTopBrick().get(i));
-				}
-				undoBricks.remove(undoBrick);
-				return;
-			}
-		}
-
-		Brick lastBrickOnPlane = bricks.get(bricks.size() - 1);
-		lastBrickOnPlane.setDeleteFlag(false);
-		addBrickToUndoList(lastBrickOnPlane);
-		bricks.remove(lastBrickOnPlane);
-		squareExpand.clear();
-		for (int i = 0; i < lastBrickOnPlane.getSquareOnTopBrick().size(); i++) {
-			Util.LIST_SQUARE_ON_TOP_BRICKS.remove(lastBrickOnPlane
-					.getSquareOnTopBrick().get(i));
-		}
+		undoRedo.undo(1);
 
 		brickSelectedOld = null;
 		selectedBrickID = -1;
@@ -300,30 +299,23 @@ public class GameManager {
 	}
 
 	public void redo() {
-		if (bricks.size() > 0) {
-			Brick deleteBrick = bricks.get(bricks.size() - 1);
-			if (deleteBrick.isDeleteFlag()) {
-				for (int i = 0; i < deleteBrick.getSquareOnTopBrick().size(); i++) {
-					Util.LIST_SQUARE_ON_TOP_BRICKS.remove(deleteBrick
-							.getSquareOnTopBrick().get(i));
-				}
-				squareExpand.clear();
-				bricks.remove(deleteBrick);
-				undoBricks.add(deleteBrick);
-				return;
-			}
-		}
-		if (undoBricks.size() > 0) {
-			Brick brick = undoBricks.get(undoBricks.size() - 1);
-			undoBricks.remove(brick);
-			setIDForBrick(brick);
-			bricks.add(brick);
+		/*
+		 * if (bricks.size() > 0) { Brick deleteBrick = bricks.get(bricks.size()
+		 * - 1); if (deleteBrick.isDeleteFlag()) { for (int i = 0; i <
+		 * deleteBrick.getSquareOnTopBrick().size(); i++) {
+		 * Util.LIST_SQUARE_ON_TOP_BRICKS.remove(deleteBrick
+		 * .getSquareOnTopBrick().get(i)); } squareExpand.clear();
+		 * bricks.remove(deleteBrick); undoBricks.add(deleteBrick); return; } }
+		 * if (undoBricks.size() > 0) { Brick brick =
+		 * undoBricks.get(undoBricks.size() - 1); undoBricks.remove(brick);
+		 * setIDForBrick(brick); bricks.add(brick);
+		 * 
+		 * for (int i = 0; i < brick.getSquareOnTopBrick().size(); i++) {
+		 * Util.LIST_SQUARE_ON_TOP_BRICKS.add(brick.getSquareOnTopBrick()
+		 * .get(i)); } }
+		 */
 
-			for (int i = 0; i < brick.getSquareOnTopBrick().size(); i++) {
-				Util.LIST_SQUARE_ON_TOP_BRICKS.add(brick.getSquareOnTopBrick()
-						.get(i));
-			}
-		}
+		undoRedo.redo(1);
 
 		brickSelectedOld = null;
 		selectedBrickID = -1;
@@ -515,7 +507,7 @@ public class GameManager {
 	}
 
 	public void setCurColor(Vec curColor) {
-		this.curColor = curColor;
+		this.curColor = Util.newVecFromVec(curColor);
 	}
 
 	public ArrayList<Brick> getUndoBricks() {
@@ -1051,10 +1043,13 @@ public class GameManager {
 		for (int i = 0; i < tempBricks.size(); i++) {
 			bricks.remove(tempBricks.get(i));
 		}
+		undoRedo.InsertInUnDoRedoForRemove(tempBricks);
 
 		gameModified = true;
 		objectHovered.reset();
 	}
+	
+	
 
 	private void removeBrickFromGame(int brickID) {
 		for (int i = 0; i < bricks.get(brickID).getSquareOnTopBrick().size(); i++) {
@@ -1074,7 +1069,34 @@ public class GameManager {
 					.getModelName());
 			brickForPlacing.setup(brickFollowMouse);
 			setIDForBrick(brickForPlacing);
+			ArrayList<Brick> addBricks = new ArrayList<Brick>();
+			addBricks.add(brickForPlacing);
 			bricks.add(brickForPlacing);
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.setTranslation(Vec.subtract(brickFollowMouse
+							.getTranslation(), groupBrickStates
+							.getBrickPosition().get(i)));
+
+					try {
+						Brick brickForPlacingGroupBrick = brickFactory
+								.createBrick(tempBrick.getModelName());
+						brickForPlacingGroupBrick.setup(tempBrick);
+						setIDForBrick(brickForPlacingGroupBrick);
+						addBricks.add(brickForPlacingGroupBrick);
+						bricks.add(brickForPlacingGroupBrick);
+					} catch (NoSuchMethodException | SecurityException
+							| InstantiationException | IllegalAccessException
+							| IllegalArgumentException
+							| InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			// bricks.add(brickForPlacing);
+
+			undoRedo.InsertInUnDoRedoForAdd(addBricks);
 			/*
 			 * if ((int) brickForPlacing.getTranslation().x() / Util.BRICK_SIZE
 			 * < (-Util.LEFT_WIDTH_FIX)) { Util.LEFT_WIDTH = (int)
@@ -1108,26 +1130,22 @@ public class GameManager {
 		/*
 		 * Draw group brick stated follow mouse
 		 */
-		if (groupBrickStates.getBrickStates().size() > 0) {
-			for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
-				Brick tempBrick = groupBrickStates.getBrickStates().get(i);
-				tempBrick.setTranslation(Vec.subtract(brickFollowMouse
-						.getTranslation(), groupBrickStates.getBrickPosition()
-						.get(i)));
-
-				try {
-					Brick brickForPlacingGroupBrick = brickFactory
-							.createBrick(tempBrick.getModelName());
-					brickForPlacingGroupBrick.setup(tempBrick);
-					setIDForBrick(brickForPlacingGroupBrick);
-					bricks.add(brickForPlacingGroupBrick);
-				} catch (NoSuchMethodException | SecurityException
-						| InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		/*
+		 * if (groupBrickStates.getBrickStates().size() > 0) { for (int i = 0; i
+		 * < groupBrickStates.getBrickStates().size(); i++) { Brick tempBrick =
+		 * groupBrickStates.getBrickStates().get(i);
+		 * tempBrick.setTranslation(Vec.subtract(brickFollowMouse
+		 * .getTranslation(), groupBrickStates.getBrickPosition() .get(i)));
+		 * 
+		 * try { Brick brickForPlacingGroupBrick = brickFactory
+		 * .createBrick(tempBrick.getModelName());
+		 * brickForPlacingGroupBrick.setup(tempBrick);
+		 * setIDForBrick(brickForPlacingGroupBrick);
+		 * bricks.add(brickForPlacingGroupBrick); } catch (NoSuchMethodException
+		 * | SecurityException | InstantiationException | IllegalAccessException
+		 * | IllegalArgumentException | InvocationTargetException e) {
+		 * e.printStackTrace(); } } }
+		 */
 		selectedBrickFlag = false;
 		selectedBrickID = -1;
 		gameModified = true;
@@ -1293,10 +1311,10 @@ public class GameManager {
 		selectedBrickIDMulti.clear();
 	}
 
-	public void setColorForBick(int brickID) {
+	public void setColorForBick(int brickID, Vec color) {
 		if (bricks.size() <= brickID)
 			return;
-		bricks.get(brickID).setColor(curColor);
+		bricks.get(brickID).setColor(color);
 		gameModified = true;
 	}
 
@@ -1473,8 +1491,7 @@ public class GameManager {
 					/*
 					 * Add brick to a group
 					 */
-					addBrickToGroupBrick();
-					deleteBrickByKey();
+					moveBrickProcess();
 					selectedBrickIDMulti.clear();
 					objectHovered.setIndexNameObject(-1);
 				}
@@ -1482,7 +1499,7 @@ public class GameManager {
 		}
 	}
 
-	private void addBrickToGroupBrick() {
+	private void moveBrickProcess() {
 		Brick brickDrag = bricks.get(objectHovered.getIndexObject());
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
 			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
@@ -1493,11 +1510,34 @@ public class GameManager {
 				groupBrickStates.getBrickPosition().add(position);
 			}
 
+		}		
+		brickFollowMouse = brickDrag;
+		
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
+			selectedBrick.setDeleteFlag(true);
+			removeBrickFromGame((int) selectedBrickIDMulti.get(i));
 		}
-	}
 
-	public void drawExplanePlane() {
+		ArrayList<Brick> tempBricks = new ArrayList<Brick>();
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			tempBricks.add(bricks.get((int) selectedBrickIDMulti.get(i)));
+		}
 
+		for (int i = 0; i < tempBricks.size(); i++) {
+			bricks.remove(tempBricks.get(i));
+		}
+		
+		ArrayList<Vec> brickPosition = new ArrayList<Vec>();
+		for (int i = 0; i < tempBricks.size(); i++) {
+			Vec temp = Util.newVecFromVec(tempBricks.get(i).getTranslation());
+			brickPosition.add(temp);
+		}
+		
+		undoRedo.InsertInUnDoRedoForMove(tempBricks, groupBrickStates, brickPosition);
+
+		gameModified = true;
+		objectHovered.reset();
 	}
 
 	public void cut() {
@@ -1516,6 +1556,7 @@ public class GameManager {
 		for (int i = 0; i < tempBricks.size(); i++) {
 			bricks.remove(tempBricks.get(i));
 		}
+		undoRedo.InsertInUnDoRedoForRemove(tempBricks);
 
 		gameModified = true;
 		objectHovered.reset();
@@ -1578,7 +1619,21 @@ public class GameManager {
 			}
 
 			brickFollowMouse = brickDrag;
+			undoRedo.InsertInUnDoRedoForPaste(groupBrickStates);
 		}
+	}
+
+	public void setColorForBick(Vec vec) {
+		ArrayList<Brick> editBricks = new ArrayList<Brick>();
+		ArrayList<Vec> prevColors = new ArrayList<Vec>();
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {			
+			prevColors.add(Util.newVecFromVec(bricks.get(selectedBrickIDMulti.get(i)).getColor()));
+			setColorForBick(selectedBrickIDMulti.get(i), vec);
+			editBricks.add(bricks.get(selectedBrickIDMulti.get(i)));
+		}
+		undoRedo.InsertInUnDoRedoForChangeColor(editBricks, vec, prevColors);
+		setCurColor(vec);
+		
 	}
 
 }
