@@ -24,7 +24,7 @@ public class LegoGame extends PApplet {
 		setupScene();
 		setupGameManager();
 		scene.disableKeyboardAgent();
-		//scene.disableMotionAgent();
+		// scene.disableMotionAgent();
 		Util.CURRENT_SCENE = scene;
 		scene.camera().setPosition(new Vec(0, 0, 280));
 		// scene.camera().lookAt(new Vec(0, 0, 0));
@@ -42,7 +42,7 @@ public class LegoGame extends PApplet {
 		noStroke();
 		setupDisplay();
 		drawScene();
-		// drawBox();
+		// drawBox();		
 	}
 
 	/*
@@ -61,9 +61,11 @@ public class LegoGame extends PApplet {
 
 	@Override
 	public void keyPressed() {
+		projection(new Vec(0, 0, 0));
+		projection(new Vec(20, 0, 0));
 		gameManager.keyPressedProcess();
 	}
-	
+
 	@Override
 	public void keyReleased() {
 		// TODO Auto-generated method stub
@@ -73,10 +75,10 @@ public class LegoGame extends PApplet {
 
 	private void setupDisplay() {
 		background(165);
-		scene.setAxesVisualHint(false);
+		scene.setAxesVisualHint(true);
 		lights();
-		//ambientLight(102, 102, 102);
-		//spotLight(51, 102, 126, 50, 50, 400, 0, 0, -1, PI/16, 600);
+		// ambientLight(102, 102, 102);
+		// spotLight(51, 102, 126, 50, 50, 400, 0, 0, -1, PI/16, 600);
 		directionalLight(102, 102, 102, 0, 0, -1);
 		lightSpecular(204, 204, 204);
 		directionalLight(102, 102, 102, 0, 1, -1);
@@ -115,7 +117,14 @@ public class LegoGame extends PApplet {
 		objectPicking();
 		gameManager.mouseHoverProcess();
 	}
-	
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		// TODO Auto-generated method stub
+		super.mouseReleased(event);
+		gameManager.mouseReleased();
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		super.mouseClicked(event);
@@ -124,6 +133,39 @@ public class LegoGame extends PApplet {
 		} else {
 			gameManager.selectBrick();
 		}
+	}
+
+	public void projection(Vec vec) {
+		float fovX = scene.camera().fieldOfView();
+		float fovY = scene.camera().horizontalFieldOfView();
+		float aspect = scene.camera().aspectRatio();
+		Mat M_view = scene.camera().getView();
+		float near = scene.camera().zNear();
+		Mat temp = new Mat();
+		temp.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		temp.setM00((float) (Math.cos(fovY / 2) / aspect));
+		temp.setM11((float) (Math.cos(fovY / 2)));
+		temp.setM22((float) (aspect / (aspect - near)));
+		temp.setM23((float) (near * aspect / (aspect - near)));
+		temp.setM32(-1);
+		
+		Mat multMat = Mat.multiply(temp, M_view);
+		
+		float x = multMat.m00() * vec.x() + multMat.m01() * vec.y() + multMat.m02()*vec.z() + multMat.m03();
+		float y = multMat.m10() * vec.x() + multMat.m11() * vec.y() + multMat.m12()*vec.z() + multMat.m13();
+		float z = multMat.m20() * vec.x() + multMat.m21() * vec.y() + multMat.m22()*vec.z() + multMat.m23();
+		
+		
+		
+		// float z = (float) (-(Math.cos(fovY / 2)));
+
+		// float x = (float) (-(Math.cos(fovX / 2) / aspect) * vec.x() / z);
+		// float y = (float) (-(Math.cos(fovY / 2)) * vec.y() / z);
+		// float x = vec.x() * aspect + vec.z() * fovX;
+		// float y = vec.y() * aspect + vec.z() * fovY;
+
+		System.out.println(x + ", " + y + ", " + z);
+		// System.out.println(M_view);
 	}
 
 	public void objectPicking() {
@@ -161,9 +203,9 @@ public class LegoGame extends PApplet {
 				break;
 			} else {
 				if (pos.z() < 0) {
-					//gameManager.checkExpandPlane(pos);	
+					// gameManager.checkExpandPlane(pos);
 					break;
-				}				
+				}
 			}
 
 			i++;

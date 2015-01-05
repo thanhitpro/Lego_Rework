@@ -156,6 +156,8 @@ public class GameManager {
 	 */
 	private GroupBrickState groupBrickStates;
 	private UndoRedo undoRedo;
+	private boolean holdSelectKey = false;
+	private boolean mouseDrag = false;
 
 	public GameManager(PApplet parent) {
 		super();
@@ -733,7 +735,10 @@ public class GameManager {
 	}
 
 	public void mouseHoverProcess() {
-
+		if (holdSelectKey && mouseDrag) {
+			disableBrickFollowMouse = true;
+			return;
+		}
 		/**
 		 * Hover on a plane
 		 */
@@ -983,12 +988,18 @@ public class GameManager {
 			}
 		}
 
+		// Ctrl
 		if (parent.keyCode == 17) {
 			holdControlKey = true;
 		}
+		
+		// B
+		if (parent.keyCode == 66) {
+			holdSelectKey  = true;
+		}		
 
 		if (holdControlKey) {
-			// C
+			// X
 			if (parent.keyCode == 88) {
 				cut();
 			}
@@ -1024,8 +1035,25 @@ public class GameManager {
 			if (parent.keyCode == 89) {
 				redo();
 			}
+			// A
+			if (parent.keyCode == 65) {
+				selectAll();
+			}
 		}
 
+	}
+
+	private void selectAll() {
+		selectedBrickIDMulti = new ArrayList<Integer>();
+		for (int i = 0; i < bricks.size(); i++) {
+			selectedBrickIDMulti.add(i);
+		}
+		
+		if (selectedBrickIDMulti.size() > 0) {
+			selectedBrickFlag = true;
+		} else {
+			selectedBrickFlag = false;
+		}
 	}
 
 	private void deleteBrickByKey() {
@@ -1048,8 +1076,6 @@ public class GameManager {
 		gameModified = true;
 		objectHovered.reset();
 	}
-	
-	
 
 	private void removeBrickFromGame(int brickID) {
 		for (int i = 0; i < bricks.get(brickID).getSquareOnTopBrick().size(); i++) {
@@ -1059,7 +1085,10 @@ public class GameManager {
 		undoBricks.add(bricks.get(brickID));
 	}
 
-	public void placeBrick() {
+	public void placeBrick() {	
+		if (holdSelectKey) {
+			disableBrickFollowMouse = true;
+		}
 		if (brickFollowMouse == null || disableBrickFollowMouse)
 			return;
 
@@ -1449,9 +1478,16 @@ public class GameManager {
 		if (parent.keyCode == 17) {
 			holdControlKey = false;
 		}
+		if (parent.keyCode == 66) {
+			holdSelectKey  = false;
+		}	
 	}
 
 	public void mouseDragProcess() {
+		mouseDrag = true;
+		if (holdSelectKey) {
+			disableBrickFollowMouse = true;
+		}
 		if (holdControlKey) {
 			if (objectHovered.getIndexNameObject() == 0
 					|| objectHovered.getIndexNameObject() == 1) {
@@ -1634,6 +1670,10 @@ public class GameManager {
 		undoRedo.InsertInUnDoRedoForChangeColor(editBricks, vec, prevColors);
 		setCurColor(vec);
 		
+	}
+
+	public void mouseReleased() {
+		mouseDrag = false;
 	}
 
 }
