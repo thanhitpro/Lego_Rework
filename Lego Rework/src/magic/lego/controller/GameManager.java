@@ -927,8 +927,7 @@ public class GameManager {
 					Vec temp = Util.newVecFromVec(groupBrickStates
 							.getBrickPosition().get(i));
 					groupBrickStates.getBrickPosition().get(i).setY(temp.x());
-					// groupBrickStates.getBrickPosition().get(i).setX(temp.x()
-					// - temp.y());
+					groupBrickStates.getBrickPosition().get(i).setX(temp.y());
 					tempBrick.decreaseTimesRotate();
 					tempBrick.calibrateAfterRotate();
 					tempBrick.generateBoxCollider();
@@ -960,8 +959,9 @@ public class GameManager {
 								.getBrickPosition().get(i));
 						groupBrickStates.getBrickPosition().get(i)
 								.setY(temp.x());
-						// groupBrickStates.getBrickPosition().get(i).setX(temp.x()
-						// - temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+
 						tempBrick.increaseTimesRotate();
 						tempBrick.calibrateAfterRotate();
 						tempBrick.generateBoxCollider();
@@ -992,11 +992,11 @@ public class GameManager {
 		if (parent.keyCode == 17) {
 			holdControlKey = true;
 		}
-		
+
 		// B
 		if (parent.keyCode == 66) {
-			holdSelectKey  = true;
-		}		
+			holdSelectKey = true;
+		}
 
 		if (holdControlKey) {
 			// X
@@ -1048,7 +1048,7 @@ public class GameManager {
 		for (int i = 0; i < bricks.size(); i++) {
 			selectedBrickIDMulti.add(i);
 		}
-		
+
 		if (selectedBrickIDMulti.size() > 0) {
 			selectedBrickFlag = true;
 		} else {
@@ -1085,7 +1085,7 @@ public class GameManager {
 		undoBricks.add(bricks.get(brickID));
 	}
 
-	public void placeBrick() {	
+	public void placeBrick() {
 		if (holdSelectKey) {
 			disableBrickFollowMouse = true;
 		}
@@ -1479,8 +1479,8 @@ public class GameManager {
 			holdControlKey = false;
 		}
 		if (parent.keyCode == 66) {
-			holdSelectKey  = false;
-		}	
+			holdSelectKey = false;
+		}
 	}
 
 	public void mouseDragProcess() {
@@ -1546,9 +1546,9 @@ public class GameManager {
 				groupBrickStates.getBrickPosition().add(position);
 			}
 
-		}		
+		}
 		brickFollowMouse = brickDrag;
-		
+
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
 			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
 			selectedBrick.setDeleteFlag(true);
@@ -1563,14 +1563,15 @@ public class GameManager {
 		for (int i = 0; i < tempBricks.size(); i++) {
 			bricks.remove(tempBricks.get(i));
 		}
-		
+
 		ArrayList<Vec> brickPosition = new ArrayList<Vec>();
 		for (int i = 0; i < tempBricks.size(); i++) {
 			Vec temp = Util.newVecFromVec(tempBricks.get(i).getTranslation());
 			brickPosition.add(temp);
 		}
-		
-		undoRedo.InsertInUnDoRedoForMove(tempBricks, groupBrickStates, brickPosition);
+
+		undoRedo.InsertInUnDoRedoForMove(tempBricks, groupBrickStates,
+				brickPosition);
 
 		gameModified = true;
 		objectHovered.reset();
@@ -1662,14 +1663,15 @@ public class GameManager {
 	public void setColorForBick(Vec vec) {
 		ArrayList<Brick> editBricks = new ArrayList<Brick>();
 		ArrayList<Vec> prevColors = new ArrayList<Vec>();
-		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {			
-			prevColors.add(Util.newVecFromVec(bricks.get(selectedBrickIDMulti.get(i)).getColor()));
+		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			prevColors.add(Util.newVecFromVec(bricks.get(
+					selectedBrickIDMulti.get(i)).getColor()));
 			setColorForBick(selectedBrickIDMulti.get(i), vec);
 			editBricks.add(bricks.get(selectedBrickIDMulti.get(i)));
 		}
 		undoRedo.InsertInUnDoRedoForChangeColor(editBricks, vec, prevColors);
 		setCurColor(vec);
-		
+
 	}
 
 	public void mouseReleased() {

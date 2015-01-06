@@ -90,6 +90,7 @@ public class Brick implements DrawableObject {
 	 * All square on top brick
 	 */
 	protected ArrayList<Square> squareOnTopBrick;
+	protected Vec translationBeforeRotate;
 
 	public Brick() {
 		super();
@@ -305,6 +306,8 @@ public class Brick implements DrawableObject {
 	 */
 
 	public void increaseTimesRotate() {
+		if (translationBeforeRotate != null)
+			translation = Util.newVecFromVec(translationBeforeRotate);
 		if (timesRotation == (xmlBrick.getNumberOfTimeRotation() - 1)) {
 			timesRotation = 0;
 		} else {
@@ -312,6 +315,16 @@ public class Brick implements DrawableObject {
 		}
 
 		sizeBrick = xmlBrick.getRotations().get(timesRotation).getSizeBrick();
+		if (timesRotation == 2) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setX(translation.x() - (sizeBrick.x() - 1)
+					* Util.BRICK_SIZE);
+		}
+		if (timesRotation == 3) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setY(translation.y() - (sizeBrick.y() - 1)
+					* Util.BRICK_SIZE);
+		}
 	}
 
 	/**
@@ -319,6 +332,8 @@ public class Brick implements DrawableObject {
 	 */
 
 	public void decreaseTimesRotate() {
+		if (translationBeforeRotate != null)
+			translation = Util.newVecFromVec(translationBeforeRotate);
 		if (timesRotation == 0) {
 			timesRotation = xmlBrick.getNumberOfTimeRotation() - 1;
 		} else {
@@ -326,6 +341,16 @@ public class Brick implements DrawableObject {
 		}
 
 		sizeBrick = xmlBrick.getRotations().get(timesRotation).getSizeBrick();
+		if (timesRotation == 2) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setX(translation.x() - (sizeBrick.x() - 1)
+					* Util.BRICK_SIZE);
+		}
+		if (timesRotation == 3) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setY(translation.y() - (sizeBrick.y() - 1)
+					* Util.BRICK_SIZE);
+		}
 	}
 
 	public ArrayList<Square> getSquareOnTopBrick() {
@@ -448,12 +473,13 @@ public class Brick implements DrawableObject {
 		translateForDrawAfterRotate = tempBrick
 				.getTranslateForDrawAfterRotate();
 		color = Util.newVecFromVec(tempBrick.getColor());
+		translationBeforeRotate = Util.newVecFromVec(translation);
 		generateInitData();
 	}
 
 	@Override
 	public void draw() {
-		
+
 	}
 
 	@Override

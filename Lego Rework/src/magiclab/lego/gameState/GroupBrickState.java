@@ -9,12 +9,23 @@ import magiclab.lego.core.GameState;
 public class GroupBrickState extends GameState {
 	private ArrayList<Brick> brickStates;
 	private ArrayList<Vec> brickPosition;
+	private ArrayList<Vec> brickPositionBeforeRotate;
 
 	public GroupBrickState() {
 		brickPosition = new ArrayList<Vec>();
+		brickPositionBeforeRotate = new ArrayList<Vec>();
 		brickStates = new ArrayList<Brick>();
 	}
-	
+
+	public ArrayList<Vec> getBrickPositionBeforeRotate() {
+		return brickPositionBeforeRotate;
+	}
+
+	public void setBrickPositionBeforeRotate(
+			ArrayList<Vec> brickPositionBeforeRotate) {
+		this.brickPositionBeforeRotate = brickPositionBeforeRotate;
+	}
+
 	public ArrayList<Brick> getBrickStates() {
 		return brickStates;
 	}
@@ -34,6 +45,7 @@ public class GroupBrickState extends GameState {
 	public void reset() {
 		brickPosition.clear();
 		brickStates.clear();
+		brickPositionBeforeRotate.clear();
 	}
 
 }

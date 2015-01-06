@@ -61,8 +61,8 @@ public class LegoGame extends PApplet {
 
 	@Override
 	public void keyPressed() {
-		projection(new Vec(0, 0, 0));
-		projection(new Vec(20, 0, 0));
+		//projection(new Vec(0, 0, 0));
+		//projection(new Vec(20, 0, 0));
 		gameManager.keyPressedProcess();
 	}
 
