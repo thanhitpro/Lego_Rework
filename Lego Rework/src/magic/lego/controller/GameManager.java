@@ -926,9 +926,19 @@ public class GameManager {
 					tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0);
 					Vec temp = Util.newVecFromVec(groupBrickStates
 							.getBrickPosition().get(i));
-					groupBrickStates.getBrickPosition().get(i).setY(temp.x());
-					groupBrickStates.getBrickPosition().get(i).setX(temp.y());
 					tempBrick.decreaseTimesRotate();
+					if (tempBrick.getTimesRotation() == 1) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
+					if (tempBrick.getTimesRotation() == 2) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
 					tempBrick.calibrateAfterRotate();
 					tempBrick.generateBoxCollider();
 
@@ -948,24 +958,43 @@ public class GameManager {
 			brickFollowMouse.generateBoxCollider();
 			checkCollisionBoxAndBox();
 			if (groupBrickStates.getBrickStates().size() > 0) {
-				if (groupBrickStates.getBrickStates().size() > 0) {
-					for (int i = 0; i < groupBrickStates.getBrickStates()
-							.size(); i++) {
-						Brick tempBrick = groupBrickStates.getBrickStates()
-								.get(i);
-						tempBrick.getRotation().subtract(0,
-								Util.ROTATE_ANGLE_ADDED, 0);
-						Vec temp = Util.newVecFromVec(groupBrickStates
-								.getBrickPosition().get(i));
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.getRotation().subtract(0,
+							Util.ROTATE_ANGLE_ADDED, 0);
+					Vec temp = Util.newVecFromVec(groupBrickStates
+							.getBrickPositionBeforeRotate().get(i));
+					tempBrick.increaseTimesRotate();
+					if (tempBrick.getTimesRotation() == 1) {
 						groupBrickStates.getBrickPosition().get(i)
 								.setY(temp.x());
 						groupBrickStates.getBrickPosition().get(i)
 								.setX(temp.y());
-
-						tempBrick.increaseTimesRotate();
-						tempBrick.calibrateAfterRotate();
-						tempBrick.generateBoxCollider();
 					}
+					if (tempBrick.getTimesRotation() == 2) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates
+								.getBrickPosition()
+								.get(i)
+								.setX(-temp.x() );
+					}
+					if (tempBrick.getTimesRotation() == 3) {
+						groupBrickStates
+								.getBrickPosition()
+								.get(i)
+								.setY(-temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
+					if (tempBrick.getTimesRotation() == 0) {						
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.x());
+					}
+					tempBrick.calibrateAfterRotate();
+					tempBrick.generateBoxCollider();
 				}
 			}
 		}
@@ -1508,7 +1537,7 @@ public class GameManager {
 								.getSizeBrick()));
 						brick.setTranslation(Util.newVecFromVec(brickDrag
 								.getTranslation()));
-						brick.setTimesRotation(brickDrag.getTimesRotation());
+						brick.setTimesRotation(brickDrag.getTimesRotation() % 2);
 						brick.setTranslateForDrawAfterRotate(brickDrag
 								.getTranslateForDrawAfterRotate());
 						brick.setColor(Util.newVecFromVec(brickDrag.getColor()));
@@ -1544,6 +1573,7 @@ public class GameManager {
 			if (!position.equals(new Vec(0, 0, 0))) {
 				groupBrickStates.getBrickStates().add(selectedBrick);
 				groupBrickStates.getBrickPosition().add(position);
+				groupBrickStates.getBrickPositionBeforeRotate().add(Util.newVecFromVec(position));
 			}
 
 		}

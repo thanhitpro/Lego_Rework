@@ -326,6 +326,27 @@ public class Brick implements DrawableObject {
 					* Util.BRICK_SIZE);
 		}
 	}
+	public void increaseTimesRotate(Vec center) {
+		if (translationBeforeRotate != null)
+			translation = Util.newVecFromVec(translationBeforeRotate);
+		if (timesRotation == (xmlBrick.getNumberOfTimeRotation() - 1)) {
+			timesRotation = 0;
+		} else {
+			timesRotation++;
+		}
+
+		sizeBrick = xmlBrick.getRotations().get(timesRotation).getSizeBrick();
+		if (timesRotation == 2) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setX(translation.x() - (sizeBrick.x() - 1)
+					* Util.BRICK_SIZE);
+		}
+		if (timesRotation == 3) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setY(translation.y() - (sizeBrick.y() - 1)
+					* Util.BRICK_SIZE);
+		}
+	}
 
 	/**
 	 * Decrease times rotation
@@ -350,6 +371,38 @@ public class Brick implements DrawableObject {
 			translationBeforeRotate = Util.newVecFromVec(translation);
 			translation.setY(translation.y() - (sizeBrick.y() - 1)
 					* Util.BRICK_SIZE);
+		}
+	}
+	
+	public void decreaseTimesRotate(Vec center) {
+		if (translationBeforeRotate != null)
+			translation = Util.newVecFromVec(translationBeforeRotate);
+		if (timesRotation == 0) {
+			timesRotation = xmlBrick.getNumberOfTimeRotation() - 1;
+		} else {
+			timesRotation--;
+		}
+
+		sizeBrick = xmlBrick.getRotations().get(timesRotation).getSizeBrick();
+		
+		if (timesRotation == 1) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setX(translation.x() - (sizeBrick.x() - 1)
+					* Util.BRICK_SIZE);
+		}
+		
+		if (timesRotation == 2) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setX(translation.x() - (sizeBrick.x() - 1)
+					* Util.BRICK_SIZE);
+		}
+		if (timesRotation == 3) {
+			translationBeforeRotate = Util.newVecFromVec(translation);
+			translation.setY(translation.y() - (sizeBrick.y() - 1)
+					* Util.BRICK_SIZE);
+			
+			
+			
 		}
 	}
 
