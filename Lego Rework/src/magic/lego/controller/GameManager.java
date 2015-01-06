@@ -925,7 +925,7 @@ public class GameManager {
 					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
 					tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0);
 					Vec temp = Util.newVecFromVec(groupBrickStates
-							.getBrickPosition().get(i));
+							.getBrickPositionBeforeRotate().get(i));
 					tempBrick.decreaseTimesRotate();
 					if (tempBrick.getTimesRotation() == 1) {
 						groupBrickStates.getBrickPosition().get(i)
@@ -935,9 +935,25 @@ public class GameManager {
 					}
 					if (tempBrick.getTimesRotation() == 2) {
 						groupBrickStates.getBrickPosition().get(i)
-								.setY(temp.x());
+								.setY(temp.y());
+						groupBrickStates
+								.getBrickPosition()
+								.get(i)
+								.setX(-temp.x() );
+					}
+					if (tempBrick.getTimesRotation() == 3) {
+						groupBrickStates
+								.getBrickPosition()
+								.get(i)
+								.setY(-temp.x());
 						groupBrickStates.getBrickPosition().get(i)
 								.setX(temp.y());
+					}
+					if (tempBrick.getTimesRotation() == 0) {						
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.x());
 					}
 					tempBrick.calibrateAfterRotate();
 					tempBrick.generateBoxCollider();
