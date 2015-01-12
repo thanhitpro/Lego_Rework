@@ -4,8 +4,44 @@
 		<name>Tile_1x1</name>
 		<defaultsizebrick x="1" y="1" z="0.33333333333334" />
 		<calibratevec x="10" y="10" z="3.5" />
-		<rotations numberofrotation="1">
+		<rotations numberofrotation="4">
 			<rotation id="0">
+				<sizebrick x="1" y="1" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="0">					
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="1" height="1" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="1">
+				<sizebrick x="1" y="1" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="0">					
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="1" height="1" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="2">
+				<sizebrick x="1" y="1" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="0">					
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="1" height="1" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="3">
 				<sizebrick x="1" y="1" z="0.33333333333334" />
 				<translatefordraw x="0" y="0" z="0" />
 				<dots numberofdot="0">					

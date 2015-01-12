@@ -4,7 +4,7 @@
 		<name>Round_Plate_2x2</name>
 		<defaultsizebrick x="2" y="2" z="0.33333333333334" />
 		<calibratevec x="20" y="20" z="8.47" />
-		<rotations numberofrotation="1">
+		<rotations numberofrotation="4">
 			<rotation id="0">
 				<sizebrick x="2" y="2" z="0.33333333333334" />
 				<translatefordraw x="0" y="0" z="0" />
@@ -28,7 +28,79 @@
 						<size width="2" height="2" depth="0.33333333333334" />
 					</box>
 				</boxcolliders>
-			</rotation>			
+			</rotation>		
+			<rotation id="1">
+				<sizebrick x="2" y="2" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="4">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="1" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>	
+			<rotation id="2">
+				<sizebrick x="2" y="2" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="4">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="1" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>	
+			<rotation id="3">
+				<sizebrick x="2" y="2" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="4">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="1" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>		
 		</rotations>
 	</model>
 </brick>

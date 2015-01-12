@@ -5,7 +5,7 @@
 		<defaultsizebrick x="2" y="4" z="0.33333333333334" />
 		<calibratevec x="40" y="20" z="8.47" />
 		<extrapositionvec x="0" y="0" z="4" />
-		<rotations numberofrotation="2">
+		<rotations numberofrotation="4">
 			<rotation id="0">
 				<sizebrick x="4" y="2" z="0.33333333333334" />
 				<translatefordraw x="0" y="0" z="0" />
@@ -43,6 +43,78 @@
 				</boxcolliders>
 			</rotation>
 			<rotation id="1">
+				<sizebrick x="2" y="4" z="0.33333333333334" />
+				<translatefordraw x="-20" y="20" z="0" />
+				<dots numberofdot="8">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="0" y="2" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="0" y="3" z="0" />
+					</dot>
+					<dot id="4">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="5">
+						<position x="1" y="1" z="0" />
+					</dot>
+					<dot id="6">
+						<position x="1" y="2" z="0" />
+					</dot>
+					<dot id="7">
+						<position x="1" y="3" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="4" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="2">
+				<sizebrick x="4" y="2" z="0.33333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="8">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+					<dot id="2">
+						<position x="2" y="0" z="0" />
+					</dot>
+					<dot id="3">
+						<position x="3" y="0" z="0" />
+					</dot>
+					<dot id="4">
+						<position x="0" y="1" z="0" />
+					</dot>
+					<dot id="5">
+						<position x="1" y="1" z="0" />
+					</dot>
+					<dot id="6">
+						<position x="2" y="1" z="0" />
+					</dot>
+					<dot id="7">
+						<position x="3" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="4" height="2" depth="0.33333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="3">
 				<sizebrick x="2" y="4" z="0.33333333333334" />
 				<translatefordraw x="-20" y="20" z="0" />
 				<dots numberofdot="8">
