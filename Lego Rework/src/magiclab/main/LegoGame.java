@@ -42,7 +42,7 @@ public class LegoGame extends PApplet {
 		noStroke();
 		setupDisplay();
 		drawScene();
-		// drawBox();		
+		// drawBox();
 	}
 
 	/*
@@ -61,8 +61,8 @@ public class LegoGame extends PApplet {
 
 	@Override
 	public void keyPressed() {
-		//projection(new Vec(0, 0, 0));
-		//projection(new Vec(20, 0, 0));
+		// projection(new Vec(0, 0, 0));
+		// projection(new Vec(20, 0, 0));
 		gameManager.keyPressedProcess();
 	}
 
@@ -148,15 +148,16 @@ public class LegoGame extends PApplet {
 		temp.setM22((float) (aspect / (aspect - near)));
 		temp.setM23((float) (near * aspect / (aspect - near)));
 		temp.setM32(-1);
-		
+
 		Mat multMat = Mat.multiply(temp, M_view);
-		
-		float x = multMat.m00() * vec.x() + multMat.m01() * vec.y() + multMat.m02()*vec.z() + multMat.m03();
-		float y = multMat.m10() * vec.x() + multMat.m11() * vec.y() + multMat.m12()*vec.z() + multMat.m13();
-		float z = multMat.m20() * vec.x() + multMat.m21() * vec.y() + multMat.m22()*vec.z() + multMat.m23();
-		
-		
-		
+
+		float x = multMat.m00() * vec.x() + multMat.m01() * vec.y()
+				+ multMat.m02() * vec.z() + multMat.m03();
+		float y = multMat.m10() * vec.x() + multMat.m11() * vec.y()
+				+ multMat.m12() * vec.z() + multMat.m13();
+		float z = multMat.m20() * vec.x() + multMat.m21() * vec.y()
+				+ multMat.m22() * vec.z() + multMat.m23();
+
 		// float z = (float) (-(Math.cos(fovY / 2)));
 
 		// float x = (float) (-(Math.cos(fovX / 2) / aspect) * vec.x() / z);
@@ -204,14 +205,24 @@ public class LegoGame extends PApplet {
 			} else {
 				if (pos.z() < 0) {
 					// gameManager.checkExpandPlane(pos);
+					//System.out.println("1: " + pos);
 					break;
 				}
 			}
 
 			i++;
-			if (i > 1000)
-				break;
+			// if (i > 1000)
+			// break;
 		}
+
+		Vec planePoint = new Vec();
+
+		int rayDistance = (int) (-WS_Start.z() / WS_Direc.z());
+		planePoint.setX(WS_Start.x() + rayDistance * WS_Direc.x());
+		planePoint.setY(WS_Start.y() + rayDistance * WS_Direc.y());
+		planePoint.setZ(0);
+		gameManager.checkExpandPlane(planePoint);
+		
 	}
 
 	public void undo() {

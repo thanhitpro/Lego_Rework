@@ -326,6 +326,7 @@ public class Brick implements DrawableObject {
 					* Util.BRICK_SIZE);
 		}
 	}
+
 	public void increaseTimesRotate(Vec center) {
 		if (translationBeforeRotate != null)
 			translation = Util.newVecFromVec(translationBeforeRotate);
@@ -373,7 +374,7 @@ public class Brick implements DrawableObject {
 					* Util.BRICK_SIZE);
 		}
 	}
-	
+
 	public void decreaseTimesRotate(Vec center) {
 		if (translationBeforeRotate != null)
 			translation = Util.newVecFromVec(translationBeforeRotate);
@@ -384,13 +385,13 @@ public class Brick implements DrawableObject {
 		}
 
 		sizeBrick = xmlBrick.getRotations().get(timesRotation).getSizeBrick();
-		
+
 		if (timesRotation == 1) {
 			translationBeforeRotate = Util.newVecFromVec(translation);
 			translation.setX(translation.x() - (sizeBrick.x() - 1)
 					* Util.BRICK_SIZE);
 		}
-		
+
 		if (timesRotation == 2) {
 			translationBeforeRotate = Util.newVecFromVec(translation);
 			translation.setX(translation.x() - (sizeBrick.x() - 1)
@@ -400,9 +401,7 @@ public class Brick implements DrawableObject {
 			translationBeforeRotate = Util.newVecFromVec(translation);
 			translation.setY(translation.y() - (sizeBrick.y() - 1)
 					* Util.BRICK_SIZE);
-			
-			
-			
+
 		}
 	}
 
@@ -471,10 +470,14 @@ public class Brick implements DrawableObject {
 		if (xmlBrick.getRotations().size() == 0)
 			return;
 
-		for (int k = 0; k < xmlBrick.getRotations().get(timesRotation)
-				.getNumberOfDot(); k++) {
-			XmlDot dot = xmlBrick.getRotations().get(timesRotation).getDots()
-					.get(k);
+		int numberOfDot;
+		ArrayList<XmlDot> xmlDots = new ArrayList<XmlDot>();
+		numberOfDot = xmlBrick.getRotations().get(timesRotation)
+				.getNumberOfDot();
+		xmlDots = xmlBrick.getRotations().get(timesRotation).getDots();
+
+		for (int k = 0; k < numberOfDot; k++) {
+			XmlDot dot = xmlDots.get(k);
 
 			Vec startGeneratePosition = new Vec(this.translation.x()
 					+ dot.getPosition().x() * Util.BRICK_SIZE,

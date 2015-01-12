@@ -9,6 +9,7 @@ public class XmlRotation {
 	Vec sizeBrick;
 	Vec translateForDraw;
 	int numberOfDot;
+	int numberOfBotDot;
 	int numberOfBoxColider;
 	int numberOfCenterOfDot;
 	int numberOfInteractiveFrame;
@@ -16,14 +17,32 @@ public class XmlRotation {
 	int threshold;
 
 	ArrayList<XmlDot> dots;
+	ArrayList<XmlDot> botdots;
 	ArrayList<XmlBoxCollider> boxColliders;
 	ArrayList<XmlCenterPositionOfDot> centerPostionOfDots;
 
 	public XmlRotation() {
 		super();
 		dots = new ArrayList<XmlDot>();
+		botdots = new ArrayList<XmlDot>();
 		boxColliders = new ArrayList<XmlBoxCollider>();
 		centerPostionOfDots = new ArrayList<XmlCenterPositionOfDot>();
+	}
+
+	public int getNumberOfBotDot() {
+		return numberOfBotDot;
+	}
+
+	public void setNumberOfBotDot(int numberOfBotDot) {
+		this.numberOfBotDot = numberOfBotDot;
+	}
+
+	public ArrayList<XmlDot> getBotdots() {
+		return botdots;
+	}
+
+	public void setBotdots(ArrayList<XmlDot> botdots) {
+		this.botdots = botdots;
 	}
 
 	public Vec getSizeBrick() {

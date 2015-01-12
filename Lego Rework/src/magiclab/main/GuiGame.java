@@ -184,7 +184,8 @@ public class GuiGame extends JFrame {
 					int height = Integer.valueOf(heightText.getText());
 					if (width > Util.PLANE_WIDTH_DEFAULT
 							&& height >= Util.PLANE_HEIGHT_DEFALUT) {
-
+						Util.PLANE_HEIGHT = height;
+						Util.PLANE_WIDTH = width;
 					}
 				}
 

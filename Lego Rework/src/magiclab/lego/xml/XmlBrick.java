@@ -174,7 +174,33 @@ public class XmlBrick {
 					dot.setPosition(new Vec(x, y, z));
 					xmlRotation.getDots().add(dot);
 				}
+				
+				if (xmlFileName.contains("Invert")) {
+					/**
+					 * Get number of bottom dots of brick
+					 */
+					post = "/rotations/rotation[@id = '" + i
+							+ "']/botdots/@numberofbotdots";
+					expression = pre + post;
+					int numberOfBotDot = getIntValue(xPath, doc, expression);
+					xmlRotation.setNumberOfBotDot(numberOfBotDot);
 
+					for (int j = 0; j < numberOfBotDot; j++) {
+						/**
+						 * Get position of dot
+						 */
+						post = "/rotations/rotation[@id = '" + i
+								+ "']/botdots/dot[@id='" + j + "']/position/@";
+						expression = pre + post;
+						x = getFloatValue(xPath, doc, expression + "x");
+						y = getFloatValue(xPath, doc, expression + "y");
+						z = getFloatValue(xPath, doc, expression + "z");
+						XmlDot dot = new XmlDot();
+						dot.setPosition(new Vec(x, y, z));
+						xmlRotation.getBotdots().add(dot);
+					}
+				}
+				
 				/**
 				 * Get number of boxes collision
 				 */

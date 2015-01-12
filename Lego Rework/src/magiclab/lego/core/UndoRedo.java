@@ -27,6 +27,15 @@ public class UndoRedo {
 				ICommand command = _Undocommands.pop();
 				command.UnExecute();
 				_Redocommands.push(command);
+
+				if (!_Undocommands.isEmpty()) {
+					ICommand commandPrev = _Undocommands.pop();
+					if (commandPrev.getClass() != MoveCommand.class) {
+						_Undocommands.push(commandPrev);
+					} else {
+						commandPrev.UnExecute();
+					}
+				}
 			}
 		}
 	}
@@ -46,26 +55,30 @@ public class UndoRedo {
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
 	}
-	
+
 	public void InsertInUnDoRedoForRemove(ArrayList<Brick> addBricks) {
 		ICommand cmd = new RemoveCommand(addBricks, bricks);
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
 	}
-	
-	public void InsertInUnDoRedoForChangeColor(ArrayList<Brick> editBricks, Vec newColor, ArrayList<Vec> prevColors) {
+
+	public void InsertInUnDoRedoForChangeColor(ArrayList<Brick> editBricks,
+			Vec newColor, ArrayList<Vec> prevColors) {
 		ICommand cmd = new ChangeColorCommand(editBricks, newColor, prevColors);
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
 	}
-	
+
 	public void InsertInUnDoRedoForPaste(GroupBrickState groupBrickStates) {
 		ICommand cmd = new PasteCommand(groupBrickStates);
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
 	}
-	public void InsertInUnDoRedoForMove(ArrayList<Brick> addBricks, GroupBrickState groupBrickStates, ArrayList<Vec> brickPosition) {
-		ICommand cmd = new MoveCommand(addBricks, bricks, groupBrickStates, brickPosition);
+
+	public void InsertInUnDoRedoForMove(ArrayList<Brick> addBricks,
+			GroupBrickState groupBrickStates, ArrayList<Vec> brickPosition) {
+		ICommand cmd = new MoveCommand(addBricks, bricks, groupBrickStates,
+				brickPosition);
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
 	}

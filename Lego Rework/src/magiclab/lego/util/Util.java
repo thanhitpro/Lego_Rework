@@ -14,6 +14,7 @@ import java.util.Hashtable;
 import magiclab.lego.core.Square;
 import magiclab.lego.xml.XmlBrick;
 import processing.core.PImage;
+import processing.core.PShape;
 import remixlab.dandelion.geom.Vec;
 import remixlab.proscene.Scene;
 
@@ -68,6 +69,9 @@ public class Util {
 	public static String EXTRA_POSITION_VEC_FILE = "ExtraPostionVec.txt";
 	public static PImage tempImage;
 	public static PImage eyeImage;
+	public static ArrayList<PShape> expandedPlanePShape = new ArrayList<PShape>();
+	public static ArrayList<Square> expandedPlanePShapePosition = new ArrayList<Square>();
+	public static boolean FINISH_THREAD = true;
 
 	public static void LoadModelName() {
 		MODEL_NAME_LIST = new ArrayList<String>();

@@ -99,4 +99,12 @@ public class PlaneLego implements DrawableObject {
 		pSquarePosition.clear();
 	}
 
+	public void addShape(ArrayList<PShape> expandShape) {
+		pShapes.addAll(expandShape);
+	}
+
+	public void addSquarePosition(ArrayList<Square> expandShapePosition) {
+		pSquarePosition.addAll(expandShapePosition);
+	}
+
 }

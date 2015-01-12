@@ -29,6 +29,14 @@
 						<position x="1" y="2" z="0" />
 					</dot>
 				</dots>
+				<botdots numberofbotdots="2">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+				</botdots>
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
@@ -59,6 +67,14 @@
 						<position x="2" y="1" z="0" />
 					</dot>
 				</dots>
+				<botdots numberofbotdots="2">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="0" y="1" z="0" />
+					</dot>
+				</botdots>
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
@@ -89,6 +105,14 @@
 						<position x="1" y="2" z="0" />
 					</dot>
 				</dots>
+				<botdots numberofbotdots="2">
+					<dot id="0">
+						<position x="0" y="2" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="2" y="2" z="0" />
+					</dot>
+				</botdots>
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
@@ -119,6 +143,14 @@
 						<position x="2" y="1" z="0" />
 					</dot>
 				</dots>
+				<botdots numberofbotdots="2">
+					<dot id="0">
+						<position x="2" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="2" y="2" z="0" />
+					</dot>
+				</botdots>
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
