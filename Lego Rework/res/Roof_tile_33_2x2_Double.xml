@@ -5,7 +5,7 @@
 		<defaultsizebrick x="2" y="2" z="0.43333333333334" />
 		<calibratevec x="20" y="20" z="0" />
 		<extrapositionvec x="0" y="0" z="4" />
-		<rotations numberofrotation="2">
+		<rotations numberofrotation="4">
 			<rotation id="0">
 				<sizebrick x="2" y="2" z="0.43333333333334" />
 				<translatefordraw x="0" y="0" z="0" />
@@ -25,7 +25,27 @@
 						<size width="2" height="2" depth="0.43333333333334" />
 					</box>
 				</boxcolliders>
-			</rotation>			
+			</rotation>	
+			<rotation id="2">
+				<sizebrick x="2" y="2" z="0.43333333333334" />
+				<translatefordraw x="0" y="0" z="0" />
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.43333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="3">
+				<sizebrick x="2" y="2" z="0.43333333333334" />
+				<translatefordraw x="0" y="0" z="0" />				
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="2" depth="0.43333333333334" />
+					</box>
+				</boxcolliders>
+			</rotation>
 		</rotations>
 	</model>
 </brick>
