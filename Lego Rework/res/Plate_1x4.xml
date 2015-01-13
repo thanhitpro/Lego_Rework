@@ -3,7 +3,7 @@
 	<model id="13">
 		<name>Plate_1x4</name>
 		<defaultsizebrick x="4" y="1" z="0.33333333333334" />
-		<calibratevec x="40" y="10" z="8.47" />
+		<calibratevec x="40" y="10" z="8" />
 		<rotations numberofrotation="4">
 			<rotation id="0">
 				<sizebrick x="4" y="1" z="0.33333333333334" />

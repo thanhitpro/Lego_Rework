@@ -53,6 +53,8 @@ import remixlab.dandelion.geom.Vec;
 public class GuiGame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static JFXPanel javafxPanel;
+	private static VBox statusBar;
+	private static JFXPanel javafxStatusBar;
 	private static JFXPanel javafxMenu;
 	private static JFXPanel javafxToolbar;
 	private static VBox vboxContainter;
@@ -67,14 +69,18 @@ public class GuiGame extends JFrame {
 	private static GridPane gridPane = new GridPane();
 	private static GridPane gridGroupPane = new GridPane();
 	private static ArrayList<String> collapsedIcon = new ArrayList<String>();
+	public static String FPS = "Playing game";
+	public static Text statusText = new Text(FPS);
 
 	public GuiGame() {
 		super("Untitled" + " - Lego");
 		javafxPanel = new JFXPanel();
 		javafxMenu = new JFXPanel();
 		javafxToolbar = new JFXPanel();
+		javafxStatusBar = new JFXPanel();
 		vboxContainter = new VBox();
 		javafxTop = new JFXPanel();
+		statusBar = new VBox();
 
 		setLayout(new BorderLayout());
 		setSize(1224, 768);
@@ -83,6 +89,7 @@ public class GuiGame extends JFrame {
 		add(javafxPanel, BorderLayout.WEST);
 
 		add(javafxTop, BorderLayout.NORTH);
+		add(javafxStatusBar, BorderLayout.SOUTH);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -111,6 +118,10 @@ public class GuiGame extends JFrame {
 		javafxTop.setScene(new Scene(vboxContainter, 200, 90));
 		Scene scene = createScene();
 		javafxPanel.setScene(scene);
+		statusBar.setStyle("-fx-background-color: gainsboro");
+
+		statusBar.getChildren().add(statusText);
+		javafxStatusBar.setScene(new Scene(statusBar, 100, 20));
 
 	}
 
@@ -180,12 +191,20 @@ public class GuiGame extends JFrame {
 			@Override
 			public void handle(ActionEvent arg0) {
 				if (widthText.getText() != "" && heightText.getText() != "") {
-					int width = Integer.valueOf(widthText.getText());
-					int height = Integer.valueOf(heightText.getText());
-					if (width > Util.PLANE_WIDTH_DEFAULT
-							&& height >= Util.PLANE_HEIGHT_DEFALUT) {
-						Util.PLANE_HEIGHT = height;
-						Util.PLANE_WIDTH = width;
+					try {
+						int width = Integer.valueOf(widthText.getText());
+						int height = Integer.valueOf(heightText.getText());
+						if (width > Util.PLANE_WIDTH_DEFAULT
+								&& height >= Util.PLANE_HEIGHT_DEFALUT) {
+							Util.LEFT_WIDTH_DEFAULT = Util.LEFT_WIDTH = Util.RIGHT_WIDTH_DEFAULT = Util.RIGHT_WIDTH = width / 2;
+							Util.UP_HEIGHT_DEFAULT = Util.UP_HEIGHT = Util.DOWN_HEIGHT_DEFAULT = Util.DOWN_HEIGHT = height / 2;
+							legoGame.gameManager.getPlaneLego().setup();
+							legoGame.gameManager.setupPlane();
+						}
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null,
+								"Please enter a valid size!", "Warning",
+								JOptionPane.ERROR_MESSAGE, null);
 					}
 				}
 
@@ -472,9 +491,8 @@ public class GuiGame extends JFrame {
 		gridGroupPane.getRowConstraints().add(new RowConstraints(85));
 
 		addIconToGroupPanel();
-		
+
 		groupsTab.setContent(scrollGroupPane);
-		
 
 		tabPane.getTabs().add(bricksTab);
 		tabPane.getTabs().add(templatesTab);
@@ -524,7 +542,7 @@ public class GuiGame extends JFrame {
 
 	private static void addIconToGroupPanel() {
 		gridGroupPane.getChildren().clear();
-		
+
 	}
 
 	private static void addIconToPanel() {
@@ -608,6 +626,12 @@ public class GuiGame extends JFrame {
 
 		exampleFrame.setState(Frame.NORMAL);
 		exampleFrame.setLocationRelativeTo(null);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				statusText.setText(Util.FPS);
+			}
+		});
 	}
 
 }

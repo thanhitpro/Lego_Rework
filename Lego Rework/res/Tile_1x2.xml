@@ -3,7 +3,7 @@
 	<model id="13">
 		<name>Tile_1x2</name>
 		<defaultsizebrick x="2" y="1" z="0.33333333333334" />
-		<calibratevec x="20" y="10" z="2" />
+		<calibratevec x="20" y="10" z="8" />
 		<rotations numberofrotation="4">
 			<rotation id="0">
 				<sizebrick x="2" y="1" z="0.33333333333334" />

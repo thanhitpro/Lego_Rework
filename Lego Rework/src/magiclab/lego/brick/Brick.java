@@ -325,6 +325,8 @@ public class Brick implements DrawableObject {
 			translation.setY(translation.y() - (sizeBrick.y() - 1)
 					* Util.BRICK_SIZE);
 		}
+		
+		System.out.println(translation);
 	}
 
 	public void increaseTimesRotate(Vec center) {

@@ -2,8 +2,8 @@
 <brick>
 	<model id="7">
 		<name>Brick_2x4</name>
-		<defaultsizebrick x="2" y="4" z="0.33333333333334" />
-		<calibratevec x="40" y="20" z="8.47" />
+		<defaultsizebrick x="4" y="2" z="0.33333333333334" />
+		<calibratevec x="40" y="20" z="8" />
 		<extrapositionvec x="0" y="0" z="4" />
 		<rotations numberofrotation="4">
 			<rotation id="0">

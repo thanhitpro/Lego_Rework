@@ -2,9 +2,11 @@ package magiclab.main;
 
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import magic.lego.controller.GameManager;
 import magiclab.lego.util.Util;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.event.MouseEvent;
 import remixlab.dandelion.geom.Mat;
 import remixlab.dandelion.geom.Vec;
@@ -15,6 +17,9 @@ public class LegoGame extends PApplet {
 	Scene scene;
 	public GameManager gameManager;
 	ArrayList<Vec> tempBox = new ArrayList<Vec>();
+	int count = 0;
+	float frameRateTotal = 0.0f;
+	PGraphics pg;
 
 	@Override
 	public void setup() {
@@ -26,12 +31,13 @@ public class LegoGame extends PApplet {
 		scene.disableKeyboardAgent();
 		// scene.disableMotionAgent();
 		Util.CURRENT_SCENE = scene;
-		scene.camera().setPosition(new Vec(0, 0, 280));
+		scene.camera().setPosition(new Vec(0, 300, 450));
 		// scene.camera().lookAt(new Vec(0, 0, 0));
 		scene.camera().setFieldOfView(0.5f);
 		scene.camera().setUpVector(new Vec(-1, 1, 0));
 		scene.camera().frame().rotate(-0.455f, 0.189f, -0.33f, 0.81f);
 		scene.camera().frame().translate(0, 225, -150);
+		frameRate(120);
 	}
 
 	@Override
@@ -43,6 +49,18 @@ public class LegoGame extends PApplet {
 		setupDisplay();
 		drawScene();
 		// drawBox();
+		frameRateTotal += frameRate;
+		count++;
+		Util.FPS = String.valueOf(frameRate) + "/"
+				+ String.valueOf(frameRateTotal / count);
+		// System.out.println(Util.FPS);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				GuiGame.statusText.setText(Util.FPS);
+			}
+		});
+
 	}
 
 	/*
@@ -63,7 +81,11 @@ public class LegoGame extends PApplet {
 	public void keyPressed() {
 		// projection(new Vec(0, 0, 0));
 		// projection(new Vec(20, 0, 0));
+		// System.out.println("p "+ scene.camera().position());
+		// System.out.println("r "+ scene.camera().frame().rotation());
+		// System.out.println("t "+ scene.camera().frame().translation());
 		gameManager.keyPressedProcess();
+		// System.out.println(frameRate);
 	}
 
 	@Override
@@ -75,14 +97,19 @@ public class LegoGame extends PApplet {
 
 	private void setupDisplay() {
 		background(165);
-		scene.setAxesVisualHint(true);
+		scene.setAxesVisualHint(Util.DRAW_AXES);
 		lights();
 		// ambientLight(102, 102, 102);
 		// spotLight(51, 102, 126, 50, 50, 400, 0, 0, -1, PI/16, 600);
-		directionalLight(102, 102, 102, 0, 0, -1);
+		/*directionalLight(102, 102, 102, 0, 0, -1);
 		lightSpecular(204, 204, 204);
 		directionalLight(102, 102, 102, 0, 1, -1);
-		lightSpecular(102, 102, 102);
+		lightSpecular(102, 102, 102);*/
+		ambient(255, 255, 255);
+		ambientLight(40, 20, 40);
+		lightSpecular(255, 215, 215);
+		directionalLight(185, 195, 255, -1, 1.25f, -1);
+		shininess(255);
 		scene.setPickingVisualHint(false);
 	}
 
@@ -136,27 +163,25 @@ public class LegoGame extends PApplet {
 	}
 
 	public void projection(Vec vec) {
-		float fovX = scene.camera().fieldOfView();
-		float fovY = scene.camera().horizontalFieldOfView();
-		float aspect = scene.camera().aspectRatio();
-		Mat M_view = scene.camera().getView();
-		float near = scene.camera().zNear();
-		Mat temp = new Mat();
-		temp.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		temp.setM00((float) (Math.cos(fovY / 2) / aspect));
-		temp.setM11((float) (Math.cos(fovY / 2)));
-		temp.setM22((float) (aspect / (aspect - near)));
-		temp.setM23((float) (near * aspect / (aspect - near)));
-		temp.setM32(-1);
-
-		Mat multMat = Mat.multiply(temp, M_view);
-
-		float x = multMat.m00() * vec.x() + multMat.m01() * vec.y()
-				+ multMat.m02() * vec.z() + multMat.m03();
-		float y = multMat.m10() * vec.x() + multMat.m11() * vec.y()
-				+ multMat.m12() * vec.z() + multMat.m13();
-		float z = multMat.m20() * vec.x() + multMat.m21() * vec.y()
-				+ multMat.m22() * vec.z() + multMat.m23();
+		/*
+		 * float fovX = scene.camera().fieldOfView(); float fovY =
+		 * scene.camera().horizontalFieldOfView(); float aspect =
+		 * scene.camera().aspectRatio(); Mat M_view = scene.camera().getView();
+		 * float near = scene.camera().zNear(); Mat temp = new Mat();
+		 * temp.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		 * temp.setM00((float) (Math.cos(fovY / 2) / aspect));
+		 * temp.setM11((float) (Math.cos(fovY / 2))); temp.setM22((float)
+		 * (aspect / (aspect - near))); temp.setM23((float) (near * aspect /
+		 * (aspect - near))); temp.setM32(-1);
+		 * 
+		 * Mat multMat = Mat.multiply(temp, M_view);
+		 * 
+		 * float x = multMat.m00() * vec.x() + multMat.m01() * vec.y() +
+		 * multMat.m02() * vec.z() + multMat.m03(); float y = multMat.m10() *
+		 * vec.x() + multMat.m11() * vec.y() + multMat.m12() * vec.z() +
+		 * multMat.m13(); float z = multMat.m20() * vec.x() + multMat.m21() *
+		 * vec.y() + multMat.m22() * vec.z() + multMat.m23();
+		 */
 
 		// float z = (float) (-(Math.cos(fovY / 2)));
 
@@ -165,7 +190,7 @@ public class LegoGame extends PApplet {
 		// float x = vec.x() * aspect + vec.z() * fovX;
 		// float y = vec.y() * aspect + vec.z() * fovY;
 
-		System.out.println(x + ", " + y + ", " + z);
+		// System.out.println(x + ", " + y + ", " + z);
 		// System.out.println(M_view);
 	}
 
@@ -192,6 +217,9 @@ public class LegoGame extends PApplet {
 		WS_Direc.setZ(CS_Direc.x() * M_view_Inv.m20() + CS_Direc.y()
 				* M_view_Inv.m21() + CS_Direc.z() * M_view_Inv.m22());
 
+		float angle = Vec.angleBetween(WS_Direc, new Vec(0, 0, 1));
+		if (angle < 1.6)
+			return;
 		int i = 0;
 		tempBox = new ArrayList<Vec>();
 		while (true) {
@@ -205,14 +233,14 @@ public class LegoGame extends PApplet {
 			} else {
 				if (pos.z() < 0) {
 					// gameManager.checkExpandPlane(pos);
-					//System.out.println("1: " + pos);
+					// System.out.println("1: " + pos);
 					break;
 				}
 			}
 
 			i++;
-			// if (i > 1000)
-			// break;
+			if (i > 5000)
+				break;
 		}
 
 		Vec planePoint = new Vec();
@@ -221,8 +249,9 @@ public class LegoGame extends PApplet {
 		planePoint.setX(WS_Start.x() + rayDistance * WS_Direc.x());
 		planePoint.setY(WS_Start.y() + rayDistance * WS_Direc.y());
 		planePoint.setZ(0);
+
 		gameManager.checkExpandPlane(planePoint);
-		
+
 	}
 
 	public void undo() {
