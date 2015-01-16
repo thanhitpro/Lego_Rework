@@ -21,6 +21,11 @@ public class UndoRedo {
 		this.bricks = _bricks;
 	}
 
+	public void reset() {
+		_Undocommands.clear();
+		_Redocommands.clear();
+	}
+
 	public void undo(int levels) {
 		for (int i = 1; i <= levels; i++) {
 			if (_Undocommands.size() != 0) {
@@ -34,6 +39,7 @@ public class UndoRedo {
 						_Undocommands.push(commandPrev);
 					} else {
 						commandPrev.UnExecute();
+						_Redocommands.push(commandPrev);
 					}
 				}
 			}
@@ -46,6 +52,13 @@ public class UndoRedo {
 				ICommand command = _Redocommands.pop();
 				command.Execute();
 				_Undocommands.push(command);
+				if (command.getClass() == MoveCommand.class) {
+					if (!_Redocommands.isEmpty()) {
+						ICommand commandNext = _Redocommands.pop();
+						commandNext.Execute();
+						_Undocommands.push(commandNext);
+					}
+				}
 			}
 		}
 	}

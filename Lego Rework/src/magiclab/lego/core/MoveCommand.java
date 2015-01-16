@@ -21,6 +21,10 @@ public class MoveCommand implements ICommand {
 
 	@Override
 	public void Execute() {
+		for (int i = 0; i < addBricks.size(); i++) {
+			Brick temp = addBricks.get(i);
+			bricks.remove(temp);
+		}
 	}
 
 	@Override

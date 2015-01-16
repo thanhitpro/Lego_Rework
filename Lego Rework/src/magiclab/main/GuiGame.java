@@ -194,7 +194,7 @@ public class GuiGame extends JFrame {
 					try {
 						int width = Integer.valueOf(widthText.getText());
 						int height = Integer.valueOf(heightText.getText());
-						if (width > Util.PLANE_WIDTH_DEFAULT
+						if (width >= Util.PLANE_WIDTH_DEFAULT
 								&& height >= Util.PLANE_HEIGHT_DEFALUT) {
 							Util.LEFT_WIDTH_DEFAULT = Util.LEFT_WIDTH = Util.RIGHT_WIDTH_DEFAULT = Util.RIGHT_WIDTH = width / 2;
 							Util.UP_HEIGHT_DEFAULT = Util.UP_HEIGHT = Util.DOWN_HEIGHT_DEFAULT = Util.DOWN_HEIGHT = height / 2;
@@ -210,7 +210,39 @@ public class GuiGame extends JFrame {
 
 			}
 		});
+		widthText.onInputMethodTextChangedProperty();
+		widthText.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable,
+					String oldValue, String newValue) {
+				if (newValue.length() == 0)
+					return;
+				if (newValue.charAt(newValue.length() - 1) < 48
+						|| newValue.charAt(newValue.length() - 1) > 57) {
+					if (oldValue != null)
+						widthText.setText(oldValue);
+				}
+			}
+
+		});
 		widthText.setPrefSize(42, 25);
+		heightText.onInputMethodTextChangedProperty();
+		heightText.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable,
+					String oldValue, String newValue) {
+				if (newValue.length() == 0)
+					return;
+				if (newValue.charAt(newValue.length() - 1) < 48
+						|| newValue.charAt(newValue.length() - 1) > 57) {
+					if (oldValue != null)
+						heightText.setText(oldValue);
+				}
+			}
+
+		});
 		heightText.setPrefSize(42, 25);
 
 		// Add the Buttons to the ToolBar.
@@ -343,10 +375,85 @@ public class GuiGame extends JFrame {
 		menuHelp.getItems().add(menuAbout);
 		menuHelp.getItems().add(menuPrivacyPolicy);
 
+		final Menu menuTest = new Menu("Test");
+		MenuItem menuNormal = new MenuItem("Normal");
+		menuNormal.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.testEnable = false;
+				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 10;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 10;
+				legoGame.gameManager.getPlaneLego().setup();
+				legoGame.gameManager.setupPlane();
+				legoGame.gameManager.getBricks().clear();
+				legoGame.gameManager.setTestCase(0);
+				legoGame.gameManager.setDisableBrickFollowMouse(false);
+
+			}
+		});
+		MenuItem menuTest1 = new MenuItem("Test 1");
+		menuTest1.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.testEnable = true;
+				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
+				legoGame.gameManager.getPlaneLego().setup();
+				legoGame.gameManager.setupPlane();
+				legoGame.gameManager.getBricks().clear();
+				legoGame.gameManager.setTestCase(1316);
+				legoGame.gameManager.generateBricks();
+				legoGame.gameManager.setDisableBrickFollowMouse(true);
+				legoGame.scene.camera().setPosition(new Vec(0, 2000, 1250));
+
+			}
+		});
+		MenuItem menuTest2 = new MenuItem("Test 2");
+		menuTest2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.testEnable = true;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
+				legoGame.gameManager.getPlaneLego().setup();
+				legoGame.gameManager.setupPlane();
+				legoGame.gameManager.getBricks().clear();
+				legoGame.gameManager.setTestCase(3948);
+				legoGame.gameManager.generateBricks();
+				legoGame.gameManager.setDisableBrickFollowMouse(true);
+				legoGame.scene.camera().setPosition(new Vec(0, 2300, 1400));
+			}
+		});
+		MenuItem menuTest3 = new MenuItem("Test 3");
+		menuTest3.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.testEnable = true;
+				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
+				legoGame.gameManager.getPlaneLego().setup();
+				legoGame.gameManager.setupPlane();
+				legoGame.gameManager.getBricks().clear();
+				legoGame.gameManager.setTestCase(6579);
+				legoGame.gameManager.generateBricks();
+				legoGame.gameManager.setDisableBrickFollowMouse(true);
+				legoGame.scene.camera().setPosition(new Vec(0, 3200, 2000));
+			}
+		});
+		menuTest.getItems().add(menuNormal);
+		menuTest.getItems().add(menuTest1);
+		menuTest.getItems().add(menuTest2);
+		menuTest.getItems().add(menuTest3);
+
 		menuBar = new MenuBar();
 		menuBar.getMenus().add(menuFile);
 		menuBar.getMenus().add(menuEdit);
 		menuBar.getMenus().add(menuHelp);
+		menuBar.getMenus().add(menuTest);
 
 		root.getChildren().add(menuBar);
 

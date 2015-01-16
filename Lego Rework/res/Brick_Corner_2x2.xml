@@ -19,10 +19,14 @@
 						<position x="0" y="1" z="0" />
 					</dot>
 				</dots>
-				<boxcolliders numberofboxcolider="1">
+				<boxcolliders numberofboxcolider="2">
 					<box id="0">
 						<position x="0" y="0" z="0" />
-						<size width="2" height="2" depth="1" />
+						<size width="2" height="1" depth="1" />
+					</box>
+					<box id="1">
+						<position x="0" y="0" z="0" />
+						<size width="1" height="2" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>
@@ -41,10 +45,14 @@
 						<position x="1" y="1" z="0" />
 					</dot>
 				</dots>
-				<boxcolliders numberofboxcolider="1">
+				<boxcolliders numberofboxcolider="2">
 					<box id="0">
 						<position x="0" y="0" z="0" />
-						<size width="2" height="2" depth="1" />
+						<size width="1" height="2" depth="1" />
+					</box>
+					<box id="1">
+						<position x="0" y="1" z="0" />
+						<size width="2" height="1" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>
@@ -63,10 +71,14 @@
 						<position x="1" y="1" z="0" />
 					</dot>
 				</dots>
-				<boxcolliders numberofboxcolider="1">
+				<boxcolliders numberofboxcolider="2">
 					<box id="0">
-						<position x="0" y="0" z="0" />
-						<size width="2" height="2" depth="1" />
+						<position x="1" y="0" z="0" />
+						<size width="1" height="2" depth="1" />
+					</box>
+					<box id="1">
+						<position x="0" y="1" z="0" />
+						<size width="2" height="1" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>
@@ -85,10 +97,14 @@
 						<position x="1" y="1" z="0" />
 					</dot>
 				</dots>
-				<boxcolliders numberofboxcolider="1">
+				<boxcolliders numberofboxcolider="2">
 					<box id="0">
 						<position x="0" y="0" z="0" />
-						<size width="2" height="2" depth="1" />
+						<size width="2" height="1" depth="1" />
+					</box>
+					<box id="1">
+						<position x="1" y="0" z="0" />
+						<size width="1" height="2" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>

@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import magic.lego.controller.GameManager;
 import magiclab.lego.util.Util;
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.event.MouseEvent;
 import remixlab.dandelion.geom.Mat;
 import remixlab.dandelion.geom.Vec;
@@ -19,7 +18,7 @@ public class LegoGame extends PApplet {
 	ArrayList<Vec> tempBox = new ArrayList<Vec>();
 	int count = 0;
 	float frameRateTotal = 0.0f;
-	PGraphics pg;
+	public boolean testEnable = false;
 
 	@Override
 	public void setup() {
@@ -42,6 +41,11 @@ public class LegoGame extends PApplet {
 
 	@Override
 	public void draw() {
+
+		if (testEnable) {
+			rotateY(frameCount * 0.01f);
+			rotateX(frameCount * 0.01f);
+		}
 		if (!gameManager.isFinishLoadingNewGame()) {
 			return;
 		}
@@ -101,15 +105,15 @@ public class LegoGame extends PApplet {
 		lights();
 		// ambientLight(102, 102, 102);
 		// spotLight(51, 102, 126, 50, 50, 400, 0, 0, -1, PI/16, 600);
-		/*directionalLight(102, 102, 102, 0, 0, -1);
+		directionalLight(102, 102, 102, 0, 0, -1);
 		lightSpecular(204, 204, 204);
 		directionalLight(102, 102, 102, 0, 1, -1);
-		lightSpecular(102, 102, 102);*/
-		ambient(255, 255, 255);
-		ambientLight(40, 20, 40);
-		lightSpecular(255, 215, 215);
-		directionalLight(185, 195, 255, -1, 1.25f, -1);
-		shininess(255);
+		lightSpecular(102, 102, 102);
+		// ambient(255, 255, 255);
+		// ambientLight(40, 20, 40);
+		// lightSpecular(255, 215, 215);
+		// directionalLight(185, 195, 255, -1, 1.25f, -1);
+		// shininess(255);
 		scene.setPickingVisualHint(false);
 	}
 
@@ -132,33 +136,42 @@ public class LegoGame extends PApplet {
 	@Override
 	public void mouseMoved() {
 		super.mouseMoved();
-		objectPicking();
-		gameManager.mouseHoverProcess();
+
+		if (!testEnable) {
+			objectPicking();
+			gameManager.mouseHoverProcess();
+		}
 	}
 
 	@Override
 	public void mouseDragged() {
 		// TODO Auto-generated method stub
 		super.mouseDragged();
-		gameManager.mouseDragProcess();
-		objectPicking();
-		gameManager.mouseHoverProcess();
+		if (!testEnable) {
+			gameManager.mouseDragProcess();
+			objectPicking();
+			gameManager.mouseHoverProcess();
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
 		// TODO Auto-generated method stub
 		super.mouseReleased(event);
-		gameManager.mouseReleased();
+		if (!testEnable) {
+			gameManager.mouseReleased();
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		super.mouseClicked(event);
-		if (gameManager.getObjectSelected().getIndexNameObject() != 1) {
-			gameManager.placeBrick();
-		} else {
-			gameManager.selectBrick();
+		if (!testEnable) {
+			if (gameManager.getObjectSelected().getIndexNameObject() != 1) {
+				gameManager.placeBrick();
+			} else {
+				gameManager.selectBrick();
+			}
 		}
 	}
 

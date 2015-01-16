@@ -159,6 +159,7 @@ public class GameManager {
 	private UndoRedo undoRedo;
 	private boolean holdSelectKey = false;
 	private boolean mouseDrag = false;
+	private int testCase = 1316;
 
 	public GameManager(PApplet parent) {
 		super();
@@ -186,6 +187,8 @@ public class GameManager {
 		selectedBrickIDMulti = new ArrayList<>();
 		copiedBrickIDMulti = new ArrayList<Brick>();
 		groupBrickStates = new GroupBrickState();
+		undoRedo = new UndoRedo();
+		undoRedo.setBricks(bricks);
 	}
 
 	public void setup() {
@@ -441,6 +444,14 @@ public class GameManager {
 		return -1;
 	}
 
+	public int getTestCase() {
+		return testCase;
+	}
+
+	public void setTestCase(int testCase) {
+		this.testCase = testCase;
+	}
+
 	public PlaneLego getPlaneLego() {
 		return planeLego;
 	}
@@ -672,9 +683,12 @@ public class GameManager {
 			if (groupBrickStates.getBrickStates().size() > 0) {
 				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
 					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
-					tempBrick.setTranslation(Vec.subtract(brickFollowMouse
-							.getTranslation(), groupBrickStates
-							.getBrickPosition().get(i)));
+					Vec endOfBrickDrag = new Vec(groupBrickStates
+							.getConnectPoint().x(), groupBrickStates
+							.getConnectPoint().y(), groupBrickStates
+							.getConnectPoint().z());
+					tempBrick.setTranslation(Vec.subtract(endOfBrickDrag,
+							groupBrickStates.getBrickPosition().get(i)));
 					parent.pushMatrix();
 
 					parent.translate(tempBrick.getTranslation().x()
@@ -827,6 +841,9 @@ public class GameManager {
 			}
 		}
 		checkCollisionBoxAndBox();
+		if (brickFollowMouse != null)
+			groupBrickStates.setConnectPoint(Util
+					.newVecFromVec(brickFollowMouse.getTranslation()));
 	}
 
 	private void mouseHoverDotExpandProcess() {
@@ -942,6 +959,9 @@ public class GameManager {
 			brick.generateBoxCollider();
 			brick.setColor(curColor);
 			brickFollowMouse = brick;
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				groupBrickStates.generateBoxCollider();
+			}
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
@@ -964,6 +984,23 @@ public class GameManager {
 						return;
 					}
 				}
+
+				if (groupBrickStates.getBrickStates().size() > 0) {
+					for (int k = 0; k < groupBrickStates.getBrickStates()
+							.size(); k++) {
+						Brick tempBrick = groupBrickStates.getBrickStates()
+								.get(k);
+						for (int l = 0; l < tempBrick.getBoxCollider()
+								.getBoxes().size(); l++) {
+							Box box = tempBrick.getBoxCollider().getBoxes()
+									.get(l);
+							if (box.Container(vec)) {
+								disableBrickFollowMouse = true;
+								return;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -973,7 +1010,9 @@ public class GameManager {
 
 	public void keyPressedProcess() {
 		if (parent.keyCode == 37) {
-
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				return;
+			}
 			brickFollowMouse.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0);
 			brickFollowMouse.decreaseTimesRotate();
 			brickFollowMouse.calibrateAfterRotate();
@@ -982,32 +1021,50 @@ public class GameManager {
 			brickFollowMouse.generateBoxCollider();
 
 			checkCollisionBoxAndBox();
-			/*
-			 * if (groupBrickStates.getBrickStates().size() > 0) { for (int i =
-			 * 0; i < groupBrickStates.getBrickStates().size(); i++) { Brick
-			 * tempBrick = groupBrickStates.getBrickStates().get(i);
-			 * tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0); Vec
-			 * temp = Util.newVecFromVec(groupBrickStates
-			 * .getBrickPositionBeforeRotate().get(i));
-			 * tempBrick.decreaseTimesRotate(); if (tempBrick.getTimesRotation()
-			 * == 1) { groupBrickStates.getBrickPosition().get(i)
-			 * .setY(temp.x()); groupBrickStates.getBrickPosition().get(i)
-			 * .setX(-temp.y()); } if (tempBrick.getTimesRotation() == 2) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.x()); } if
-			 * (tempBrick.getTimesRotation() == 3) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.y()); } if
-			 * (tempBrick.getTimesRotation() == 0) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.x()); }
-			 * tempBrick.calibrateAfterRotate();
-			 * tempBrick.generateBoxCollider(); } }
-			 */
+
+			/*if (groupBrickStates.getBrickStates().size() > 0) {
+				groupBrickStates.decreaseTimesRotate();
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0);
+					Vec temp = Util.newVecFromVec(groupBrickStates
+							.getBrickPositionBeforeRotate().get(i));
+					tempBrick.decreaseTimesRotate();
+					if (groupBrickStates.getTimesRotation() == 1) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.y());
+					}
+					if (groupBrickStates.getTimesRotation() == 2) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.x());
+					}
+					if (groupBrickStates.getTimesRotation() == 3) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
+					if (groupBrickStates.getTimesRotation() == 0) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.x());
+					}
+					// tempBrick.calibrateAfterRotate();
+					tempBrick.generateBoxCollider();
+				}
+			}*/
+
 		}
 
 		if (parent.keyCode == 39) {
-
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				return;
+			}
 			brickFollowMouse.getRotation().subtract(0, Util.ROTATE_ANGLE_ADDED,
 					0);
 			brickFollowMouse.increaseTimesRotate();
@@ -1017,32 +1074,63 @@ public class GameManager {
 			switchBrick = false;
 			brickFollowMouse.generateBoxCollider();
 			checkCollisionBoxAndBox();
-			/*
-			 * if (groupBrickStates.getBrickStates().size() > 0) { for (int i =
-			 * 0; i < groupBrickStates.getBrickStates().size(); i++) { Brick
-			 * tempBrick = groupBrickStates.getBrickStates().get(i);
-			 * tempBrick.getRotation().subtract(0, Util.ROTATE_ANGLE_ADDED, 0);
-			 * Vec temp = Util.newVecFromVec(groupBrickStates
-			 * .getBrickPositionBeforeRotate().get(i));
-			 * tempBrick.increaseTimesRotate();
-			 * groupBrickStates.getBrickPosition
-			 * ().get(i).set(Vec.add(tempBrick.getTranslation(), temp));
-			 * System.out.println(tempBrick.getTranslation()); if
-			 * (tempBrick.getTimesRotation() == 1) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.y()); } if
-			 * (tempBrick.getTimesRotation() == 2) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.x()); } if
-			 * (tempBrick.getTimesRotation() == 3) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.y()); } if
-			 * (tempBrick.getTimesRotation() == 0) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.x()); }
-			 * tempBrick.calibrateAfterRotate();
-			 * tempBrick.generateBoxCollider(); } }
-			 */
+
+			/*if (groupBrickStates.getBrickStates().size() > 0) {
+				groupBrickStates.increaseTimesRotate();
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.getRotation().subtract(0,
+							Util.ROTATE_ANGLE_ADDED, 0);
+					Vec temp = Util.newVecFromVec(groupBrickStates
+							.getBrickPositionBeforeRotate().get(i));
+					tempBrick.increaseTimesRotate();
+
+					if (groupBrickStates.getTimesRotation() == 1) {
+
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.y());
+						
+						 * if (brickFollowMouse.getTimesRotation() != tempBrick
+						 * .getTimesRotation()) { // Connect at center point if
+						 * (brickFollowMouse.getSizeBrick().y() == 1 &&
+						 * groupBrickStates.getBrickPosition() .get(i).y() == 0)
+						 * { groupBrickStates.getBrickPosition().get(i)
+						 * .setX(-temp.y()); } else { groupBrickStates
+						 * .getBrickPosition() .get(i) .setX(-temp.y() +
+						 * (tempBrick.getSizeBrick().x() - 1) Util.BRICK_SIZE);
+						 * } } else { groupBrickStates.getBrickPosition().get(i)
+						 * .setX(-temp.y()); }
+						 * 
+						 * groupBrickStates.getBrickPosition().get(i)
+						 * .setY(temp.x());
+						 
+					}
+
+					if (groupBrickStates.getTimesRotation() == 2) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.x());
+					}
+					if (groupBrickStates.getTimesRotation() == 3) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
+					if (groupBrickStates.getTimesRotation() == 0) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.x());
+					}
+					tempBrick.calibrateAfterRotate();
+					tempBrick.generateBoxCollider();
+				}
+			}*/
+
 		}
 
 		/*
@@ -1074,48 +1162,7 @@ public class GameManager {
 		}
 
 		if (parent.keyCode == 83) {
-			try {
-				for (int i = 0; i < 5; i++) {
-					for (int j = -Util.LEFT_WIDTH_DEFAULT; j < Util.RIGHT_WIDTH_DEFAULT; j++) {
-						for (int k = -Util.UP_HEIGHT_DEFAULT; k < Util.DOWN_HEIGHT_DEFAULT; k++) {
-							Brick brickForPlacing;
-							brickForPlacing = brickFactory
-									.createBrick("Brick_1x1");
-							brickForPlacing.setModelName("Brick_1x1");
-							brickForPlacing.setModel(brickModelDictionary
-									.get(brickForPlacing.getModelName()));
-							brickForPlacing
-									.setTranslateForDrawAfterRotate(new Vec(0,
-											0, 0));
-							brickForPlacing.setRotation(Util.DEFAULT_ROTATE);
-							brickForPlacing.setTimesRotation(0);
-							brickForPlacing.setScaleRatio(Util.OBJECT_SCALE);
-							brickForPlacing.setColor(curColor);
-							brickForPlacing.setTranslation(new Vec(j
-									* Util.BRICK_SIZE, k * Util.BRICK_SIZE, i
-									* Util.BRICK_HEIGHT));
-							brickForPlacing.generateInitData();
-							bricks.add(brickForPlacing);
-						}
-					}
-					if (i == 0) {
-						curColor = new Vec(0, 255, 0);
-					} 
-					if (i == 1) {
-						curColor = new Vec(0, 0, 255);
-					}
-					if (i == 2) {
-						curColor = new Vec(0, 255, 255);
-					}
-					if (i == 3) {
-						curColor = new Vec(123, 125, 255);
-					}
-				}
-			} catch (NoSuchMethodException | SecurityException
-					| InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}			
+			generateBricks();
 		}
 
 		if (holdControlKey) {
@@ -1159,7 +1206,50 @@ public class GameManager {
 			if (parent.keyCode == 65) {
 				selectAll();
 			}
-		}		
+		}
+	}
+
+	public void generateBricks() {
+		try {
+			int count = 0;
+			bricks.clear();
+			for (int i = 0; i < 100;) {
+				for (int j = -Util.LEFT_WIDTH_DEFAULT; j < Util.RIGHT_WIDTH_DEFAULT;) {
+					for (int k = -Util.UP_HEIGHT_DEFAULT; k < Util.DOWN_HEIGHT_DEFAULT;) {
+						Brick brickForPlacing;
+						brickForPlacing = brickFactory.createBrick("Brick_1x1");
+						brickForPlacing.setModelName("Brick_1x1");
+						brickForPlacing.setModel(brickModelDictionary
+								.get(brickForPlacing.getModelName()));
+						brickForPlacing.setTranslateForDrawAfterRotate(new Vec(
+								0, 0, 0));
+						brickForPlacing.setRotation(Util.DEFAULT_ROTATE);
+						brickForPlacing.setTimesRotation(0);
+						brickForPlacing.setScaleRatio(Util.OBJECT_SCALE);
+						brickForPlacing.setColor(curColor);
+						brickForPlacing.setTranslation(new Vec(j
+								* Util.BRICK_SIZE, k * Util.BRICK_SIZE, i
+								* Util.BRICK_HEIGHT));
+						// brickForPlacing.generateInitData();
+						bricks.add(brickForPlacing);
+						count++;
+						if (count > testCase) {
+							return;
+						}
+						k += 2;
+					}
+					j += 2;
+				}
+				curColor = new Vec((float) (Math.random() * 100 % 255),
+						(float) (Math.random() * 100 % 255),
+						(float) (Math.random() * 100 % 255));
+				i += 2;
+			}
+		} catch (NoSuchMethodException | SecurityException
+				| InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void selectAll() {
@@ -1362,37 +1452,37 @@ public class GameManager {
 
 	public void drawBrickOnPlane() {
 
-		for (int i = 0; i < bricks.size(); i++) {
-			parent.pushMatrix();
-			parent.translate(bricks.get(i).getTranslation().x()
-					+ bricks.get(i).getCalibrateVec().x(), bricks.get(i)
-					.getTranslation().y()
-					+ bricks.get(i).getCalibrateVec().y(), bricks.get(i)
-					.getTranslation().z()
-					+ bricks.get(i).getCalibrateVec().z());
-			if (bricks.get(i).getTranslateForDrawAfterRotate() != null) {
-				parent.translate(bricks.get(i).getTranslateForDrawAfterRotate()
-						.x(), bricks.get(i).getTranslateForDrawAfterRotate()
-						.y(), bricks.get(i).getTranslateForDrawAfterRotate()
-						.z());
+		try {
+			for (int i = 0; i < bricks.size(); i++) {
+				Brick brick = bricks.get(i);
+				parent.pushMatrix();
+				parent.translate(brick.getTranslation().x()
+						+ brick.getCalibrateVec().x(), brick.getTranslation()
+						.y() + brick.getCalibrateVec().y(), brick
+						.getTranslation().z() + brick.getCalibrateVec().z());
+				if (brick.getTranslateForDrawAfterRotate() != null) {
+					parent.translate(
+							brick.getTranslateForDrawAfterRotate().x(), brick
+									.getTranslateForDrawAfterRotate().y(),
+							brick.getTranslateForDrawAfterRotate().z());
+				}
+
+				parent.scale(brick.getScaleRatio());
+				parent.rotateX(brick.getRotation().x());
+				parent.rotateY(brick.getRotation().y());
+				// parent.fill(brick.getColor().x(),
+				// brick.getColor().y(), brick.getColor().z());
+				// brick.getModel().disableMaterial();
+				brick.getModel().setFill(
+						parent.color(brick.getColor().x(), bricks.get(i)
+								.getColor().y(), brick.getColor().z()));
+				parent.shape(brick.getModel());
+
+				brick.draw();
+				parent.popMatrix();
 			}
+		} catch (Exception ex) {
 
-			parent.scale(bricks.get(i).getScaleRatio());
-			parent.rotateX(bricks.get(i).getRotation().x());
-			parent.rotateY(bricks.get(i).getRotation().y());
-			// parent.fill(bricks.get(i).getColor().x(),
-			// bricks.get(i).getColor().y(), bricks.get(i).getColor().z());
-			// bricks.get(i).getModel().disableMaterial();
-			bricks.get(i)
-					.getModel()
-					.setFill(
-							parent.color(bricks.get(i).getColor().x(), bricks
-									.get(i).getColor().y(), bricks.get(i)
-									.getColor().z()));
-			parent.shape(bricks.get(i).getModel());
-
-			bricks.get(i).draw();
-			parent.popMatrix();
 		}
 	}
 
@@ -1598,9 +1688,40 @@ public class GameManager {
 
 	private void moveBrickProcess() {
 		Brick brickDrag = bricks.get(objectHovered.getIndexObject());
+		if (brickDrag.getTranslation().z() > 10) {
+			int firstPosition = -1;
+			float minXAxis = 0;
+			for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+				Brick selectedBrick = bricks.get((int) selectedBrickIDMulti
+						.get(i));
+				if (selectedBrick.getTranslation().z() == 0) {
+					if (firstPosition == -1) {
+						firstPosition = 0;
+						minXAxis = selectedBrick.getTranslation().x();
+					}
+
+					if (selectedBrick.getTranslation().x() < minXAxis) {
+						minXAxis = selectedBrick.getTranslation().x();
+						firstPosition = i;
+					}
+				}
+			}
+
+			if (firstPosition != -1) {
+				objectHovered.setIndexObject(selectedBrickIDMulti
+						.get(firstPosition));
+				brickDrag = bricks.get(objectHovered.getIndexObject());
+			}
+		}
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
+			if (selectedBrickIDMulti.get(i) == objectHovered.getIndexObject()) {
+				continue;
+			}
 			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
-			Vec position = Vec.subtract(brickDrag.getTranslation(),
+			Vec endOfBrickDrag = new Vec(brickDrag.getTranslation().x(),
+					brickDrag.getTranslation().y(), brickDrag.getTranslation()
+							.z());
+			Vec position = Vec.subtract(endOfBrickDrag,
 					selectedBrick.getTranslation());
 			if (!position.equals(new Vec(0, 0, 0))) {
 				groupBrickStates.getBrickStates().add(selectedBrick);

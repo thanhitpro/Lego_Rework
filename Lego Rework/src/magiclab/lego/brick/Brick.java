@@ -325,8 +325,6 @@ public class Brick implements DrawableObject {
 			translation.setY(translation.y() - (sizeBrick.y() - 1)
 					* Util.BRICK_SIZE);
 		}
-		
-		System.out.println(translation);
 	}
 
 	public void increaseTimesRotate(Vec center) {
@@ -421,6 +419,30 @@ public class Brick implements DrawableObject {
 	public void calibrateAfterRotate() {
 		translateForDrawAfterRotate = xmlBrick.getRotations()
 				.get(timesRotation).getTranslateForDraw();
+	}
+
+	/**
+	 * Calibrate brick position after rotating in a group
+	 */
+
+	public void calibrateAfterRotateInGroup(int rotate) {
+		switch (rotate) {
+		case 0:
+			break;
+		case 1:
+			translateForDrawAfterRotate.setX(translateForDrawAfterRotate.x()
+					- (sizeBrick.x() - 1) * Util.BRICK_SIZE);
+			break;
+		case 2:
+
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
