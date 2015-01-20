@@ -1161,9 +1161,10 @@ public class GameManager {
 		}
 
 		if (parent.keyCode == 39) {
-			/*
-			 * if (groupBrickStates.getBrickStates().size() > 0) { return; }
-			 */
+
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				return;
+			}
 
 			if (groupBrickStates.getBrickStates().size() > 0) {
 				groupBrickStates.increaseTimesRotate();
@@ -1176,10 +1177,10 @@ public class GameManager {
 											.getTranslation()));
 						} else {
 							tempBrick
-							.getTranslation()
-							.setY(tempBrick.getTranslation().y()
-									+ (brickFollowMouse.getSizeBrick().y() - 1)
-									* Util.BRICK_SIZE);
+									.getTranslation()
+									.setY(tempBrick.getTranslation().y()
+											+ (brickFollowMouse.getSizeBrick()
+													.y() - 1) * Util.BRICK_SIZE);
 						}
 					}
 					Vec rotateBrick = Util.rotateAroundAPoint((-90),
