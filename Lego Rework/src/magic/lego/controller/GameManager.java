@@ -161,11 +161,19 @@ public class GameManager {
 	private boolean mouseDrag = false;
 	private int testCase = 1316;
 
+	/**
+	 * GameManager
+	 * 
+	 * @param parent
+	 */
 	public GameManager(PApplet parent) {
 		super();
 		this.parent = parent;
 	}
 
+	/**
+	 * resetGame
+	 */
 	public void resetGame() {
 		bricks.clear();
 		bricks = new ArrayList<Brick>();
@@ -191,6 +199,9 @@ public class GameManager {
 		undoRedo.setBricks(bricks);
 	}
 
+	/**
+	 * setup
+	 */
 	public void setup() {
 		brickFactory = new BrickFactory();
 		planeLego = new PlaneLego();
@@ -645,6 +656,9 @@ public class GameManager {
 		this.expandSize = expandSize;
 	}
 
+	/**
+	 * drawBrickFollowMouse
+	 */
 	public void drawBrickFollowMouse() {
 
 		if (brickFollowMouse != null && disableBrickFollowMouse == false) {
@@ -683,11 +697,9 @@ public class GameManager {
 			if (groupBrickStates.getBrickStates().size() > 0) {
 				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
 					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
-					Vec endOfBrickDrag = new Vec(groupBrickStates
-							.getConnectPoint().x(), groupBrickStates
-							.getConnectPoint().y(), groupBrickStates
-							.getConnectPoint().z());
-					tempBrick.setTranslation(Vec.subtract(endOfBrickDrag,
+					System.out.println(groupBrickStates.getConnectPoint());
+					tempBrick.setTranslation(Vec.subtract(
+							groupBrickStates.getConnectPoint(),
 							groupBrickStates.getBrickPosition().get(i)));
 					parent.pushMatrix();
 
@@ -865,9 +877,58 @@ public class GameManager {
 			}
 		}
 		checkCollisionBoxAndBox();
-		if (brickFollowMouse != null)
+		if (brickFollowMouse != null) {
 			groupBrickStates.setConnectPoint(Util
 					.newVecFromVec(brickFollowMouse.getTranslation()));
+			if (brickFollowMouse.getTimesRotation() == 2) {
+				Util.ROTATE_A_CIRCLE_2 = false;
+				if (brickFollowMouse.getTranslation() != brickFollowMouse
+						.getTranslationBeforeRotate()) {
+					Util.LISTEN_CHANGE_POSITION = true;
+				}
+
+				if (Util.LISTEN_CHANGE_POSITION) {
+					groupBrickStates.getConnectPoint().setX(
+							groupBrickStates.getConnectPoint().x()
+									+ (brickFollowMouse.getSizeBrick().x() - 1)
+									* Util.BRICK_SIZE);
+					Util.LISTEN_CHANGE_POSITION = false;
+					Util.ROTATE_A_CIRCLE_2 = true;
+				}
+			}
+
+			if (brickFollowMouse.getTimesRotation() == 3) {
+				Util.ROTATE_A_CIRCLE = false;
+				if (brickFollowMouse.getTranslation() != brickFollowMouse
+						.getTranslationBeforeRotate()) {
+					Util.LISTEN_CHANGE_POSITION = true;
+				}
+
+				if (Util.LISTEN_CHANGE_POSITION) {
+					if (Util.ROTATE_A_CIRCLE_2 == true) {
+						groupBrickStates
+								.getConnectPoint()
+								.setX(groupBrickStates.getConnectPoint().x()
+										+ (brickFollowMouse.getSizeBrick().y() - 1)
+										* Util.BRICK_SIZE);
+					}
+					groupBrickStates.getConnectPoint().setY(
+							groupBrickStates.getConnectPoint().y()
+									+ (brickFollowMouse.getSizeBrick().y() - 1)
+									* Util.BRICK_SIZE);
+					Util.LISTEN_CHANGE_POSITION = false;
+					Util.ROTATE_A_CIRCLE = true;
+				}
+			}
+
+			if (brickFollowMouse.getTimesRotation() == 0
+					&& Util.ROTATE_A_CIRCLE) {
+				groupBrickStates.setBrickPosition(groupBrickStates
+						.getBrickPositionBeforeRotate());
+				Util.ROTATE_A_CIRCLE = false;
+			}
+
+		}
 	}
 
 	private void mouseHoverDotExpandProcess() {
@@ -951,6 +1012,14 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * displayBrickFollowMouse
+	 * 
+	 * @param squareHovered
+	 */
+	/**
+	 * @param squareHovered
+	 */
 	private void displayBrickFollowMouse(Square squareHovered) {
 		Brick brick;
 
@@ -993,6 +1062,9 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * checkCollisionBoxAndBox
+	 */
 	private void checkCollisionBoxAndBox() {
 		for (int i = 0; i < bricks.size(); i++) {
 			Brick brick = bricks.get(i);
@@ -1032,6 +1104,9 @@ public class GameManager {
 			disableBrickFollowMouse = false;
 	}
 
+	/**
+	 * keyPressedProcess
+	 */
 	public void keyPressedProcess() {
 		if (parent.keyCode == 37) {
 			if (groupBrickStates.getBrickStates().size() > 0) {
@@ -1046,37 +1121,94 @@ public class GameManager {
 
 			checkCollisionBoxAndBox();
 
-			/*
-			 * if (groupBrickStates.getBrickStates().size() > 0) {
-			 * groupBrickStates.decreaseTimesRotate(); for (int i = 0; i <
-			 * groupBrickStates.getBrickStates().size(); i++) { Brick tempBrick
-			 * = groupBrickStates.getBrickStates().get(i);
-			 * tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0); Vec
-			 * temp = Util.newVecFromVec(groupBrickStates
-			 * .getBrickPositionBeforeRotate().get(i));
-			 * tempBrick.decreaseTimesRotate(); if
-			 * (groupBrickStates.getTimesRotation() == 1) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.y()); } if
-			 * (groupBrickStates.getTimesRotation() == 2) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.x()); } if
-			 * (groupBrickStates.getTimesRotation() == 3) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.y()); } if
-			 * (groupBrickStates.getTimesRotation() == 0) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.x()); } //
-			 * tempBrick.calibrateAfterRotate();
-			 * tempBrick.generateBoxCollider(); } }
-			 */
+			if (groupBrickStates.getBrickStates().size() > 0) {
+				groupBrickStates.decreaseTimesRotate();
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					tempBrick.getRotation().add(0, Util.ROTATE_ANGLE_ADDED, 0);
+					Vec temp = Util.newVecFromVec(groupBrickStates
+							.getBrickPositionBeforeRotate().get(i));
+					tempBrick.decreaseTimesRotate();
+					if (groupBrickStates.getTimesRotation() == 1) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.y());
+					}
+					if (groupBrickStates.getTimesRotation() == 2) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(-temp.x());
+					}
+					if (groupBrickStates.getTimesRotation() == 3) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(-temp.x());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.y());
+					}
+					if (groupBrickStates.getTimesRotation() == 0) {
+						groupBrickStates.getBrickPosition().get(i)
+								.setY(temp.y());
+						groupBrickStates.getBrickPosition().get(i)
+								.setX(temp.x());
+					} //
+					tempBrick.calibrateAfterRotate();
+					tempBrick.generateBoxCollider();
+				}
+			}
 
 		}
 
 		if (parent.keyCode == 39) {
+			/*
+			 * if (groupBrickStates.getBrickStates().size() > 0) { return; }
+			 */
+
 			if (groupBrickStates.getBrickStates().size() > 0) {
-				return;
+				groupBrickStates.increaseTimesRotate();
+				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
+					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
+					if (groupBrickStates.getTimesRotation() == 0) {
+						if (Util.ROTATE_A_CIRCLE) {
+							groupBrickStates.setConnectPoint(Util
+									.newVecFromVec(brickFollowMouse
+											.getTranslation()));
+						} else {
+							tempBrick
+							.getTranslation()
+							.setY(tempBrick.getTranslation().y()
+									+ (brickFollowMouse.getSizeBrick().y() - 1)
+									* Util.BRICK_SIZE);
+						}
+					}
+					Vec rotateBrick = Util.rotateAroundAPoint((-90),
+							groupBrickStates.getConnectPoint(),
+							tempBrick.getTranslation());
+					groupBrickStates.getBrickPosition().get(i)
+							.setY(rotateBrick.y());
+					groupBrickStates.getBrickPosition().get(i)
+							.setX(rotateBrick.x());
+					tempBrick.getRotation().subtract(0,
+							Util.ROTATE_ANGLE_ADDED, 0);
+					tempBrick.increaseTimesRotate();
+
+					if (groupBrickStates.getTimesRotation() == 2) {
+						groupBrickStates
+								.getBrickPosition()
+								.get(i)
+								.setX(groupBrickStates.getBrickPosition()
+										.get(i).x()
+										+ (tempBrick.getSizeBrick().x() - 1)
+										* Util.BRICK_SIZE);
+					}
+
+					tempBrick.calibrateAfterRotate();
+					tempBrick.generateBoxCollider();
+
+				}
 			}
+
 			brickFollowMouse.getRotation().subtract(0, Util.ROTATE_ANGLE_ADDED,
 					0);
 			brickFollowMouse.increaseTimesRotate();
@@ -1086,48 +1218,6 @@ public class GameManager {
 			switchBrick = false;
 			brickFollowMouse.generateBoxCollider();
 			checkCollisionBoxAndBox();
-
-			/*
-			 * if (groupBrickStates.getBrickStates().size() > 0) {
-			 * groupBrickStates.increaseTimesRotate(); for (int i = 0; i <
-			 * groupBrickStates.getBrickStates().size(); i++) { Brick tempBrick
-			 * = groupBrickStates.getBrickStates().get(i);
-			 * tempBrick.getRotation().subtract(0, Util.ROTATE_ANGLE_ADDED, 0);
-			 * Vec temp = Util.newVecFromVec(groupBrickStates
-			 * .getBrickPositionBeforeRotate().get(i));
-			 * tempBrick.increaseTimesRotate();
-			 * 
-			 * if (groupBrickStates.getTimesRotation() == 1) {
-			 * 
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.y());
-			 * 
-			 * if (brickFollowMouse.getTimesRotation() != tempBrick
-			 * .getTimesRotation()) { // Connect at center point if
-			 * (brickFollowMouse.getSizeBrick().y() == 1 &&
-			 * groupBrickStates.getBrickPosition() .get(i).y() == 0) {
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.y()); }
-			 * else { groupBrickStates .getBrickPosition() .get(i)
-			 * .setX(-temp.y() + (tempBrick.getSizeBrick().x() - 1)
-			 * Util.BRICK_SIZE); } } else {
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.y()); }
-			 * 
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.x());
-			 * 
-			 * }
-			 * 
-			 * if (groupBrickStates.getTimesRotation() == 2) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(-temp.x()); } if
-			 * (groupBrickStates.getTimesRotation() == 3) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(-temp.x());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.y()); } if
-			 * (groupBrickStates.getTimesRotation() == 0) {
-			 * groupBrickStates.getBrickPosition().get(i) .setY(temp.y());
-			 * groupBrickStates.getBrickPosition().get(i) .setX(temp.x()); }
-			 * tempBrick.calibrateAfterRotate();
-			 * tempBrick.generateBoxCollider(); } }
-			 */
 
 		}
 
@@ -1207,6 +1297,9 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * generateBricks
+	 */
 	public void generateBricks() {
 		try {
 			int count = 0;
@@ -1250,6 +1343,9 @@ public class GameManager {
 		}
 	}
 
+	/**
+	 * selectAll
+	 */
 	private void selectAll() {
 		selectedBrickIDMulti = new ArrayList<Integer>();
 		for (int i = 0; i < bricks.size(); i++) {
@@ -1737,10 +1833,7 @@ public class GameManager {
 				continue;
 			}
 			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
-			Vec endOfBrickDrag = new Vec(brickDrag.getTranslation().x(),
-					brickDrag.getTranslation().y(), brickDrag.getTranslation()
-							.z());
-			Vec position = Vec.subtract(endOfBrickDrag,
+			Vec position = Vec.subtract(brickDrag.getTranslation(),
 					selectedBrick.getTranslation());
 			if (!position.equals(new Vec(0, 0, 0))) {
 				groupBrickStates.getBrickStates().add(selectedBrick);

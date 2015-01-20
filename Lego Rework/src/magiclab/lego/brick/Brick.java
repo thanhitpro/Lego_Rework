@@ -113,6 +113,14 @@ public class Brick implements DrawableObject {
 		sizeBrick = xmlBrick.getDefaultSizeBrick();
 	}
 
+	public Vec getTranslationBeforeRotate() {
+		return translationBeforeRotate;
+	}
+
+	public void setTranslationBeforeRotate(Vec translationBeforeRotate) {
+		this.translationBeforeRotate = translationBeforeRotate;
+	}
+
 	public PShape getModel() {
 		return model;
 	}

@@ -73,6 +73,9 @@ public class Util {
 	public static ArrayList<PShape> expandedPlanePShape = new ArrayList<PShape>();
 	public static ArrayList<Square> expandedPlanePShapePosition = new ArrayList<Square>();
 	public static boolean FINISH_THREAD = true;
+	public static boolean LISTEN_CHANGE_POSITION = false;
+	public static boolean ROTATE_A_CIRCLE = false;
+	public static boolean ROTATE_A_CIRCLE_2 = false;;
 
 	public static void LoadModelName() {
 		MODEL_NAME_LIST = new ArrayList<String>();
@@ -97,7 +100,7 @@ public class Util {
 		String line = null;
 		try {
 			while ((line = in.readLine()) != null) {
-					MODEL_NAME_LIST.add(line);
+				MODEL_NAME_LIST.add(line);
 			}
 		} catch (IOException e) {
 			System.out.println("Error when reading file: " + line);
@@ -146,6 +149,14 @@ public class Util {
 			System.out.println("Error when closing file");
 			return;
 		}
+	}
+
+	public static Vec rotateAroundAPoint(float angle, Vec origin, Vec myPoint) {
+		angle = (float) ((angle ) * (Math.PI/180)); // Convert to radians
+        float rotatedX = (float) (Math.cos(angle) * (myPoint.x() - origin.x()) - Math.sin(angle) * (myPoint.y()-origin.y()) + origin.x());
+        float rotatedY = (float) (Math.sin(angle) * (myPoint.x() - origin.x()) + Math.cos(angle) * (myPoint.y() - origin.y()) + origin.y());
+
+        return new Vec(rotatedX,rotatedY, myPoint.z());
 	}
 
 	public static Vec newVecFromVec(Vec vec) {

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import magiclab.lego.brick.Brick;
 import magiclab.lego.core.Box;
 import magiclab.lego.core.GameState;
+import magiclab.lego.util.Util;
 import remixlab.dandelion.geom.Vec;
 
 public class GroupBrickState extends GameState {
 	private ArrayList<Brick> brickStates;
 	private ArrayList<Vec> brickPosition;
 	private ArrayList<Vec> brickPositionBeforeRotate;
+	private ArrayList<Vec> connectedPoint;
 	private int timesRotation = 0;
 	private Vec connectPoint;
 
@@ -27,6 +29,15 @@ public class GroupBrickState extends GameState {
 		brickPositionBeforeRotate = new ArrayList<Vec>();
 		brickStates = new ArrayList<Brick>();
 		timesRotation = 0;
+		connectedPoint = new ArrayList<Vec>();
+	}
+
+	public ArrayList<Vec> getConnectedPoint() {
+		return connectedPoint;
+	}
+
+	public void setConnectedPoint(ArrayList<Vec> connectedPoint) {
+		this.connectedPoint = connectedPoint;
 	}
 
 	public ArrayList<Vec> getBrickPositionBeforeRotate() {
@@ -50,8 +61,10 @@ public class GroupBrickState extends GameState {
 		return brickPosition;
 	}
 
-	public void setBrickPosition(ArrayList<Vec> brickPosition) {
-		this.brickPosition = brickPosition;
+	public void setBrickPosition(ArrayList<Vec> _brickPosition) {
+		for (int i = 0; i < brickPosition.size(); i++) {
+			brickPosition.set(i, Util.newVecFromVec(_brickPosition.get(i)));
+		}		
 	}
 
 	public int getTimesRotation() {
@@ -95,6 +108,12 @@ public class GroupBrickState extends GameState {
 				box.setPosition(Vec.subtract(connectPoint, brickPosition.get(i)));
 			}
 
+		}
+	}
+	
+	public void generateConnectedPoint() {
+		for (int i = 0; i < brickStates.size(); i++) {
+			
 		}
 	}
 }
