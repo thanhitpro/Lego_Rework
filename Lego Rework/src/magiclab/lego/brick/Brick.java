@@ -582,4 +582,40 @@ public class Brick implements DrawableObject {
 
 	}
 
+	public ArrayList<Vec> generateEightPoint() {
+		Vec vec0 = Util.newVecFromVec(translation);
+		Vec vec1 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y(), translation.z());
+		Vec vec2 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y() + sizeBrick.y() * Util.BRICK_SIZE,
+				translation.z());
+		Vec vec3 = new Vec(translation.x(), translation.y() + sizeBrick.y()
+				* Util.BRICK_SIZE, translation.z());
+		Vec vec4 = new Vec(translation.x(), translation.y(), translation.z()
+				+ sizeBrick.z() * Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+		Vec vec5 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y(), translation.z() + sizeBrick.z()
+						* Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+		Vec vec6 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y() + sizeBrick.y() * Util.BRICK_SIZE,
+				translation.z() + sizeBrick.z() * Util.BRICK_HEIGHT
+						+ Util.BRICK_DOT_HEIGHT);
+		Vec vec7 = new Vec(translation.x(), translation.y() + sizeBrick.y()
+				* Util.BRICK_SIZE, translation.z() + sizeBrick.z()
+				* Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+		
+		ArrayList<Vec> vecs = new ArrayList<Vec>();
+		vecs.add(vec0);
+		vecs.add(vec1);
+		vecs.add(vec2);
+		vecs.add(vec3);
+		vecs.add(vec4);
+		vecs.add(vec5);
+		vecs.add(vec6);
+		vecs.add(vec7);
+		
+		return vecs;
+	}
+
 }
+

@@ -1,5 +1,6 @@
 package magiclab.lego.util;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -163,5 +164,13 @@ public class Util {
 		if (vec == null)
 			return null;
 		return new Vec(vec.x(), vec.y(), vec.z());
+	}
+	
+
+	public static Point GetScreenspaceCoords(Vec iPoint) {
+		float[] windowCoordinate = new float[3];		
+		Util.CURRENT_SCENE.camera().project(iPoint.x(), iPoint.y(), iPoint.z(), windowCoordinate);
+		Point point = new Point((int)windowCoordinate[0], (int)windowCoordinate[1]);
+		return point;
 	}
 }

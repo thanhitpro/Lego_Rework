@@ -69,8 +69,8 @@ public class LegoGame extends PApplet {
 
 	/*
 	 * private void drawBox() { for (int i = 0; i < tempBox.size(); i++) {
-	 * pushMatrix(); translate(tempBox.get(i).x(), tempBox.get(i).y(),
-	 * tempBox.get(i) .z()); box(1); popMatrix(); } }
+	 * pushMatrix(); translate(tempBox.get(i).x(), tempBox.get( tempBox.get(i)
+	 * .z()); box(1); popMatrix(); } }
 	 */
 
 	private void drawScene() {
@@ -141,6 +141,8 @@ public class LegoGame extends PApplet {
 			objectPicking();
 			gameManager.mouseHoverProcess();
 		}
+
+		// System.out.println("Mouse: " + mouseX + " " + mouseY);
 	}
 
 	@Override
@@ -148,9 +150,14 @@ public class LegoGame extends PApplet {
 		// TODO Auto-generated method stub
 		super.mouseDragged();
 		if (!testEnable) {
-			gameManager.mouseDragProcess();
-			objectPicking();
-			gameManager.mouseHoverProcess();
+			if (mouseButton == RIGHT) {
+				gameManager.mouseDragProcess();
+				objectPicking();
+				gameManager.mouseHoverProcess();				
+			}
+			if (mouseButton == LEFT) {
+				gameManager.multiSelectDragProcess();
+			}
 		}
 	}
 
@@ -172,39 +179,9 @@ public class LegoGame extends PApplet {
 			} else {
 				gameManager.selectBrick();
 			}
+
+			gameManager.multiSelectProcess();
 		}
-	}
-
-	public void projection(Vec vec) {
-		/*
-		 * float fovX = scene.camera().fieldOfView(); float fovY =
-		 * scene.camera().horizontalFieldOfView(); float aspect =
-		 * scene.camera().aspectRatio(); Mat M_view = scene.camera().getView();
-		 * float near = scene.camera().zNear(); Mat temp = new Mat();
-		 * temp.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		 * temp.setM00((float) (Math.cos(fovY / 2) / aspect));
-		 * temp.setM11((float) (Math.cos(fovY / 2))); temp.setM22((float)
-		 * (aspect / (aspect - near))); temp.setM23((float) (near * aspect /
-		 * (aspect - near))); temp.setM32(-1);
-		 * 
-		 * Mat multMat = Mat.multiply(temp, M_view);
-		 * 
-		 * float x = multMat.m00() * vec.x() + multMat.m01() * vec.y() +
-		 * multMat.m02() * vec.z() + multMat.m03(); float y = multMat.m10() *
-		 * vec.x() + multMat.m11() * vec.y() + multMat.m12() * vec.z() +
-		 * multMat.m13(); float z = multMat.m20() * vec.x() + multMat.m21() *
-		 * vec.y() + multMat.m22() * vec.z() + multMat.m23();
-		 */
-
-		// float z = (float) (-(Math.cos(fovY / 2)));
-
-		// float x = (float) (-(Math.cos(fovX / 2) / aspect) * vec.x() / z);
-		// float y = (float) (-(Math.cos(fovY / 2)) * vec.y() / z);
-		// float x = vec.x() * aspect + vec.z() * fovX;
-		// float y = vec.y() * aspect + vec.z() * fovY;
-
-		// System.out.println(x + ", " + y + ", " + z);
-		// System.out.println(M_view);
 	}
 
 	public void objectPicking() {

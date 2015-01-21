@@ -9,7 +9,9 @@ import magiclab.lego.brick.Brick;
 import magiclab.lego.brick.BrickFactory;
 import magiclab.lego.brick.object.Brick_1x2;
 import magiclab.lego.core.Box;
+import magiclab.lego.core.BoxSelected;
 import magiclab.lego.core.ObjectSelected;
+import magiclab.lego.core.Rect;
 import magiclab.lego.core.Square;
 import magiclab.lego.core.UndoRedo;
 import magiclab.lego.gameState.GroupBrickState;
@@ -160,6 +162,10 @@ public class GameManager {
 	private boolean holdSelectKey = false;
 	private boolean mouseDrag = false;
 	private int testCase = 1316;
+	/*
+	 * Box selected
+	 */
+	private BoxSelected boxSelected;
 
 	/**
 	 * GameManager
@@ -197,6 +203,7 @@ public class GameManager {
 		groupBrickStates = new GroupBrickState();
 		undoRedo = new UndoRedo();
 		undoRedo.setBricks(bricks);
+		boxSelected = new BoxSelected();
 	}
 
 	/**
@@ -227,6 +234,7 @@ public class GameManager {
 		groupBrickStates = new GroupBrickState();
 		undoRedo = new UndoRedo();
 		undoRedo.setBricks(bricks);
+		boxSelected = new BoxSelected();
 	}
 
 	private void setupBrickModel() {
@@ -660,7 +668,9 @@ public class GameManager {
 	 * drawBrickFollowMouse
 	 */
 	public void drawBrickFollowMouse() {
-
+		if (holdControlKey && groupBrickStates.getBrickStates().size() <= 0) {
+			disableBrickFollowMouse = true;
+		}
 		if (brickFollowMouse != null && disableBrickFollowMouse == false) {
 			parent.pushMatrix();
 
@@ -1799,6 +1809,7 @@ public class GameManager {
 					objectHovered.setIndexNameObject(-1);
 				}
 			}
+
 		}
 	}
 
@@ -1975,6 +1986,47 @@ public class GameManager {
 
 	public void mouseReleased() {
 		mouseDrag = false;
+		boxSelected.setiStart(false);
+		boxSelected.reset();
 	}
 
+	public void multiSelectProcess() {
+		if (holdControlKey) {
+			boxSelected.setStartClick(new Vec(parent.mouseX, parent.mouseY, 0));			
+		}
+	}
+
+	public void multiSelectDragProcess() {
+		if (boxSelected.getWidth() > 100) {
+			boxSelected.print();
+		}
+		if (holdControlKey) {
+			if (boxSelected.isiStart()) {
+				float x = boxSelected.getStartClick().x();
+				float y = boxSelected.getStartClick().y();
+				float width =  parent.mouseX - x;
+				float height = parent.mouseY - y;
+				boxSelected.setWidth(width);
+				boxSelected.setHeight(height);
+				Rect rect = new Rect(x, y, width, height);
+				selectedBrickIDMulti.clear();
+				selectedBrickFlag = false;
+				for (int i = 0; i < bricks.size(); i++) {
+					Brick brick = bricks.get(i);
+					if (rect.Contains(brick)) {
+						selectedBrickIDMulti.add(i);						
+					}
+				}
+				
+				if (selectedBrickIDMulti.size() > 0) {
+					selectedBrickFlag = true;
+				}
+				
+			} else {
+				boxSelected.setStartClick(new Vec(parent.mouseX, parent.mouseY,
+						0));
+				boxSelected.setiStart(true);
+			}
+		}
+	}
 }
