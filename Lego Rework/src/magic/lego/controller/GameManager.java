@@ -23,7 +23,9 @@ import magiclab.main.GuiGame;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
+import processing.core.PMatrix3D;
 import processing.core.PShape;
+import processing.opengl.PGraphics3D;
 import remixlab.dandelion.geom.Vec;
 
 public class GameManager {
@@ -166,6 +168,7 @@ public class GameManager {
 	 * Box selected
 	 */
 	private BoxSelected boxSelected;
+	PGraphics3D g3;
 
 	/**
 	 * GameManager
@@ -235,6 +238,7 @@ public class GameManager {
 		undoRedo = new UndoRedo();
 		undoRedo.setBricks(bricks);
 		boxSelected = new BoxSelected();
+		g3 = (PGraphics3D) parent.g;
 	}
 
 	private void setupBrickModel() {
@@ -1992,7 +1996,7 @@ public class GameManager {
 
 	public void multiSelectProcess() {
 		if (holdControlKey) {
-			boxSelected.setStartClick(new Vec(parent.mouseX, parent.mouseY, 0));			
+			boxSelected.setStartClick(new Vec(parent.mouseX, parent.mouseY, 0));
 		}
 	}
 
@@ -2004,7 +2008,7 @@ public class GameManager {
 			if (boxSelected.isiStart()) {
 				float x = boxSelected.getStartClick().x();
 				float y = boxSelected.getStartClick().y();
-				float width =  parent.mouseX - x;
+				float width = parent.mouseX - x;
 				float height = parent.mouseY - y;
 				boxSelected.setWidth(width);
 				boxSelected.setHeight(height);
@@ -2014,18 +2018,45 @@ public class GameManager {
 				for (int i = 0; i < bricks.size(); i++) {
 					Brick brick = bricks.get(i);
 					if (rect.Contains(brick)) {
-						selectedBrickIDMulti.add(i);						
+						selectedBrickIDMulti.add(i);
 					}
 				}
-				
+
 				if (selectedBrickIDMulti.size() > 0) {
 					selectedBrickFlag = true;
 				}
-				
+
 			} else {
 				boxSelected.setStartClick(new Vec(parent.mouseX, parent.mouseY,
 						0));
 				boxSelected.setiStart(true);
+			}
+		}
+	}
+
+	public void drawSelectedBox() {
+		if (boxSelected.isiStart()) {
+			if (holdControlKey) {
+				PMatrix3D currCameraMatrix = new PMatrix3D(g3.camera);
+				parent.hint(PConstants.DISABLE_DEPTH_TEST);
+				float cameraZ = (float) ((parent.height / 2.0) / Math
+						.tan(PConstants.PI * 60.0 / 360.0));
+				parent.perspective(PConstants.PI / 3.0f, Util.CURRENT_SCENE
+						.camera().aspectRatio(), cameraZ / 10.0f,
+						cameraZ * 10.0f);
+				parent.camera();
+				// Start drawing 2D
+				parent.strokeWeight(2);
+				parent.stroke(39, 255, 228);
+				parent.noFill();
+				parent.pushMatrix();
+				parent.rect(boxSelected.getStartClick().x(), boxSelected
+						.getStartClick().y(), boxSelected.getWidth(),
+						boxSelected.getHeight());
+				parent.popMatrix();
+				// End drawing 2D
+				g3.camera = currCameraMatrix;
+				parent.hint(PConstants.ENABLE_DEPTH_TEST);
 			}
 		}
 	}

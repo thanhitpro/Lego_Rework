@@ -53,7 +53,7 @@ public class Util {
 	public static ArrayList<Vec> EXTRA_POSITION_VEC;
 	public static double PI = Math.PI;
 	public static String KEY_SWITCH_BRICK = "0123456789";
-	public static boolean DRAW_AXES = true;
+	public static boolean DRAW_AXES = false;
 	public static String FONT_FILE_NAME_DEFAULT = "SegoeUI-Light-48.vlw";
 	public static int FONT_SIZE_DEFAULT = 48;
 	public static Dictionary<String, XmlBrick> XML_BRICK_DICTIONARY = new Hashtable<String, XmlBrick>();

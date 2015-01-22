@@ -78,6 +78,7 @@ public class LegoGame extends PApplet {
 		gameManager.drawBrickFollowMouse();
 		gameManager.drawBrickOnPlane();
 		gameManager.drawBoxCoverBrickHovered();
+		gameManager.drawSelectedBox();
 		fill(255);
 	}
 
