@@ -229,7 +229,6 @@ public class GameManager {
 		finishLoadingNewGame = true;
 		menuController = new MenuController(this);
 		Util.tempImage = parent.loadImage("circle_2.png");
-		Util.eyeImage = parent.loadImage("Brick_1x1_eye.png");
 		gameModified = false;
 		holdControlKey = false;
 		selectedBrickIDMulti = new ArrayList<>();
@@ -711,7 +710,6 @@ public class GameManager {
 			if (groupBrickStates.getBrickStates().size() > 0) {
 				for (int i = 0; i < groupBrickStates.getBrickStates().size(); i++) {
 					Brick tempBrick = groupBrickStates.getBrickStates().get(i);
-					System.out.println(groupBrickStates.getConnectPoint());
 					tempBrick.setTranslation(Vec.subtract(
 							groupBrickStates.getConnectPoint(),
 							groupBrickStates.getBrickPosition().get(i)));
@@ -2001,9 +1999,6 @@ public class GameManager {
 	}
 
 	public void multiSelectDragProcess() {
-		if (boxSelected.getWidth() > 100) {
-			boxSelected.print();
-		}
 		if (holdControlKey) {
 			if (boxSelected.isiStart()) {
 				float x = boxSelected.getStartClick().x();

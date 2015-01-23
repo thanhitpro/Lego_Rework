@@ -1,5 +1,12 @@
 package magiclab.lego.brick.object;
 
-public class Plate_Center_Stud_1x2 {
+import magiclab.lego.brick.Brick;
 
+public class Plate_Center_Stud_1x2 extends Brick{
+	public Plate_Center_Stud_1x2() {
+		// TODO Auto-generated constructor stub
+		super();
+		modelName = "Plate_Center_Stud_1x2";
+		super.LoadModel(modelName);
+	}
 }

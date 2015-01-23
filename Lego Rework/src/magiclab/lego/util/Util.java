@@ -70,7 +70,6 @@ public class Util {
 			+ "CalibrateVecList.txt";
 	public static String EXTRA_POSITION_VEC_FILE = "ExtraPostionVec.txt";
 	public static PImage tempImage;
-	public static PImage eyeImage;
 	public static ArrayList<PShape> expandedPlanePShape = new ArrayList<PShape>();
 	public static ArrayList<Square> expandedPlanePShapePosition = new ArrayList<Square>();
 	public static boolean FINISH_THREAD = true;

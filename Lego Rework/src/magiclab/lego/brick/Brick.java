@@ -472,6 +472,7 @@ public class Brick implements DrawableObject {
 							Vec.multiply(dot.getPosition(), Util.BRICK_SIZE)),
 					new Vec(0, 0, sizeBrick.z() * Util.BRICK_HEIGHT
 							+ Util.BRICK_DOT_HEIGHT)));
+			System.out.println(square.getPosition());
 			square.setWidth(Util.BRICK_SIZE);
 			square.setHeight(Util.BRICK_SIZE);
 			square.setIndexSquare("");
