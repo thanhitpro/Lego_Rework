@@ -152,11 +152,13 @@ public class Util {
 	}
 
 	public static Vec rotateAroundAPoint(float angle, Vec origin, Vec myPoint) {
-		angle = (float) ((angle ) * (Math.PI/180)); // Convert to radians
-        float rotatedX = (float) (Math.cos(angle) * (myPoint.x() - origin.x()) - Math.sin(angle) * (myPoint.y()-origin.y()) + origin.x());
-        float rotatedY = (float) (Math.sin(angle) * (myPoint.x() - origin.x()) + Math.cos(angle) * (myPoint.y() - origin.y()) + origin.y());
+		angle = (float) ((angle) * (Math.PI / 180)); // Convert to radians
+		float rotatedX = (float) (Math.cos(angle) * (myPoint.x() - origin.x())
+				- Math.sin(angle) * (myPoint.y() - origin.y()) + origin.x());
+		float rotatedY = (float) (Math.sin(angle) * (myPoint.x() - origin.x())
+				+ Math.cos(angle) * (myPoint.y() - origin.y()) + origin.y());
 
-        return new Vec(rotatedX,rotatedY, myPoint.z());
+		return new Vec(rotatedX, rotatedY, myPoint.z());
 	}
 
 	public static Vec newVecFromVec(Vec vec) {
@@ -164,12 +166,20 @@ public class Util {
 			return null;
 		return new Vec(vec.x(), vec.y(), vec.z());
 	}
-	
+
+	public static Vec normalXPos = new Vec(1, 0, 0);
+	public static Vec normalYPos = new Vec(0, 1, 0);
+	public static Vec normalZPos = new Vec(0, 0, 1);
+	public static Vec normalXNeg = new Vec(-1, 0, 0);
+	public static Vec normalYNeg = new Vec(0, -1, 0);
+	public static Vec normalZNeg = new Vec(0, 0, -1);
 
 	public static Point GetScreenspaceCoords(Vec iPoint) {
-		float[] windowCoordinate = new float[3];		
-		Util.CURRENT_SCENE.camera().project(iPoint.x(), iPoint.y(), iPoint.z(), windowCoordinate);
-		Point point = new Point((int)windowCoordinate[0], (int)windowCoordinate[1]);
+		float[] windowCoordinate = new float[3];
+		Util.CURRENT_SCENE.camera().project(iPoint.x(), iPoint.y(), iPoint.z(),
+				windowCoordinate);
+		Point point = new Point((int) windowCoordinate[0],
+				(int) windowCoordinate[1]);
 		return point;
 	}
 }

@@ -285,25 +285,7 @@ public class GameManager {
 	}
 
 	public void undo() {
-		/*
-		 * if (bricks.size() <= 0) return;
-		 * 
-		 * if (undoBricks.size() > 0) { Brick undoBrick =
-		 * undoBricks.get(undoBricks.size() - 1); if (undoBrick.isDeleteFlag())
-		 * { setIDForBrick(undoBrick); bricks.add(undoBrick); for (int i = 0; i
-		 * < undoBrick.getSquareOnTopBrick().size(); i++) {
-		 * Util.LIST_SQUARE_ON_TOP_BRICKS.add(undoBrick
-		 * .getSquareOnTopBrick().get(i)); } undoBricks.remove(undoBrick);
-		 * return; } }
-		 * 
-		 * Brick lastBrickOnPlane = bricks.get(bricks.size() - 1);
-		 * lastBrickOnPlane.setDeleteFlag(false);
-		 * addBrickToUndoList(lastBrickOnPlane);
-		 * bricks.remove(lastBrickOnPlane); squareExpand.clear(); for (int i =
-		 * 0; i < lastBrickOnPlane.getSquareOnTopBrick().size(); i++) {
-		 * Util.LIST_SQUARE_ON_TOP_BRICKS.remove(lastBrickOnPlane
-		 * .getSquareOnTopBrick().get(i)); }
-		 */
+		
 
 		undoRedo.undo(1);
 
@@ -312,6 +294,7 @@ public class GameManager {
 		selectedBrickIDMulti.clear();
 		selectedBrickFlag = false;
 		gameModified = true;
+		objectHovered.setIndexNameObject(-1);
 	}
 
 	private void addBrickToUndoList(Brick lastBrick) {
@@ -327,22 +310,6 @@ public class GameManager {
 	}
 
 	public void redo() {
-		/*
-		 * if (bricks.size() > 0) { Brick deleteBrick = bricks.get(bricks.size()
-		 * - 1); if (deleteBrick.isDeleteFlag()) { for (int i = 0; i <
-		 * deleteBrick.getSquareOnTopBrick().size(); i++) {
-		 * Util.LIST_SQUARE_ON_TOP_BRICKS.remove(deleteBrick
-		 * .getSquareOnTopBrick().get(i)); } squareExpand.clear();
-		 * bricks.remove(deleteBrick); undoBricks.add(deleteBrick); return; } }
-		 * if (undoBricks.size() > 0) { Brick brick =
-		 * undoBricks.get(undoBricks.size() - 1); undoBricks.remove(brick);
-		 * setIDForBrick(brick); bricks.add(brick);
-		 * 
-		 * for (int i = 0; i < brick.getSquareOnTopBrick().size(); i++) {
-		 * Util.LIST_SQUARE_ON_TOP_BRICKS.add(brick.getSquareOnTopBrick()
-		 * .get(i)); } }
-		 */
-
 		undoRedo.redo(1);
 
 		brickSelectedOld = null;
@@ -350,6 +317,7 @@ public class GameManager {
 		selectedBrickIDMulti.clear();
 		selectedBrickFlag = false;
 		gameModified = true;
+		objectHovered.setIndexNameObject(-1);
 	}
 
 	private void setIDForBrick(Brick brick) {
@@ -384,6 +352,8 @@ public class GameManager {
 				planeLego.addSquarePosition(squarePosition);
 			}
 		}
+		
+		planeLego.generateFourPoint();
 	}
 
 	public void drawPlane() {
@@ -2054,5 +2024,10 @@ public class GameManager {
 				parent.hint(PConstants.ENABLE_DEPTH_TEST);
 			}
 		}
+	}
+	
+	public void removeGroupBrick() {
+		selectedBrickIDMulti.clear();
+		groupBrickStates.reset();
 	}
 }

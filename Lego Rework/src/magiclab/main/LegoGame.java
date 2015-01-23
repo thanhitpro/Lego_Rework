@@ -255,11 +255,13 @@ public class LegoGame extends PApplet {
 
 	public void newGame() {
 		gameManager.resetGame();
+		gameManager.removeGroupBrick();
 	}
 
 	public void loadGame(String path) {
 		gameManager.getMenuController().setFileName(path);
 		gameManager.getMenuController().loadGame();
+		gameManager.removeGroupBrick();
 	}
 
 	public void saveGame(String path) {
@@ -269,6 +271,7 @@ public class LegoGame extends PApplet {
 
 	public void selectBrick(int i) {
 		gameManager.changeBrick(i);
+		gameManager.removeGroupBrick();
 	}
 
 	public void setColor(Vec vec) {

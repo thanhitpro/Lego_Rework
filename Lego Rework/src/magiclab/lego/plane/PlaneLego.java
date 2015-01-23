@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import magiclab.lego.core.DrawableObject;
 import magiclab.lego.core.Square;
+import magiclab.lego.util.Util;
 import processing.core.PShape;
+import remixlab.dandelion.geom.Vec;
 
 public class PlaneLego implements DrawableObject {
 
@@ -12,11 +14,13 @@ public class PlaneLego implements DrawableObject {
 	private int height;
 	private ArrayList<PShape> pShapes;
 	private ArrayList<Square> pSquarePosition;
+	private ArrayList<Vec> pCornerPoint;
 
 	public PlaneLego() {
 		super();
 		pShapes = new ArrayList<PShape>();
 		pSquarePosition = new ArrayList<Square>();
+		pCornerPoint = new ArrayList<Vec>();
 	}
 
 	public PlaneLego(int width, int height, ArrayList<PShape> pShapes) {
@@ -24,6 +28,14 @@ public class PlaneLego implements DrawableObject {
 		this.width = width;
 		this.height = height;
 		this.pShapes = pShapes;
+	}
+
+	public ArrayList<Vec> getpCornerPoint() {
+		return pCornerPoint;
+	}
+
+	public void setpCornerPoint(ArrayList<Vec> pCornerPoint) {
+		this.pCornerPoint = pCornerPoint;
 	}
 
 	public int getWidth() {
@@ -105,6 +117,30 @@ public class PlaneLego implements DrawableObject {
 
 	public void addSquarePosition(ArrayList<Square> expandShapePosition) {
 		pSquarePosition.addAll(expandShapePosition);
+	}
+
+	public void generateFourPoint() {
+		pCornerPoint = new ArrayList<Vec>();
+
+		for (int i = 0; i < pSquarePosition.size(); i++) {
+			Vec point0 = new Vec(pSquarePosition.get(i).getPosition().x(),
+					pSquarePosition.get(i).getPosition().y(), 0);
+			Vec point1 = new Vec(pSquarePosition.get(i).getPosition().x()
+					+ Util.BRICK_SIZE, pSquarePosition.get(i).getPosition().y());
+			Vec point2 = new Vec(pSquarePosition.get(i).getPosition().x(),
+					pSquarePosition.get(i).getPosition().y() + Util.BRICK_SIZE);
+			Vec point3 = new Vec(pSquarePosition.get(i).getPosition().x()
+					+ Util.BRICK_SIZE, pSquarePosition.get(i).getPosition().y()
+					+ Util.BRICK_SIZE);
+
+			pCornerPoint.add(point0);
+
+			pCornerPoint.add(point1);
+
+			pCornerPoint.add(point2);
+
+			pCornerPoint.add(point3);
+		}
 	}
 
 }

@@ -122,7 +122,7 @@
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
-						<size width="1" height="12" depth="1" />
+						<size width="1" height="16" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>
@@ -242,7 +242,7 @@
 				<boxcolliders numberofboxcolider="1">
 					<box id="0">
 						<position x="0" y="0" z="0" />
-						<size width="1" height="12" depth="1" />
+						<size width="1" height="16" depth="1" />
 					</box>
 				</boxcolliders>
 			</rotation>
