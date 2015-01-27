@@ -23,34 +23,59 @@ import org.w3c.dom.Element;
 import remixlab.dandelion.geom.Vec;
 
 public class MenuController {
+	/**
+	 * Game Manager
+	 */
 	GameManager gameManager;
+	/**
+	 * File Name
+	 */
 	private String fileName;
-
+	/**
+	 * Menu Controller
+	 * @param gameManager
+	 */
 	public MenuController(GameManager gameManager) {
 		super();
 		this.gameManager = gameManager;
 	}
-
+	/**
+	 * Menu Controller
+	 */
 	public MenuController() {
 		super();
 	}
-
+	/**
+	 * Get Game Manager
+	 * @return
+	 */
 	public GameManager getGameManager() {
 		return gameManager;
 	}
-
+	/**
+	 * Set Game Manager
+	 * @param gameManager
+	 */
 	public void setGameManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 	}
-
+	/**
+	 * Get File Name
+	 * @return
+	 */
 	public String getFileName() {
 		return fileName;
 	}
-
+	/**
+	 * Set File Name
+	 * @param fileName
+	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	/**
+	 * Load Game
+	 */
 	public void loadGame() {
 		try {
 			File xmlFile = new File(fileName);
@@ -137,7 +162,9 @@ public class MenuController {
 		}
 
 	}
-
+	/**
+	 * SaveGame
+	 */
 	public void saveGame() {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory

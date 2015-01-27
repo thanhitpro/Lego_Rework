@@ -5,26 +5,44 @@ import java.util.ArrayList;
 import remixlab.dandelion.geom.Vec;
 
 public class BoxCollider {
+	/**
+	 * Boxes
+	 */
 	private ArrayList<Box> boxes;
-
+	/**
+	 * Get Boxes
+	 * @return
+	 */
 	public ArrayList<Box> getBoxes() {
 		return boxes;
 	}
-
+	/**
+	 * Set Boxes
+	 * @param boxes
+	 */
 	public void setBoxes(ArrayList<Box> boxes) {
 		this.boxes = boxes;
 	}
-
+	/**
+	 * Add Box
+	 * @param box
+	 */
 	public void addBox(Box box) {
 		if (box == null)
 			return;
 		boxes.add(box);
 	}
-
+	/**
+	 * Box Collider
+	 */
 	public BoxCollider() {
 		boxes = new ArrayList<Box>();
 	}
-
+	/**
+	 * Container
+	 * @param point
+	 * @return
+	 */
 	public boolean Container(Vec point) {
 		if (point == null)
 			return false;

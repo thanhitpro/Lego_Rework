@@ -7,14 +7,31 @@ import java.util.Hashtable;
 import magiclab.lego.util.Util;
 
 public class BrickFactory {
+	/**
+	 * m_Register Bricks
+	 */
 	@SuppressWarnings("rawtypes")
 	private Dictionary<String, Class> m_RegisterBricks = new Hashtable<String, Class>();
-
+	/**
+	 * Register Brick
+	 * @param brickName
+	 * @param brickClass
+	 */
 	@SuppressWarnings("rawtypes")
 	public void registerBrick(String brickName, Class brickClass) {
 		m_RegisterBricks.put(brickName, brickClass);
 	}
-
+	/**
+	 * CreateBrick
+	 * @param brickName
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
 	public Brick createBrick(String brickName) throws NoSuchMethodException,
 			SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {

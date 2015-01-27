@@ -9,9 +9,19 @@ import magiclab.lego.util.Util;
 import remixlab.dandelion.geom.Vec;
 
 public class GroupBrickState extends GameState {
+	/**
+	 * Brick States
+	 */
 	private ArrayList<Brick> brickStates;
+	/**
+	 * Brick Position
+	 */
 	private ArrayList<Vec> brickPosition;
+	/**
+	 * Brick Position Before Rotate
+	 */
 	private ArrayList<Vec> brickPositionBeforeRotate;
+
 	private ArrayList<Vec> connectedPoint;
 	private int timesRotation = 0;
 	private Vec connectPoint;
@@ -24,6 +34,9 @@ public class GroupBrickState extends GameState {
 		this.connectPoint = connectPoint;
 	}
 
+	/**
+	 * Group Brick State
+	 */
 	public GroupBrickState() {
 		brickPosition = new ArrayList<Vec>();
 		brickPositionBeforeRotate = new ArrayList<Vec>();
@@ -39,28 +52,46 @@ public class GroupBrickState extends GameState {
 	public void setConnectedPoint(ArrayList<Vec> connectedPoint) {
 		this.connectedPoint = connectedPoint;
 	}
-
+	/**
+	 * Get Brick Position Before Rotate
+	 * @return
+	 */
 	public ArrayList<Vec> getBrickPositionBeforeRotate() {
 		return brickPositionBeforeRotate;
 	}
-
+	/**
+	 * Set Brick Position Before Rotate
+	 * @param brickPositionBeforeRotate
+	 */
 	public void setBrickPositionBeforeRotate(
 			ArrayList<Vec> brickPositionBeforeRotate) {
 		this.brickPositionBeforeRotate = brickPositionBeforeRotate;
 	}
-
+	/**
+	 * Get Brick States
+	 * @return
+	 */
 	public ArrayList<Brick> getBrickStates() {
 		return brickStates;
 	}
-
+	/**
+	 * Set Brick States
+	 * @param brickStates
+	 */
 	public void setBrickStates(ArrayList<Brick> brickStates) {
 		this.brickStates = brickStates;
 	}
-
+	/**
+	 * Get Brick Position
+	 * @return
+	 */
 	public ArrayList<Vec> getBrickPosition() {
 		return brickPosition;
 	}
-
+	/**
+	 * Set Brick Position
+	 * @param brickPosition
+	 */
 	public void setBrickPosition(ArrayList<Vec> _brickPosition) {
 		for (int i = 0; i < brickPosition.size(); i++) {
 			brickPosition.set(i, Util.newVecFromVec(_brickPosition.get(i)));
@@ -90,7 +121,9 @@ public class GroupBrickState extends GameState {
 			timesRotation--;
 		}
 	}
-
+	/**
+	 * Reset
+	 */
 	public void reset() {
 		brickPosition.clear();
 		brickStates.clear();

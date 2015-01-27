@@ -79,6 +79,11 @@ public class Util {
 	public static boolean ROTATE_A_CIRCLE = false;
 	public static boolean ROTATE_A_CIRCLE_2 = false;;
 
+	public static PImage eyeImage;
+
+	/**
+	 * Load Model Name
+	 */
 	public static void LoadModelName() {
 		MODEL_NAME_LIST = new ArrayList<String>();
 		BufferedReader in;
@@ -117,6 +122,9 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Load Calibrate Vec
+	 */
 	@SuppressWarnings("resource")
 	public static void LoadCalibrateVec() {
 		CALIBRATE_VEC_MODEL = new ArrayList<Vec>();
@@ -163,6 +171,12 @@ public class Util {
 		return new Vec(rotatedX, rotatedY, myPoint.z());
 	}
 
+	/**
+	 * New Vec From Vec
+	 * 
+	 * @param vec
+	 * @return
+	 */
 	public static Vec newVecFromVec(Vec vec) {
 		if (vec == null)
 			return null;
