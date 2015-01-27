@@ -11,7 +11,7 @@
 				<translatefordraw x="0" y="0" z="0" />
 				<dots numberofdot="1">
 					<dot id="0">
-						<position x="0" y="0" z="0" />
+						<position x="0" y="0" z="0"/>
 					</dot>
 				</dots>
 				<boxcolliders numberofboxcolider="1">
