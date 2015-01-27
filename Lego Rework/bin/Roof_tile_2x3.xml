@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<brick>
+	<model id="10">
+		<name>Roof_tile_2x3</name>
+		<defaultsizebrick x="2" y="3" z="1" />
+		<calibratevec x="20" y="30" z="24" />
+		<extrapositionvec x="0" y="0" z="4" />
+		<rotations numberofrotation="4">
+			<rotation id="0">
+				<sizebrick x="2" y="3" z="1" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="2">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="0" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="3" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="1">
+				<sizebrick x="3" y="2" z="1" />
+				<translatefordraw x="10" y="-10" z="0" />
+				<dots numberofdot="2">
+					<dot id="0">
+						<position x="0" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="0" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="3" height="2" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="2">
+				<sizebrick x="2" y="3" z="1" />
+				<translatefordraw x="0" y="0" z="0" />
+				<dots numberofdot="2">
+					<dot id="0">
+						<position x="0" y="2" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="1" y="2" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="2" height="3" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+			<rotation id="3">
+				<sizebrick x="3" y="2" z="1" />
+				<translatefordraw x="10" y="-10" z="0" />
+				<dots numberofdot="2">
+					<dot id="0">
+						<position x="2" y="0" z="0" />
+					</dot>
+					<dot id="1">
+						<position x="2" y="1" z="0" />
+					</dot>
+				</dots>
+				<boxcolliders numberofboxcolider="1">
+					<box id="0">
+						<position x="0" y="0" z="0" />
+						<size width="3" height="2" depth="1" />
+					</box>
+				</boxcolliders>
+			</rotation>
+		</rotations>
+	</model>
+</brick>

@@ -33,6 +33,7 @@ public class MoveCommand implements ICommand {
 			Brick temp = addBricks.get(i);
 			temp.setTranslation(brickPosition.get(i));
 			bricks.add(temp);
+			temp.generateInitData();
 		}
 		copiedBrickIDMulti.getBrickStates().clear();
 	}

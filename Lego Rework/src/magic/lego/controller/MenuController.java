@@ -106,7 +106,9 @@ public class MenuController {
 				int timesRotate = Integer.valueOf(xPath.compile(
 						"/Bricks/Brick[@id = " + i + "]/@timeRotation")
 						.evaluate(doc));
-				brick.setTimesRotation(timesRotate);
+				for (int j = 0; j < timesRotate; j++) {
+					brick.increaseTimesRotate();
+				}
 
 				String rotationValue[] = xPath
 						.compile(

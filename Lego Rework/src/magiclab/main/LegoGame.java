@@ -19,6 +19,9 @@ public class LegoGame extends PApplet {
 	int count = 0;
 	float frameRateTotal = 0.0f;
 	public boolean testEnable = false;
+	public boolean rotateCamera = false;
+	public int scaleFactor = 0;
+	boolean placeABrick = false;
 
 	@Override
 	public void setup() {
@@ -41,8 +44,7 @@ public class LegoGame extends PApplet {
 
 	@Override
 	public void draw() {
-
-		if (testEnable) {
+		if (testEnable && rotateCamera) {
 			rotateY(frameCount * 0.01f);
 			rotateX(frameCount * 0.01f);
 		}
@@ -74,10 +76,16 @@ public class LegoGame extends PApplet {
 	 */
 
 	private void drawScene() {
-		gameManager.drawPlane();
-		gameManager.drawBrickFollowMouse();
-		gameManager.drawBrickOnPlane();
-		gameManager.drawBoxCoverBrickHovered();
+
+		if (testEnable) {
+			gameManager.drawBrickByVertex();
+		} else {
+			gameManager.drawPlane();
+			gameManager.drawBrickFollowMouse();
+			gameManager.drawBrickOnPlane();
+			gameManager.drawBoxCoverBrickHovered();
+		}
+
 		fill(255);
 	}
 
@@ -90,6 +98,17 @@ public class LegoGame extends PApplet {
 		// System.out.println("t "+ scene.camera().frame().translation());
 		gameManager.keyPressedProcess();
 		// System.out.println(frameRate);
+		if (testEnable && keyCode == 83) {
+			rotateCamera = true;
+		}
+
+		if (testEnable && keyCode == 69) {
+			rotateCamera = false;
+		}
+		if (key == ESC) {
+			key = 0;
+			gameManager.escProcess();
+		}
 	}
 
 	@Override
@@ -134,6 +153,24 @@ public class LegoGame extends PApplet {
 	}
 
 	@Override
+	public void mouseWheel(MouseEvent event) {
+		// TODO Auto-generated method stub
+		super.mouseWheel(event);
+		int tempScaleFactor = scaleFactor;
+		scaleFactor += event.getCount();
+		if (scaleFactor > -120) {
+			scene.enableMotionAgent();
+		} else {
+			scene.disableMotionAgent();
+		}
+
+		if (scaleFactor <= -120 && tempScaleFactor < scaleFactor) {
+			scene.enableMotionAgent();
+			scaleFactor = -120;
+		}
+	}
+
+	@Override
 	public void mouseMoved() {
 		super.mouseMoved();
 
@@ -152,6 +189,9 @@ public class LegoGame extends PApplet {
 			objectPicking();
 			gameManager.mouseHoverProcess();
 		}
+
+		scene.enableMotionAgent();
+		scaleFactor = -59;
 	}
 
 	@Override
@@ -160,20 +200,27 @@ public class LegoGame extends PApplet {
 		super.mouseReleased(event);
 		if (!testEnable) {
 			gameManager.mouseReleased();
+			placeABrick = false;
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		super.mouseClicked(event);
+		if (event.getClickCount() > 1 && placeABrick) {
+			gameManager.undo();
+		}
 		if (!testEnable) {
 			if (gameManager.getObjectSelected().getIndexNameObject() != 1) {
 				gameManager.placeBrick();
+				placeABrick = true;
 			} else {
 				gameManager.selectBrick();
 			}
 		}
 	}
+	
 
 	public void projection(Vec vec) {
 		/*
@@ -235,6 +282,9 @@ public class LegoGame extends PApplet {
 			return;
 		int i = 0;
 		tempBox = new ArrayList<Vec>();
+		// Vec firstPosition = Vec.add(WS_Start, Vec.multiply(WS_Direc,
+		// scene.camera().zNear()));
+
 		while (true) {
 			Vec pos = new Vec();
 			pos = Vec.add(WS_Start,
@@ -245,8 +295,6 @@ public class LegoGame extends PApplet {
 				break;
 			} else {
 				if (pos.z() < 0) {
-					// gameManager.checkExpandPlane(pos);
-					// System.out.println("1: " + pos);
 					break;
 				}
 			}
@@ -277,11 +325,13 @@ public class LegoGame extends PApplet {
 
 	public void newGame() {
 		gameManager.resetGame();
+		gameManager.removeGroupBrick();
 	}
 
 	public void loadGame(String path) {
 		gameManager.getMenuController().setFileName(path);
 		gameManager.getMenuController().loadGame();
+		gameManager.removeGroupBrick();
 	}
 
 	public void saveGame(String path) {
@@ -291,6 +341,7 @@ public class LegoGame extends PApplet {
 
 	public void selectBrick(int i) {
 		gameManager.changeBrick(i);
+		gameManager.removeGroupBrick();
 	}
 
 	public void setColor(Vec vec) {
@@ -307,5 +358,9 @@ public class LegoGame extends PApplet {
 
 	public void paste() {
 		gameManager.paste();
+	}
+
+	public void selectAll() {
+		gameManager.selectAll();
 	}
 }

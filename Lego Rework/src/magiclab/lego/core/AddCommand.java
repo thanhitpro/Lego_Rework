@@ -18,6 +18,7 @@ public class AddCommand implements ICommand {
 	public void Execute() {
 		for (int i = 0; i < addBricks.size(); i++) {
 			bricks.add(addBricks.get(i));
+			addBricks.get(i).generateInitData();
 		}
 	}
 

@@ -27,6 +27,8 @@ public class UndoRedo {
 	}
 
 	public void undo(int levels) {
+		if (_Undocommands.size() == 0)
+			return;
 		for (int i = 1; i <= levels; i++) {
 			if (_Undocommands.size() != 0) {
 				ICommand command = _Undocommands.pop();
@@ -47,6 +49,8 @@ public class UndoRedo {
 	}
 
 	public void redo(int levels) {
+		if (_Redocommands.size() == 0)
+			return;
 		for (int i = 1; i <= levels; i++) {
 			if (_Redocommands.size() != 0) {
 				ICommand command = _Redocommands.pop();
@@ -94,5 +98,19 @@ public class UndoRedo {
 				brickPosition);
 		_Undocommands.push(cmd);
 		_Redocommands.clear();
+	}
+
+	public void escProcess() {
+		if (_Undocommands.size() == 0)
+			return;
+		if (_Undocommands.size() != 0) {
+			ICommand commandPrev = _Undocommands.pop();
+			if (commandPrev.getClass() != MoveCommand.class) {
+				_Undocommands.push(commandPrev);
+			} else {
+				commandPrev.UnExecute();
+				_Redocommands.push(commandPrev);
+			}
+		}
 	}
 }

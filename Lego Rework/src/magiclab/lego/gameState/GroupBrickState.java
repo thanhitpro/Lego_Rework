@@ -62,7 +62,7 @@ public class GroupBrickState extends GameState {
 	}
 
 	public void setBrickPosition(ArrayList<Vec> _brickPosition) {
-		for (int i = 0; i < brickPosition.size(); i++) {
+		for (int i = 0; i < _brickPosition.size(); i++) {
 			brickPosition.set(i, Util.newVecFromVec(_brickPosition.get(i)));
 		}		
 	}

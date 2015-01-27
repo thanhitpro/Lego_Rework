@@ -24,6 +24,7 @@ public class RemoveCommand implements ICommand {
 	public void UnExecute() {
 		for (int i = 0; i < addBricks.size(); i++) {
 			bricks.add(addBricks.get(i));
+			addBricks.get(i).generateInitData();
 		}
 	}
 

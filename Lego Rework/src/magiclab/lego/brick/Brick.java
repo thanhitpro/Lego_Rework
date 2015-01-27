@@ -91,11 +91,46 @@ public class Brick implements DrawableObject {
 	 */
 	protected ArrayList<Square> squareOnTopBrick;
 	protected Vec translationBeforeRotate;
+	protected ArrayList<Vec> eightPoint;
 
 	public Brick() {
 		super();
 		color = new Vec(230, 0, 0);
 		squareOnTopBrick = new ArrayList<Square>();
+		eightPoint = new ArrayList<Vec>();
+	}
+
+	public Brick(Brick iBrick) {
+		super();
+		this.model = iBrick.model;
+		this.modelName = iBrick.modelName;
+		this.boundingPointOfBox = iBrick.boundingPointOfBox;
+		this.scaleRatio = iBrick.scaleRatio;
+		this.rotation = Util.newVecFromVec(iBrick.rotation);
+		this.sizeBrick = Util.newVecFromVec(iBrick.sizeBrick);
+		this.translation = Util.newVecFromVec(iBrick.translation);
+		this.xmlBrick = iBrick.xmlBrick;
+		this.boxCollider = iBrick.boxCollider;
+		this.calibrateVec = Util.newVecFromVec(iBrick.calibrateVec);
+		this.translateForDrawAfterRotate = Util
+				.newVecFromVec(iBrick.translateForDrawAfterRotate);
+		this.firstInit = iBrick.firstInit;
+		this.timesRotation = iBrick.timesRotation;
+		this.id = iBrick.id;
+		this.color = Util.newVecFromVec(iBrick.color);
+		this.deleteFlag = iBrick.deleteFlag;
+		this.squareOnTopBrick = iBrick.squareOnTopBrick;
+		this.translationBeforeRotate = Util
+				.newVecFromVec(iBrick.translationBeforeRotate);
+		this.eightPoint = iBrick.eightPoint;
+	}
+
+	public ArrayList<Vec> getEightPoint() {
+		return eightPoint;
+	}
+
+	public void setEightPoint(ArrayList<Vec> eightPoint) {
+		this.eightPoint = eightPoint;
 	}
 
 	public void LoadModel(String modelFileName) {
@@ -582,4 +617,38 @@ public class Brick implements DrawableObject {
 
 	}
 
+	public ArrayList<Vec> generateEightPoint() {
+		Vec vec0 = Util.newVecFromVec(translation);
+		Vec vec1 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y(), translation.z());
+		Vec vec2 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y() + sizeBrick.y() * Util.BRICK_SIZE,
+				translation.z());
+		Vec vec3 = new Vec(translation.x(), translation.y() + sizeBrick.y()
+				* Util.BRICK_SIZE, translation.z());
+		Vec vec4 = new Vec(translation.x(), translation.y(), translation.z()
+				+ sizeBrick.z() * Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+		Vec vec5 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y(), translation.z() + sizeBrick.z()
+						* Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+		Vec vec6 = new Vec(translation.x() + sizeBrick.x() * Util.BRICK_SIZE,
+				translation.y() + sizeBrick.y() * Util.BRICK_SIZE,
+				translation.z() + sizeBrick.z() * Util.BRICK_HEIGHT
+						+ Util.BRICK_DOT_HEIGHT);
+		Vec vec7 = new Vec(translation.x(), translation.y() + sizeBrick.y()
+				* Util.BRICK_SIZE, translation.z() + sizeBrick.z()
+				* Util.BRICK_HEIGHT + Util.BRICK_DOT_HEIGHT);
+
+		eightPoint = new ArrayList<Vec>();
+		eightPoint.add(vec0);
+		eightPoint.add(vec1);
+		eightPoint.add(vec2);
+		eightPoint.add(vec3);
+		eightPoint.add(vec4);
+		eightPoint.add(vec5);
+		eightPoint.add(vec6);
+		eightPoint.add(vec7);
+
+		return eightPoint;
+	}
 }

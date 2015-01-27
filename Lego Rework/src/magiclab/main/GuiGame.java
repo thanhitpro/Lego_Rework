@@ -71,9 +71,10 @@ public class GuiGame extends JFrame {
 	private static ArrayList<String> collapsedIcon = new ArrayList<String>();
 	public static String FPS = "Playing game";
 	public static Text statusText = new Text(FPS);
+	public static String appName = "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램";
 
 	public GuiGame() {
-		super("Untitled" + " - Lego");
+		super("Untitled" + " - " + "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램");
 		javafxPanel = new JFXPanel();
 		javafxMenu = new JFXPanel();
 		javafxToolbar = new JFXPanel();
@@ -289,6 +290,17 @@ public class GuiGame extends JFrame {
 				saveGame();
 			}
 		});
+
+		MenuItem menuSaveAs = new MenuItem("Save As");
+		menuSaveAs.setAccelerator(new KeyCodeCombination(KeyCode.S,
+				KeyCombination.CONTROL_DOWN, KeyCombination.ALT_DOWN));
+		menuSaveAs.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				saveGameAs();
+			}
+		});
+
 		MenuItem menuExit = new MenuItem("Exit");
 		menuExit.setAccelerator(new KeyCodeCombination(KeyCode.Q,
 				KeyCombination.CONTROL_DOWN));
@@ -301,6 +313,7 @@ public class GuiGame extends JFrame {
 		menuFile.getItems().add(menuNew);
 		menuFile.getItems().add(menuOpen);
 		menuFile.getItems().add(menuSave);
+		menuFile.getItems().add(menuSaveAs);
 		menuFile.getItems().add(menuExit);
 
 		final Menu menuEdit = new Menu("Edit");
@@ -351,13 +364,24 @@ public class GuiGame extends JFrame {
 			}
 		});
 		MenuItem menuRedo = new MenuItem("Redo");
-		menuRedo.setAccelerator(new KeyCodeCombination(KeyCode.Y,
-				KeyCombination.CONTROL_DOWN));
+		menuRedo.setAccelerator(new KeyCodeCombination(KeyCode.Z,
+				KeyCombination.CONTROL_DOWN, KeyCombination.ALT_DOWN));
 		menuRedo.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				legoGame.redo();
+			}
+		});
+		
+		MenuItem selectAll = new MenuItem("Select All");
+		selectAll.setAccelerator(new KeyCodeCombination(KeyCode.A,
+				KeyCombination.CONTROL_DOWN));
+		selectAll.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.selectAll();
 			}
 		});
 
@@ -366,6 +390,7 @@ public class GuiGame extends JFrame {
 		menuEdit.getItems().add(menuPaste);
 		menuEdit.getItems().add(menuUndo);
 		menuEdit.getItems().add(menuRedo);
+		menuEdit.getItems().add(selectAll);
 
 		final Menu menuHelp = new Menu("Help");
 		MenuItem menuHelpItem = new MenuItem("Help");
@@ -384,15 +409,12 @@ public class GuiGame extends JFrame {
 				legoGame.testEnable = false;
 				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 10;
 				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 10;
-				legoGame.gameManager.getPlaneLego().setup();
-				legoGame.gameManager.setupPlane();
-				legoGame.gameManager.getBricks().clear();
 				legoGame.gameManager.setTestCase(0);
 				legoGame.gameManager.setDisableBrickFollowMouse(false);
 
 			}
 		});
-		MenuItem menuTest1 = new MenuItem("Test 1");
+		MenuItem menuTest1 = new MenuItem("100 000 tris");
 		menuTest1.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -400,17 +422,13 @@ public class GuiGame extends JFrame {
 				legoGame.testEnable = true;
 				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
 				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
-				legoGame.gameManager.getPlaneLego().setup();
-				legoGame.gameManager.setupPlane();
-				legoGame.gameManager.getBricks().clear();
 				legoGame.gameManager.setTestCase(1316);
-				legoGame.gameManager.generateBricks();
 				legoGame.gameManager.setDisableBrickFollowMouse(true);
-				legoGame.scene.camera().setPosition(new Vec(0, 2000, 1250));
+				legoGame.scene.camera().setPosition(new Vec(0, 6800, 4000));
 
 			}
 		});
-		MenuItem menuTest2 = new MenuItem("Test 2");
+		MenuItem menuTest2 = new MenuItem("300 000 tris");
 		menuTest2.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -418,16 +436,12 @@ public class GuiGame extends JFrame {
 				legoGame.testEnable = true;
 				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
 				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
-				legoGame.gameManager.getPlaneLego().setup();
-				legoGame.gameManager.setupPlane();
-				legoGame.gameManager.getBricks().clear();
 				legoGame.gameManager.setTestCase(3948);
-				legoGame.gameManager.generateBricks();
 				legoGame.gameManager.setDisableBrickFollowMouse(true);
-				legoGame.scene.camera().setPosition(new Vec(0, 2300, 1400));
+				legoGame.scene.camera().setPosition(new Vec(0, 6800, 4000));
 			}
 		});
-		MenuItem menuTest3 = new MenuItem("Test 3");
+		MenuItem menuTest3 = new MenuItem("500 000 tris");
 		menuTest3.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -435,19 +449,31 @@ public class GuiGame extends JFrame {
 				legoGame.testEnable = true;
 				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
 				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
-				legoGame.gameManager.getPlaneLego().setup();
-				legoGame.gameManager.setupPlane();
-				legoGame.gameManager.getBricks().clear();
 				legoGame.gameManager.setTestCase(6579);
-				legoGame.gameManager.generateBricks();
 				legoGame.gameManager.setDisableBrickFollowMouse(true);
-				legoGame.scene.camera().setPosition(new Vec(0, 3200, 2000));
+				legoGame.scene.camera().setPosition(new Vec(0, 6800, 4000));
 			}
 		});
+
+		MenuItem menuTest4 = new MenuItem("1 000 000 tris");
+		menuTest4.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				legoGame.testEnable = true;
+				Util.LEFT_WIDTH = Util.RIGHT_WIDTH = Util.DOWN_HEIGHT = Util.UP_HEIGHT = 20;
+				Util.LEFT_WIDTH_DEFAULT = Util.RIGHT_WIDTH_DEFAULT = Util.DOWN_HEIGHT_DEFAULT = Util.UP_HEIGHT_DEFAULT = 20;
+				legoGame.gameManager.setTestCase(13158);
+				legoGame.gameManager.setDisableBrickFollowMouse(true);
+				legoGame.scene.camera().setPosition(new Vec(0, 6800, 4000));
+			}
+		});
+
 		menuTest.getItems().add(menuNormal);
 		menuTest.getItems().add(menuTest1);
 		menuTest.getItems().add(menuTest2);
 		menuTest.getItems().add(menuTest3);
+		menuTest.getItems().add(menuTest4);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().add(menuFile);
@@ -458,6 +484,30 @@ public class GuiGame extends JFrame {
 		root.getChildren().add(menuBar);
 
 		return (scene);
+	}
+
+	public static void saveGameAs() {
+		if (filePath == null) {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save as");
+			fileChooser.setInitialDirectory(new File("save"));
+			fileChooser.getExtensionFilters().addAll(
+					new FileChooser.ExtensionFilter("xml", "*.xml"),
+					new FileChooser.ExtensionFilter("All File", "*.*"));
+			File file = fileChooser.showSaveDialog(null);
+			if (file != null) {
+				filePath = file.getPath();
+				fileName = file.getName();
+			} else {
+				return;
+			}
+		}
+
+		if (filePath != null) {
+			exampleFrame.setTitle(fileName + " -  " + "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램");
+			legoGame.saveGame(filePath);
+			legoGame.gameManager.setGameModified(false);
+		}
 	}
 
 	public static void closeGame() {
@@ -491,7 +541,7 @@ public class GuiGame extends JFrame {
 		legoGame.newGame();
 		fileName = "Untitled";
 		filePath = null;
-		exampleFrame.setTitle(fileName + " - Lego");
+		exampleFrame.setTitle(fileName + " -  " + "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램");
 		legoGame.gameManager.setGameModified(false);
 	}
 
@@ -514,7 +564,7 @@ public class GuiGame extends JFrame {
 			fileName = file.getName();
 			filePath = file.getPath();
 			legoGame.loadGame(filePath);
-			exampleFrame.setTitle(fileName + " - Lego");
+			exampleFrame.setTitle(fileName + " -  " + "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램");
 			legoGame.gameManager.setGameModified(false);
 		}
 	}
@@ -536,7 +586,7 @@ public class GuiGame extends JFrame {
 			}
 		}
 		if (filePath != null) {
-			exampleFrame.setTitle(fileName + " - Lego");
+			exampleFrame.setTitle(fileName + " -  " + "Processing 2 언어기반 3차원 가상현실 블록조립 프로그램");
 			legoGame.saveGame(filePath);
 			legoGame.gameManager.setGameModified(false);
 		}

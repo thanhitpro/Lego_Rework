@@ -59,7 +59,7 @@ public class Box {
 		this.size = Util.newVecFromVec(size);
 	}
 
-	public boolean Container(Vec point) {
+	public boolean checkContainer(Vec point) {
 		if (point == null)
 			return false;
 		if (point.x() >= position.x() && point.x() <= (position.x() + width)

@@ -1,5 +1,6 @@
 package magiclab.lego.util;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +36,8 @@ public class Util {
 	public static int RIGHT_WIDTH_FIX = 10;
 	public static int UP_HEIGHT_FIX = 10;
 	public static int DOWN_HEIGHT_FIX = 10;
+	public static int WIDTH_MAX = 50;
+	public static int HEIGHT_MAX = 50;
 	public static String BRICK_2x1 = "brick_2x1";
 	public static int PLANE_WIDTH = 20;
 	public static int PLANE_HEIGHT = 20;
@@ -52,7 +55,7 @@ public class Util {
 	public static ArrayList<Vec> EXTRA_POSITION_VEC;
 	public static double PI = Math.PI;
 	public static String KEY_SWITCH_BRICK = "0123456789";
-	public static boolean DRAW_AXES = true;
+	public static boolean DRAW_AXES = false;
 	public static String FONT_FILE_NAME_DEFAULT = "SegoeUI-Light-48.vlw";
 	public static int FONT_SIZE_DEFAULT = 48;
 	public static Dictionary<String, XmlBrick> XML_BRICK_DICTIONARY = new Hashtable<String, XmlBrick>();
@@ -152,16 +155,27 @@ public class Util {
 	}
 
 	public static Vec rotateAroundAPoint(float angle, Vec origin, Vec myPoint) {
-		angle = (float) ((angle ) * (Math.PI/180)); // Convert to radians
-        float rotatedX = (float) (Math.cos(angle) * (myPoint.x() - origin.x()) - Math.sin(angle) * (myPoint.y()-origin.y()) + origin.x());
-        float rotatedY = (float) (Math.sin(angle) * (myPoint.x() - origin.x()) + Math.cos(angle) * (myPoint.y() - origin.y()) + origin.y());
+		angle = (float) ((angle) * (Math.PI / 180)); // Convert to radians
+		float rotatedX = (float) (Math.cos(angle) * (myPoint.x() - origin.x())
+				- Math.sin(angle) * (myPoint.y() - origin.y()) + origin.x());
+		float rotatedY = (float) (Math.sin(angle) * (myPoint.x() - origin.x())
+				+ Math.cos(angle) * (myPoint.y() - origin.y()) + origin.y());
 
-        return new Vec(rotatedX,rotatedY, myPoint.z());
+		return new Vec(rotatedX, rotatedY, myPoint.z());
 	}
 
 	public static Vec newVecFromVec(Vec vec) {
 		if (vec == null)
 			return null;
 		return new Vec(vec.x(), vec.y(), vec.z());
+	}
+	
+	public static Point GetScreenspaceCoords(Vec iPoint) {
+		float[] windowCoordinate = new float[3];
+		Util.CURRENT_SCENE.camera().project(iPoint.x(), iPoint.y(), iPoint.z(),
+				windowCoordinate);
+		Point point = new Point((int) windowCoordinate[0],
+				(int) windowCoordinate[1]);
+		return point;
 	}
 }

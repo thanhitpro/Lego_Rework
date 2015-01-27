@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Bricks size="3">
+	<Brick id="0" modelName="Brick_1x2" timeRotation="0">
+		<Color value="230.0 0.0 0.0" />
+		<Position value="-40.0 40.0 0.0" />
+		<Rotation value="1.5707964 0.0 0.0" />
+		<TranslateForDraw value="0.0 0.0 0.0" />
+	</Brick>
+	<Brick id="1" modelName="Brick_1x2" timeRotation="0">
+		<Color value="230.0 0.0 0.0" />
+		<Position value="0.0 40.0 0.0" />
+		<Rotation value="1.5707964 0.0 0.0" />
+		<TranslateForDraw value="0.0 0.0 0.0" />
+	</Brick>
+	<Brick id="2" modelName="Brick_1x10" timeRotation="1">
+		<Color value="230.0 0.0 0.0" />
+		<Position value="80.0 -100.0 0.0" />
+		<Rotation value="1.5707964 -1.5707964 0.0" />
+		<TranslateForDraw value="-90.0 90.0 0.0" />
+	</Brick>
+</Bricks>

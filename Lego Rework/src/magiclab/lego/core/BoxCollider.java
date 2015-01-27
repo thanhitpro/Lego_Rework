@@ -32,7 +32,7 @@ public class BoxCollider {
 			Box box = boxes.get(i);
 			if (box == null)
 				return false;
-			if (box.Container(point))
+			if (box.checkContainer(point))
 				return true;
 		}
 
