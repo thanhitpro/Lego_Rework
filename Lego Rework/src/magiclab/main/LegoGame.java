@@ -19,6 +19,8 @@ public class LegoGame extends PApplet {
 	int count = 0;
 	float frameRateTotal = 0.0f;
 	public boolean testEnable = false;
+	public boolean rotateCamera = false;
+	public int scaleFactor = 0;
 
 	@Override
 	public void setup() {
@@ -42,7 +44,7 @@ public class LegoGame extends PApplet {
 	@Override
 	public void draw() {
 
-		if (testEnable) {
+		if (testEnable && rotateCamera) {
 			rotateY(frameCount * 0.01f);
 			rotateX(frameCount * 0.01f);
 		}
@@ -91,6 +93,13 @@ public class LegoGame extends PApplet {
 		// System.out.println("t "+ scene.camera().frame().translation());
 		gameManager.keyPressedProcess();
 		// System.out.println(frameRate);
+		if (testEnable && keyCode == 83) {
+			rotateCamera = true;
+		}
+
+		if (testEnable && keyCode == 69) {
+			rotateCamera = false;
+		}
 	}
 
 	@Override

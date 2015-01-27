@@ -641,7 +641,7 @@ public class GameManager {
 	 * drawBrickFollowMouse
 	 */
 	public void drawBrickFollowMouse() {
-		if (holdControlKey && groupBrickStates.getBrickStates().size() <= 0) {
+		if (holdControlKey && groupBrickStates.getBrickStates().size() < 0) {
 			disableBrickFollowMouse = true;
 		}
 		if (brickFollowMouse != null && disableBrickFollowMouse == false) {
@@ -1528,7 +1528,6 @@ public class GameManager {
 	}
 
 	public void drawBrickOnPlane() {
-
 		try {
 			for (int i = 0; i < bricks.size(); i++) {
 				Brick brick = bricks.get(i);
@@ -1554,8 +1553,6 @@ public class GameManager {
 						parent.color(brick.getColor().x(), bricks.get(i)
 								.getColor().y(), brick.getColor().z()));
 				parent.shape(brick.getModel());
-
-				brick.draw();
 				parent.popMatrix();
 			}
 		} catch (Exception ex) {
@@ -1678,6 +1675,9 @@ public class GameManager {
 					/ Util.BRICK_SIZE));
 			// System.out.println("1: " + expandedValue);
 			Util.DOWN_HEIGHT += expandedValue;
+			if (Util.DOWN_HEIGHT + Util.UP_HEIGHT > Util.HEIGHT_MAX) {
+				Util.DOWN_HEIGHT = Util.HEIGHT_MAX - Util.UP_HEIGHT;
+			}
 		}
 
 		// Top
@@ -1687,6 +1687,9 @@ public class GameManager {
 					/ Util.BRICK_SIZE));
 			// System.out.println("2: " + expandedValue);
 			Util.UP_HEIGHT += expandedValue;
+			if (Util.DOWN_HEIGHT + Util.UP_HEIGHT > Util.HEIGHT_MAX) {
+				Util.UP_HEIGHT = Util.HEIGHT_MAX - Util.DOWN_HEIGHT;
+			}
 		}
 
 		// Right
@@ -1696,6 +1699,9 @@ public class GameManager {
 					/ Util.BRICK_SIZE));
 			// /System.out.println("3: " + expandedValue);
 			Util.RIGHT_WIDTH += expandedValue;
+			if (Util.RIGHT_WIDTH + Util.LEFT_WIDTH > Util.WIDTH_MAX) {
+				Util.RIGHT_WIDTH = Util.WIDTH_MAX - Util.LEFT_WIDTH;
+			}
 		}
 
 		// Left
@@ -1705,6 +1711,9 @@ public class GameManager {
 					/ Util.BRICK_SIZE));
 			// System.out.println("4: " + expandedValue);
 			Util.LEFT_WIDTH += expandedValue;
+			if (Util.RIGHT_WIDTH + Util.LEFT_WIDTH > Util.WIDTH_MAX) {
+				Util.LEFT_WIDTH = Util.WIDTH_MAX - Util.RIGHT_WIDTH;
+			}
 		}
 		if (Util.LEFT_WIDTH >= Util.LEFT_WIDTH_DEFAULT
 				|| Util.RIGHT_WIDTH >= Util.RIGHT_WIDTH_DEFAULT

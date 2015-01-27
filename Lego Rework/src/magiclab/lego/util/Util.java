@@ -23,6 +23,8 @@ public class Util {
 	public static final float BRICK_SIZE = 20;
 	public static final float BRICK_HEIGHT = 24;
 	public static final float BRICK_DOT_HEIGHT = 4;
+	public static final int HEIGHT_MAX = 100;
+	public static final int WIDTH_MAX = 100;
 	public static String FPS = "60.005";
 	public static int LEFT_WIDTH = 10;
 	public static int RIGHT_WIDTH = 10;

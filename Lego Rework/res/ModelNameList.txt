@@ -48,7 +48,6 @@ Plate_2x3
 Plate_2x4
 Plate_2x6
 Plate_2x8
-Plate_Center_Stud_1x2
 _Tile
 Tile_1x1
 Tile_1x2
