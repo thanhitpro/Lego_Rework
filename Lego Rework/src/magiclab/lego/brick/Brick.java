@@ -90,14 +90,22 @@ public class Brick implements DrawableObject {
 	 * All square on top brick
 	 */
 	protected ArrayList<Square> squareOnTopBrick;
+	/**
+	 * Translation Before Rotate
+	 */
 	protected Vec translationBeforeRotate;
-
+	/**
+	 * Brick
+	 */
 	public Brick() {
 		super();
 		color = new Vec(230, 0, 0);
 		squareOnTopBrick = new ArrayList<Square>();
 	}
-
+	/**
+	 * Load Model
+	 * @param modelFileName
+	 */
 	public void LoadModel(String modelFileName) {
 		if (Util.XML_BRICK_DICTIONARY.get(modelName) != null
 				&& Util.XML_BRICK_DICTIONARY.get(modelName).isFinishLoading()) {
@@ -112,135 +120,263 @@ public class Brick implements DrawableObject {
 		calibrateVec = xmlBrick.getCalibrateVec();
 		sizeBrick = xmlBrick.getDefaultSizeBrick();
 	}
-
+	/**
+	 * Get Model
+	 * @return
+	 */
 	public PShape getModel() {
 		return model;
 	}
-
+	/**
+	 * Set Model
+	 * @param model
+	 */
 	public void setModel(PShape model) {
 		this.model = model;
 	}
-
+	/**
+	 * Get Model Name
+	 * @return
+	 */
 	public String getModelName() {
 		return modelName;
 	}
+	/**
+	 * Set Model Name
+	 * @param modelName
+	 */
 
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
+	/**
+	 * Get Bounding Point Of Box
+	 * @return
+	 */
 
 	public BoundingPointOfBox getBoundingPointOfBox() {
 		return boundingPointOfBox;
 	}
+	/**
+	 * Set Bounding Point Of Box
+	 * @param boundingPointOfBox
+	 */
 
 	public void setBoundingPointOfBox(BoundingPointOfBox boundingPointOfBox) {
 		this.boundingPointOfBox = boundingPointOfBox;
 	}
+	/**
+	 * Get Scale Ratio
+	 * @return
+	 */
 
 	public float getScaleRatio() {
 		return scaleRatio;
 	}
+	/**
+	 * Set Scale Ratio
+	 * @param scaleRatio
+	 */
 
 	public void setScaleRatio(float scaleRatio) {
 		this.scaleRatio = scaleRatio;
 	}
+	/**
+	 * Get Rotation
+	 * @return
+	 */
 
 	public Vec getRotation() {
 		return rotation;
 	}
+	/**
+	 * Set Rotation
+	 * @param rotation
+	 */
 
 	public void setRotation(Vec rotation) {
 		this.rotation = Util.newVecFromVec(rotation);
 	}
+	/**
+	 * Get Size Brick
+	 * @return
+	 */
 
 	public Vec getSizeBrick() {
 		return sizeBrick;
 	}
+	/**
+	 * Set Size Brick
+	 * @param sizeBrick
+	 */
 
 	public void setSizeBrick(Vec sizeBrick) {
 		this.sizeBrick = Util.newVecFromVec(sizeBrick);
 	}
+	/**
+	 * Get Translation
+	 * @return
+	 */
 
 	public Vec getTranslation() {
 		return translation;
 	}
+	/**
+	 * Set Translation
+	 * @param translation
+	 */
 
 	public void setTranslation(Vec translation) {
 		this.translation = Util.newVecFromVec(translation);
 	}
+	/**
+	 * Get Xml Brick
+	 * @return
+	 */
 
 	public XmlBrick getXmlBrick() {
 		return xmlBrick;
 	}
+	/**
+	 * Set Xml Brick
+	 * @param xmlBrick
+	 */
 
 	public void setXmlBrick(XmlBrick xmlBrick) {
 		this.xmlBrick = xmlBrick;
 	}
+	/**
+	 * Get Box Collider
+	 * @return
+	 */
 
 	public BoxCollider getBoxCollider() {
 		return boxCollider;
 	}
+	/**
+	 * Set Box Collider
+	 * @param boxCollider
+	 */
 
 	public void setBoxCollider(BoxCollider boxCollider) {
 		this.boxCollider = boxCollider;
 	}
+	/**
+	 * Get Calibrate Vec
+	 * @return
+	 */
 
 	public Vec getCalibrateVec() {
 		return calibrateVec;
 	}
+	/**
+	 * Set Calibrate Vec
+	 * @param calibrateVec
+	 */
 
 	public void setCalibrateVec(Vec calibrateVec) {
 		this.calibrateVec = Util.newVecFromVec(calibrateVec);
 	}
+	/**
+	 * Get Translate For Draw After Rotate
+	 * @return
+	 */
 
 	public Vec getTranslateForDrawAfterRotate() {
 		return translateForDrawAfterRotate;
 	}
+	/**
+	 * Set Translate For Draw After Rotate
+	 * @param translateForDrawAfterRotate
+	 */
 
 	public void setTranslateForDrawAfterRotate(Vec translateForDrawAfterRotate) {
 		this.translateForDrawAfterRotate = Util
 				.newVecFromVec(translateForDrawAfterRotate);
 	}
+	/**
+	 * Is First Init
+	 * @return
+	 */
 
 	public boolean isFirstInit() {
 		return firstInit;
 	}
+	/**
+	 * Set First Init
+	 * @param firstInit
+	 */
 
 	public void setFirstInit(boolean firstInit) {
 		this.firstInit = firstInit;
 	}
+	/**
+	 * Get Times Rotation
+	 * @return
+	 */
 
 	public int getTimesRotation() {
 		return timesRotation;
 	}
+	/**
+	 * Set Times Rotation
+	 * @param timesRotation
+	 */
 
 	public void setTimesRotation(int timesRotation) {
 		this.timesRotation = timesRotation;
 	}
+	/**
+	 * Get Id
+	 * @return
+	 */
 
 	public int getId() {
 		return id;
 	}
+	/**
+	 * Set Id
+	 * @param id
+	 */
 
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * Get Color
+	 * @return
+	 */
 
 	public Vec getColor() {
 		return color;
 	}
+	/**
+	 * Set Color
+	 * @param color
+	 */
 
 	public void setColor(Vec color) {
 		this.color = Util.newVecFromVec(color);
 	}
+	/**
+	 * Is Delete Flag
+	 * @return
+	 */
 
 	public boolean isDeleteFlag() {
 		return deleteFlag;
 	}
+	/**
+	 * Set Delete Flag
+	 * @param deleteFlag
+	 */
 
 	public void setDeleteFlag(boolean deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+	/**
+	 * Generate Box Collider
+	 */
 
 	public void generateBoxCollider() {
 		generateBoxCollider(xmlBrick.getRotations().get(timesRotation)
@@ -326,6 +462,10 @@ public class Brick implements DrawableObject {
 					* Util.BRICK_SIZE);
 		}
 	}
+	/**
+	 * Increase Times Rotate
+	 * @param center
+	 */
 	public void increaseTimesRotate(Vec center) {
 		if (translationBeforeRotate != null)
 			translation = Util.newVecFromVec(translationBeforeRotate);
@@ -373,6 +513,10 @@ public class Brick implements DrawableObject {
 					* Util.BRICK_SIZE);
 		}
 	}
+	/**
+	 * Decrease Times Rotate
+	 * @param center
+	 */
 	
 	public void decreaseTimesRotate(Vec center) {
 		if (translationBeforeRotate != null)
@@ -405,10 +549,18 @@ public class Brick implements DrawableObject {
 			
 		}
 	}
+	/**
+	 * Get Square On Top Brick
+	 * @return
+	 */
 
 	public ArrayList<Square> getSquareOnTopBrick() {
 		return squareOnTopBrick;
 	}
+	/**
+	 * Set Square On Top Brick
+	 * @param squareOnTopBrick
+	 */
 
 	public void setSquareOnTopBrick(ArrayList<Square> squareOnTopBrick) {
 		this.squareOnTopBrick = squareOnTopBrick;
@@ -431,7 +583,10 @@ public class Brick implements DrawableObject {
 		generateBoundingPointOfBox(xmlRotation.getCenterPostionOfDots());
 		generateSquareTopBrick(xmlRotation.getDots());
 	}
-
+	/**
+	 * Generate Square Top Brick
+	 * @param dots
+	 */
 	private void generateSquareTopBrick(ArrayList<XmlDot> dots) {
 		for (int i = 0; i < dots.size(); i++) {
 			XmlDot dot = dots.get(i);
@@ -510,11 +665,16 @@ public class Brick implements DrawableObject {
 			}
 		}
 	}
-
+	/**
+	 * Setup
+	 */
 	@Override
 	public void setup() {
 	}
-
+	/**
+	 * Setup
+	 * @param tempBrick
+	 */
 	public void setup(Brick tempBrick) {
 		model = tempBrick.getModel();
 		modelName = tempBrick.getModelName();
@@ -529,18 +689,24 @@ public class Brick implements DrawableObject {
 		translationBeforeRotate = Util.newVecFromVec(translation);
 		generateInitData();
 	}
-
+	/**
+	 * Draw
+	 */
 	@Override
 	public void draw() {
 
 	}
-
+	/**
+	 * Key Pressed
+	 */
 	@Override
 	public void keyPressed() {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * Mouse Clicked
+	 */
 	@Override
 	public void mouseClicked() {
 		// TODO Auto-generated method stub

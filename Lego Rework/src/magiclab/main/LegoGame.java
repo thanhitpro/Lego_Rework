@@ -15,7 +15,9 @@ public class LegoGame extends PApplet {
 	Scene scene;
 	public GameManager gameManager;
 	ArrayList<Vec> tempBox = new ArrayList<Vec>();
-
+	/**
+	 * Setup
+	 */
 	@Override
 	public void setup() {
 		Util.LoadModelName();
@@ -33,7 +35,9 @@ public class LegoGame extends PApplet {
 		scene.camera().frame().rotate(-0.455f, 0.189f, -0.33f, 0.81f);
 		scene.camera().frame().translate(0, 225, -150);
 	}
-
+	/**
+	 * Draw
+	 */
 	@Override
 	public void draw() {
 		if (!gameManager.isFinishLoadingNewGame()) {
@@ -50,7 +54,9 @@ public class LegoGame extends PApplet {
 	 * pushMatrix(); translate(tempBox.get(i).x(), tempBox.get(i).y(),
 	 * tempBox.get(i) .z()); box(1); popMatrix(); } }
 	 */
-
+	/**
+	 * Draw Scene
+	 */
 	private void drawScene() {
 		gameManager.drawPlane();
 		gameManager.drawBrickFollowMouse();
@@ -58,21 +64,27 @@ public class LegoGame extends PApplet {
 		gameManager.drawBoxCoverBrickHovered();
 		fill(255);
 	}
-
+	/**
+	 * Key Pressed
+	 */
 	@Override
 	public void keyPressed() {
 		//projection(new Vec(0, 0, 0));
 		//projection(new Vec(20, 0, 0));
 		gameManager.keyPressedProcess();
 	}
-
+	/**
+	 * Key Released
+	 */
 	@Override
 	public void keyReleased() {
 		// TODO Auto-generated method stub
 		super.keyReleased();
 		gameManager.keyReleaseProcess();
 	}
-
+	/**
+	 * Setup Display
+	 */
 	private void setupDisplay() {
 		background(165);
 		scene.setAxesVisualHint(true);
@@ -85,13 +97,17 @@ public class LegoGame extends PApplet {
 		lightSpecular(102, 102, 102);
 		scene.setPickingVisualHint(false);
 	}
-
+	/**
+	 * Setup Game Manager
+	 */
 	private void setupGameManager() {
 		gameManager = new GameManager(this);
 		gameManager.setup();
 		gameManager.setupPlane();
 	}
-
+	/**
+	 * Setup Scene
+	 */
 	private void setupScene() {
 		size(1024, 780, OPENGL);
 		scene = new Scene(this);
@@ -101,14 +117,18 @@ public class LegoGame extends PApplet {
 		// scene.camera().setType(Type.ORTHOGRAPHIC);
 
 	}
-
+	/**
+	 * Mouse Moved
+	 */
 	@Override
 	public void mouseMoved() {
 		super.mouseMoved();
 		objectPicking();
 		gameManager.mouseHoverProcess();
 	}
-
+	/**
+	 * Mouse Dragged
+	 */
 	@Override
 	public void mouseDragged() {
 		// TODO Auto-generated method stub
@@ -117,14 +137,18 @@ public class LegoGame extends PApplet {
 		objectPicking();
 		gameManager.mouseHoverProcess();
 	}
-
+	/**
+	 * Mouse Released
+	 */
 	@Override
 	public void mouseReleased(MouseEvent event) {
 		// TODO Auto-generated method stub
 		super.mouseReleased(event);
 		gameManager.mouseReleased();
 	}
-
+	/**
+	 * Mouse Clicked
+	 */
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		super.mouseClicked(event);
@@ -134,7 +158,10 @@ public class LegoGame extends PApplet {
 			gameManager.selectBrick();
 		}
 	}
-
+	/**
+	 * Projection
+	 * @param vec
+	 */
 	public void projection(Vec vec) {
 		float fovX = scene.camera().fieldOfView();
 		float fovY = scene.camera().horizontalFieldOfView();
@@ -167,7 +194,9 @@ public class LegoGame extends PApplet {
 		System.out.println(x + ", " + y + ", " + z);
 		// System.out.println(M_view);
 	}
-
+	/**
+	 * Object Picking
+	 */
 	public void objectPicking() {
 		Vec CS_Direc = new Vec();
 		CS_Direc.setX(((((2.0f * mouseX) / width) - 1) / scene.projection()
@@ -213,45 +242,69 @@ public class LegoGame extends PApplet {
 				break;
 		}
 	}
-
+	/**
+	 * Undo
+	 */
 	public void undo() {
 		gameManager.undo();
 	}
-
+	/**
+	 * Redo
+	 */
 	public void redo() {
 		gameManager.redo();
 	}
-
+	/**
+	 * New Game
+	 */
 	public void newGame() {
 		gameManager.resetGame();
 	}
-
+	/**
+	 * Load Game
+	 * @param path
+	 */
 	public void loadGame(String path) {
 		gameManager.getMenuController().setFileName(path);
 		gameManager.getMenuController().loadGame();
 	}
-
+	/**
+	 * Save Game
+	 * @param path
+	 */
 	public void saveGame(String path) {
 		gameManager.getMenuController().setFileName(path);
 		gameManager.getMenuController().saveGame();
 	}
-
+	/**
+	 * Select Brick
+	 * @param i
+	 */
 	public void selectBrick(int i) {
 		gameManager.changeBrick(i);
 	}
-
+	/**
+	 * Set Color
+	 * @param vec
+	 */
 	public void setColor(Vec vec) {
-		gameManager.setColorForBick(vec);
+		gameManager.setColorForBrick(vec);
 	}
-
+	/**
+	 * Cut
+	 */
 	public void cut() {
 		gameManager.cut();
 	}
-
+	/**
+	 * Copy
+	 */
 	public void copy() {
 		gameManager.copy();
 	}
-
+	/**
+	 * Paste
+	 */
 	public void paste() {
 		gameManager.paste();
 	}

@@ -67,7 +67,9 @@ public class GuiGame extends JFrame {
 	private static GridPane gridPane = new GridPane();
 	private static GridPane gridGroupPane = new GridPane();
 	private static ArrayList<String> collapsedIcon = new ArrayList<String>();
-
+	/**
+	 * Gui Game
+	 */
 	public GuiGame() {
 		super("Untitled" + " - Lego");
 		javafxPanel = new JFXPanel();
@@ -99,7 +101,9 @@ public class GuiGame extends JFrame {
 		// setResizable(false);
 		legoGame.init();
 	}
-
+	/**
+	 * InitFX
+	 */
 	private static void initFX() {
 		// This method is invoked on the JavaFX thread
 		Scene menuScene = createMenuScene();
@@ -113,7 +117,10 @@ public class GuiGame extends JFrame {
 		javafxPanel.setScene(scene);
 
 	}
-
+	/**
+	 * Create Toolbar Scene
+	 * @return
+	 */
 	private static Scene createToolbarScene() {
 		Group root = new Group();
 		Scene scene = new Scene(root, Color.ALICEBLUE);
@@ -200,11 +207,16 @@ public class GuiGame extends JFrame {
 		root.getChildren().add(toolBar);
 		return (scene);
 	}
-
+	/**
+	 * Set Size
+	 */
 	public void setsize() {
 		this.setSize(1224, 768);
 	}
-
+	/**
+	 * create Menu Scene
+	 * @return
+	 */
 	private static Scene createMenuScene() {
 		Group root = new Group();
 		Scene scene = new Scene(root, Color.valueOf("f5f5f5"));
@@ -332,7 +344,9 @@ public class GuiGame extends JFrame {
 
 		return (scene);
 	}
-
+	/**
+	 * Close Game
+	 */
 	public static void closeGame() {
 		if (legoGame.gameManager.getBricks().size() > 0
 				&& legoGame.gameManager.isGameModified()) {
@@ -348,7 +362,9 @@ public class GuiGame extends JFrame {
 
 		System.exit(0);
 	}
-
+	/**
+	 * New Game
+	 */
 	public static void newGame() {
 		if (legoGame.gameManager.getBricks().size() > 0
 				&& legoGame.gameManager.isGameModified()) {
@@ -367,7 +383,9 @@ public class GuiGame extends JFrame {
 		exampleFrame.setTitle(fileName + " - Lego");
 		legoGame.gameManager.setGameModified(false);
 	}
-
+	/**
+	 * Open File
+	 */
 	public static void openFile() {
 		if (legoGame.gameManager.isGameModified()) {
 			int checkSave = JOptionPane.showConfirmDialog(null,
@@ -391,7 +409,9 @@ public class GuiGame extends JFrame {
 			legoGame.gameManager.setGameModified(false);
 		}
 	}
-
+	/**
+	 * Save Game
+	 */
 	public static void saveGame() {
 		if (filePath == null) {
 			FileChooser fileChooser = new FileChooser();
@@ -414,7 +434,10 @@ public class GuiGame extends JFrame {
 			legoGame.gameManager.setGameModified(false);
 		}
 	}
-
+	/**
+	 * Create Scene
+	 * @return
+	 */
 	private static Scene createScene() {
 
 		Group root = new Group();
@@ -520,12 +543,16 @@ public class GuiGame extends JFrame {
 				});
 		return (scene);
 	}
-
+	/**
+	 * Add Icon To Group Panel
+	 */
 	private static void addIconToGroupPanel() {
 		gridGroupPane.getChildren().clear();
 		
 	}
-
+	/**
+	 * Add Icon To Panel
+	 */
 	private static void addIconToPanel() {
 		gridPane.getChildren().clear();
 		int indexGrid = 0;
@@ -567,7 +594,11 @@ public class GuiGame extends JFrame {
 			indexGrid++;
 		}
 	}
-
+	/**
+	 * Main
+	 * @param args
+	 * @throws InterruptedException
+	 */
 	public static void main(String args[]) throws InterruptedException {
 		exampleFrame
 				.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

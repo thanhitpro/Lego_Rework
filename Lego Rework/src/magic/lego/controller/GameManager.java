@@ -109,7 +109,10 @@ public class GameManager {
 	public ArrayList<Integer> getSelectedBrickIDMulti() {
 		return selectedBrickIDMulti;
 	}
-
+	/**
+	 * Set Selected Brick ID Multi
+	 * @param selectedBrickIDMulti
+	 */
 	public void setSelectedBrickIDMulti(ArrayList<Integer> selectedBrickIDMulti) {
 		this.selectedBrickIDMulti = selectedBrickIDMulti;
 	}
@@ -118,11 +121,17 @@ public class GameManager {
 	 * Array list stores the copied, cut bricks
 	 */
 	private ArrayList<Brick> copiedBrickIDMulti;
-
+	/**
+	 * Get Copyed Brick ID Multi
+	 * @return
+	 */
 	public ArrayList<Brick> getCopyedBrickIDMulti() {
 		return copiedBrickIDMulti;
 	}
-
+	/**
+	 * Set Copyed Brick ID Multi
+	 * @param copyedBrickIDMulti
+	 */
 	public void setCopyedBrickIDMulti(ArrayList<Brick> copyedBrickIDMulti) {
 		this.copiedBrickIDMulti = copyedBrickIDMulti;
 	}
@@ -155,15 +164,29 @@ public class GameManager {
 	 * Group brick follow mouse
 	 */
 	private GroupBrickState groupBrickStates;
+	/**
+	 * Undo Redo
+	 */
 	private UndoRedo undoRedo;
+	/**
+	 * Hold Select Key
+	 */
 	private boolean holdSelectKey = false;
+	/**
+	 * Mouse Drag
+	 */
 	private boolean mouseDrag = false;
-
+	/**
+	 * Game Manager
+	 * @param parent
+	 */
 	public GameManager(PApplet parent) {
 		super();
 		this.parent = parent;
 	}
-
+	/**
+	 * Reset Game
+	 */
 	public void resetGame() {
 		bricks.clear();
 		bricks = new ArrayList<Brick>();
@@ -186,7 +209,9 @@ public class GameManager {
 		copiedBrickIDMulti = new ArrayList<Brick>();
 		groupBrickStates = new GroupBrickState();
 	}
-
+	/**
+	 * Setup
+	 */
 	public void setup() {
 		brickFactory = new BrickFactory();
 		planeLego = new PlaneLego();
@@ -213,7 +238,9 @@ public class GameManager {
 		undoRedo = new UndoRedo();
 		undoRedo.setBricks(bricks);
 	}
-
+	/**
+	 * Setup Brick Model
+	 */
 	private void setupBrickModel() {
 		brickModelDictionary = new Hashtable<String, PShape>();
 		brickFacesDictionary = new Hashtable<String, PShape[]>();
@@ -230,7 +257,9 @@ public class GameManager {
 			brickModelDictionary.put(Util.MODEL_NAME_LIST.get(i), objModel);
 		}
 	}
-
+	/**
+	 * Setup Brick Factory
+	 */
 	private void setupBrickFactory() {
 		for (int i = 0; i < Util.MODEL_NAME_LIST.size(); i++) {
 			if (Util.MODEL_NAME_LIST.get(i).charAt(0) == '_') {
@@ -246,7 +275,10 @@ public class GameManager {
 			}
 		}
 	}
-
+	/**
+	 * Generate Place In Special Case
+	 * @param brick
+	 */
 	private void generatePlaceInSpecialCase(Brick brick) {
 		if (brickSelectedOld == null
 				|| brick.getId() != brickSelectedOld.getId()
@@ -257,7 +289,9 @@ public class GameManager {
 			switchBrick = false;
 		}
 	}
-
+	/**
+	 * Undo
+	 */
 	public void undo() {
 		/*
 		 * if (bricks.size() <= 0) return;
@@ -287,11 +321,17 @@ public class GameManager {
 		selectedBrickFlag = false;
 		gameModified = true;
 	}
-
+	/**
+	 * Add Brick To Undo List
+	 * @param lastBrick
+	 */
 	private void addBrickToUndoList(Brick lastBrick) {
 		undoBricks.add(lastBrick);
 	}
-
+	/**
+	 * Delete
+	 * @param brickSelected
+	 */
 	public void delete(int brickSelected) {
 		Brick selectedBrick = bricks.get(brickSelected);
 		selectedBrick.setDeleteFlag(true);
@@ -299,7 +339,9 @@ public class GameManager {
 		bricks.remove(brickSelected);
 		gameModified = true;
 	}
-
+	/**
+	 * Redo
+	 */
 	public void redo() {
 		/*
 		 * if (bricks.size() > 0) { Brick deleteBrick = bricks.get(bricks.size()
@@ -325,7 +367,10 @@ public class GameManager {
 		selectedBrickFlag = false;
 		gameModified = true;
 	}
-
+	/**
+	 * Set ID For Brick
+	 * @param brick
+	 */
 	private void setIDForBrick(Brick brick) {
 		if (bricks.size() > 0) {
 			brick.setId(bricks.get(bricks.size() - 1).getId() + 1);
@@ -333,7 +378,9 @@ public class GameManager {
 			brick.setId(0);
 		}
 	}
-
+	/**
+	 * Setup Plane
+	 */
 	public void setupPlane() {
 		for (int i = -Util.LEFT_WIDTH; i < Util.RIGHT_WIDTH; i++) {
 			for (int j = -Util.UP_HEIGHT; j < Util.DOWN_HEIGHT; j++) {
@@ -358,7 +405,9 @@ public class GameManager {
 			}
 		}
 	}
-
+	/**
+	 * Draw Plane
+	 */
 	public void drawPlane() {
 		for (int i = 0; i < planeLego.getpShapes().size(); i++) {
 			// Draw interactive frame on screen
@@ -371,7 +420,11 @@ public class GameManager {
 			parent.popMatrix();
 		}
 	}
-
+	/**
+	 * Check Collision Point And Box
+	 * @param pos
+	 * @return
+	 */
 	public int checkCollisionPointAndBox(Vec pos) {
 		if (squareExpand.size() > 0) {
 			for (int i = 0; i < squareExpand.size(); i++) {
@@ -438,200 +491,346 @@ public class GameManager {
 
 		return -1;
 	}
-
+	/**
+	 * Get Plane Lego
+	 * @return
+	 */
 	public PlaneLego getPlaneLego() {
 		return planeLego;
 	}
-
+	/**
+	 * Set Plane Lego
+	 * @param planeLego
+	 */
 	public void setPlaneLego(PlaneLego planeLego) {
 		this.planeLego = planeLego;
 	}
-
+	/**
+	 * Get Bricks
+	 * @return
+	 */
 	public ArrayList<Brick> getBricks() {
 		return bricks;
 	}
-
+	/**
+	 * Set Bricks
+	 * @param bricks
+	 */
 	public void setBricks(ArrayList<Brick> bricks) {
 		this.bricks = bricks;
 	}
-
+	/**
+	 * Get Brick Follow Mouse
+	 * @return
+	 */
 	public Brick getBrickFollowMouse() {
 		return brickFollowMouse;
 	}
-
+	/**
+	 * Set Brick Follow Mouse
+	 * @param brickFollowMouse
+	 */
 	public void setBrickFollowMouse(Brick brickFollowMouse) {
 		this.brickFollowMouse = brickFollowMouse;
 	}
-
+	/**
+	 * Is Disable Brick Follow Mouse
+	 * @return
+	 */
 	public boolean isDisableBrickFollowMouse() {
 		return disableBrickFollowMouse;
 	}
-
+	/**
+	 * Set Disable Brick Follow Mouse
+	 * @param disableBrickFollowMouse
+	 */
 	public void setDisableBrickFollowMouse(boolean disableBrickFollowMouse) {
 		this.disableBrickFollowMouse = disableBrickFollowMouse;
 	}
-
+	/**
+	 * Get Brick Model Dictionary
+	 * @return
+	 */
 	public Dictionary<String, PShape> getBrickModelDictionary() {
 		return brickModelDictionary;
 	}
-
+	/**
+	 * Set Brick Model Dictionary
+	 * @param brickModelDictionary
+	 */
 	public void setBrickModelDictionary(
 			Dictionary<String, PShape> brickModelDictionary) {
 		this.brickModelDictionary = brickModelDictionary;
 	}
-
+	/**
+	 * Get Brick Factory
+	 * @return
+	 */
 	public BrickFactory getBrickFactory() {
 		return brickFactory;
 	}
-
+	/**
+	 * Set Brick Factory
+	 * @param brickFactory
+	 */
 	public void setBrickFactory(BrickFactory brickFactory) {
 		this.brickFactory = brickFactory;
 	}
-
+	/**
+	 * Get Parent
+	 * @return
+	 */
 	public PApplet getParent() {
 		return parent;
 	}
-
+	/**
+	 * Set Parent
+	 * @param parent
+	 */
 	public void setParent(PApplet parent) {
 		this.parent = parent;
 	}
-
+	/**
+	 * Get Cur Brick
+	 * @return
+	 */
 	public Brick getCurBrick() {
 		return curBrick;
 	}
-
+	/**
+	 * Set Cur Brick
+	 * @param curBrick
+	 */
 	public void setCurBrick(Brick curBrick) {
 		this.curBrick = curBrick;
 	}
-
+	/**
+	 * Get Cur Color
+	 * @return
+	 */
 	public Vec getCurColor() {
 		return curColor;
 	}
-
+	/**
+	 * Set Cur Color
+	 * @param curColor
+	 */
 	public void setCurColor(Vec curColor) {
 		this.curColor = Util.newVecFromVec(curColor);
 	}
-
+	/**
+	 * Get Undo Bricks
+	 * @return
+	 */
 	public ArrayList<Brick> getUndoBricks() {
 		return undoBricks;
 	}
-
+	/**
+	 * Set Undo Bricks
+	 * @param undoBricks
+	 */
 	public void setUndoBricks(ArrayList<Brick> undoBricks) {
 		this.undoBricks = undoBricks;
 	}
-
+	/**
+	 * Get Square Expand
+	 * @return
+	 */
 	public ArrayList<Square> getSquareExpand() {
 		return squareExpand;
 	}
-
+	/**
+	 * Set Square Expand
+	 * @param squareExpand
+	 */
 	public void setSquareExpand(ArrayList<Square> squareExpand) {
 		this.squareExpand = squareExpand;
 	}
-
+	/**
+	 * Is Reset Deleted Flag
+	 * @return
+	 */
 	public boolean isResetDeletedFlag() {
 		return resetDeletedFlag;
 	}
-
+	/**
+	 * Set Reset Deleted Flag
+	 * @param resetDeletedFlag
+	 */
 	public void setResetDeletedFlag(boolean resetDeletedFlag) {
 		this.resetDeletedFlag = resetDeletedFlag;
 	}
-
+	/**
+	 * Get Object Selected
+	 * @return
+	 */
 	public ObjectSelected getObjectSelected() {
 		return objectHovered;
 	}
-
+	/**
+	 * 
+	 * @param objectSelected
+	 */
 	public void setObjectSelected(ObjectSelected objectSelected) {
 		this.objectHovered = objectSelected;
 	}
-
+	/**
+	 * Get Object Selected Prev
+	 * @return
+	 */
 	public ObjectSelected getObjectSelectedPrev() {
 		return objectHoveredPrev;
 	}
-
+	/**
+	 * Set Object Selected Prev
+	 * @param objectSelectedPrev
+	 */
 	public void setObjectSelectedPrev(ObjectSelected objectSelectedPrev) {
 		this.objectHoveredPrev = objectSelectedPrev;
 	}
-
+	/**
+	 * Get Object Hovered
+	 * @return
+	 */
 	public ObjectSelected getObjectHovered() {
 		return objectHovered;
 	}
-
+	/**
+	 * Set Object Hovered
+	 * @param objectHovered
+	 */
 	public void setObjectHovered(ObjectSelected objectHovered) {
 		this.objectHovered = objectHovered;
 	}
-
+	/**
+	 * Get Object Hovered Prev
+	 * @return
+	 */
 	public ObjectSelected getObjectHoveredPrev() {
 		return objectHoveredPrev;
 	}
-
+	/**
+	 * Set Object Hovered Prev
+	 * @param objectHoveredPrev
+	 */
 	public void setObjectHoveredPrev(ObjectSelected objectHoveredPrev) {
 		this.objectHoveredPrev = objectHoveredPrev;
 	}
-
+	/**
+	 * Is Rotate Brick Flag
+	 * @return
+	 */
 	public boolean isRotateBrickFlag() {
 		return rotateBrickFlag;
 	}
-
+	/**
+	 * Set Rotate Brick Flag
+	 * @param rotateBrickFlag
+	 */
 	public void setRotateBrickFlag(boolean rotateBrickFlag) {
 		this.rotateBrickFlag = rotateBrickFlag;
 	}
-
+	/**
+	 * Is Switch Brick
+	 * @return
+	 */
 	public boolean isSwitchBrick() {
 		return switchBrick;
 	}
-
+	/**
+	 * Set Switch Brick
+	 * @param switchBrick
+	 */
 	public void setSwitchBrick(boolean switchBrick) {
 		this.switchBrick = switchBrick;
 	}
-
+	/**
+	 * Is Selected Brick Flag
+	 * @return
+	 */
 	public boolean isSelectedBrickFlag() {
 		return selectedBrickFlag;
 	}
-
+	/**
+	 * Set Selected Brick Flag
+	 * @param selectedBrickFlag
+	 */
 	public void setSelectedBrickFlag(boolean selectedBrickFlag) {
 		this.selectedBrickFlag = selectedBrickFlag;
 	}
-
+	/**
+	 * Get Selected Brick ID
+	 * @return
+	 */
 	public int getSelectedBrickID() {
 		return selectedBrickID;
 	}
-
+	/**
+	 * Set Selected Brick ID
+	 * @param selectedBrickID
+	 */
 	public void setSelectedBrickID(int selectedBrickID) {
 		this.selectedBrickID = selectedBrickID;
 	}
-
+	/**
+	 * Get Brick Selected Old
+	 * @return
+	 */
 	public Brick getBrickSelectedOld() {
 		return brickSelectedOld;
 	}
-
+	/**
+	 * Set Brick Selected Old
+	 * @param brickSelectedOld
+	 */
 	public void setBrickSelectedOld(Brick brickSelectedOld) {
 		this.brickSelectedOld = brickSelectedOld;
 	}
-
+	/**
+	 * Is Finish Loading New Game
+	 * @return
+	 */
 	public boolean isFinishLoadingNewGame() {
 		return finishLoadingNewGame;
 	}
-
+	/**
+	 * Set Finish Loading New Game
+	 * @param finishLoadingNewGame
+	 */
 	public void setFinishLoadingNewGame(boolean finishLoadingNewGame) {
 		this.finishLoadingNewGame = finishLoadingNewGame;
 	}
-
+	/**
+	 * Get Menu Controller
+	 * @return
+	 */
 	public MenuController getMenuController() {
 		return menuController;
 	}
-
+	/**
+	 * Set Menu Controller
+	 * @param menuController
+	 */
 	public void setMenuController(MenuController menuController) {
 		this.menuController = menuController;
 	}
-
+	/**
+	 * Get Expand Size
+	 * @return
+	 */
 	public Vec getExpandSize() {
 		return expandSize;
 	}
-
+	/**
+	 * Set Expand Size
+	 * @param expandSize
+	 */
 	public void setExpandSize(Vec expandSize) {
 		this.expandSize = expandSize;
 	}
-
+	/**
+	 * Draw Brick Follow Mouse
+	 */
 	public void drawBrickFollowMouse() {
 
 		if (brickFollowMouse != null && disableBrickFollowMouse == false) {
@@ -701,7 +900,11 @@ public class GameManager {
 		}
 
 	}
-
+	/**
+	 * Create Model
+	 * @param parent
+	 * @return
+	 */
 	PShape[] createModel(PShape parent) {
 		PShape[] faces;
 		faces = new PShape[parent.getChildCount()];
@@ -710,7 +913,11 @@ public class GameManager {
 		}
 		return faces;
 	}
-
+	/**
+	 * Set Texture Model
+	 * @param faces
+	 * @param img
+	 */
 	void setTextureModel(PShape[] faces, PImage img) {
 		for (int i = 0; i < faces.length; i++) {
 			PShape s = parent.createShape();
@@ -727,13 +934,18 @@ public class GameManager {
 			faces[i] = s;
 		}
 	}
-
+	/**
+	 * Display Model
+	 * @param faces
+	 */
 	void displayModel(PShape[] faces) {
 		for (int i = 0; i < faces.length; i++) {
 			parent.shape(faces[i]);
 		}
 	}
-
+	/**
+	 * Mouse Hover Process
+	 */
 	public void mouseHoverProcess() {
 		if (holdSelectKey && mouseDrag) {
 			disableBrickFollowMouse = true;
@@ -763,22 +975,30 @@ public class GameManager {
 		}
 		checkCollisionBoxAndBox();
 	}
-
+	/**
+	 * MouseHover Dot Expand Process
+	 */
 	private void mouseHoverDotExpandProcess() {
 		displayBrickFollowMouse(squareExpand
 				.get(objectHovered.getIndexObject()));
 	}
-
+	/**
+	 * Mouse Hover Dot Brick Process
+	 */
 	private void mouseHoverDotBrickProcess() {
 		displayBrickFollowMouse(bricks.get(objectHovered.getIndexObject())
 				.getSquareOnTopBrick().get(objectHovered.getIndexDot()));
 		System.out.println("Dot: " + objectHovered.getIndexObject());
 	}
-
+	/**
+	 * Mouse Hover Brick Process
+	 */
 	private void mouseHoverBrickProcess() {
 		disableBrickFollowMouse = true;
 	}
-
+	/**
+	 * Mouse Hover Plane Process
+	 */
 	private void mouseHoverPlaneProcess() {
 		Square squareHovered = planeLego.getpSquarePosition().get(
 				objectHovered.getIndexObject());
@@ -847,7 +1067,10 @@ public class GameManager {
 			Util.DOWN_HEIGHT -= downValueReduce;
 		}
 	}
-
+	/**
+	 * Display Brick Follow Mouse
+	 * @param squareHovered
+	 */
 	private void displayBrickFollowMouse(Square squareHovered) {
 		Brick brick;
 
@@ -886,7 +1109,9 @@ public class GameManager {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Check Collision Box And Box
+	 */
 	private void checkCollisionBoxAndBox() {
 		for (int i = 0; i < bricks.size(); i++) {
 			Brick brick = bricks.get(i);
@@ -908,7 +1133,9 @@ public class GameManager {
 		if (objectHovered.getIndexNameObject() != 1)
 			disableBrickFollowMouse = false;
 	}
-
+	/**
+	 * Key Pressed Process
+	 */
 	public void keyPressedProcess() {
 		if (parent.keyCode == 37) {
 
@@ -1087,7 +1314,9 @@ public class GameManager {
 		}
 
 	}
-
+	/**
+	 * Select All
+	 */
 	private void selectAll() {
 		selectedBrickIDMulti = new ArrayList<Integer>();
 		for (int i = 0; i < bricks.size(); i++) {
@@ -1100,7 +1329,9 @@ public class GameManager {
 			selectedBrickFlag = false;
 		}
 	}
-
+	/**
+	 * Delete Brick By Key
+	 */
 	private void deleteBrickByKey() {
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
 			Brick selectedBrick = bricks.get((int) selectedBrickIDMulti.get(i));
@@ -1121,7 +1352,10 @@ public class GameManager {
 		gameModified = true;
 		objectHovered.reset();
 	}
-
+	/**
+	 * Remove Brick From Game
+	 * @param brickID
+	 */
 	private void removeBrickFromGame(int brickID) {
 		for (int i = 0; i < bricks.get(brickID).getSquareOnTopBrick().size(); i++) {
 			Util.LIST_SQUARE_ON_TOP_BRICKS.remove(bricks.get(brickID)
@@ -1129,7 +1363,9 @@ public class GameManager {
 		}
 		undoBricks.add(bricks.get(brickID));
 	}
-
+	/**
+	 * Place Brick 
+	 */
 	public void placeBrick() {
 		if (holdSelectKey) {
 			disableBrickFollowMouse = true;
@@ -1227,7 +1463,9 @@ public class GameManager {
 		groupBrickStates.reset();
 
 	}
-
+	/**
+	 * Select Brick
+	 */
 	public void selectBrick() {
 		if (disableBrickFollowMouse && objectHovered.getIndexNameObject() == 1) {
 			boolean selectedBrick = false;
@@ -1271,7 +1509,9 @@ public class GameManager {
 			}
 		}
 	}
-
+	/**
+	 * Draw Brick On Plane
+	 */
 	public void drawBrickOnPlane() {
 
 		for (int i = 0; i < bricks.size(); i++) {
@@ -1307,7 +1547,9 @@ public class GameManager {
 			parent.popMatrix();
 		}
 	}
-
+	/**
+	 * Draw Box Cover Brick Hovered
+	 */
 	public void drawBoxCoverBrickHovered() {
 		if (!finishLoadingNewGame)
 			return;
@@ -1374,7 +1616,10 @@ public class GameManager {
 			parent.popMatrix();
 		}
 	}
-
+	/**
+	 * Change Brick
+	 * @param i
+	 */
 	public void changeBrick(int i) {
 		curBrick.setModelName(Util.MODEL_NAME_LIST.get(i));
 		rotateBrickFlag = false;
@@ -1384,14 +1629,21 @@ public class GameManager {
 		selectedBrickFlag = false;
 		selectedBrickIDMulti.clear();
 	}
-
-	public void setColorForBick(int brickID, Vec color) {
+	/**
+	 * Set Color For Brick
+	 * @param brickID
+	 * @param color
+	 */
+	public void setColorForBrick(int brickID, Vec color) {
 		if (bricks.size() <= brickID)
 			return;
 		bricks.get(brickID).setColor(color);
 		gameModified = true;
 	}
-
+	/**
+	 * Check Expand Plane
+	 * @param pos
+	 */
 	public void checkExpandPlane(Vec pos) {
 		if (pos.y() / Util.BRICK_SIZE > Util.DOWN_HEIGHT) {
 			int expandedValue = (Math.round(Math.abs(pos.y()
@@ -1510,15 +1762,23 @@ public class GameManager {
 		}
 
 	}
-
+	/**
+	 * Is Game Modified
+	 * @return
+	 */
 	public boolean isGameModified() {
 		return gameModified;
 	}
-
+	/**
+	 * Set Game Modified
+	 * @param gameModified
+	 */
 	public void setGameModified(boolean gameModified) {
 		this.gameModified = gameModified;
 	}
-
+	/**
+	 * Key Release Process
+	 */
 	public void keyReleaseProcess() {
 		if (parent.keyCode == 17) {
 			holdControlKey = false;
@@ -1527,7 +1787,9 @@ public class GameManager {
 			holdSelectKey = false;
 		}
 	}
-
+	/**
+	 * Mouse Drag Process
+	 */
 	public void mouseDragProcess() {
 		mouseDrag = true;
 		if (holdSelectKey) {
@@ -1579,7 +1841,9 @@ public class GameManager {
 			}
 		}
 	}
-
+	/**
+	 * Move Brick Process
+	 */
 	private void moveBrickProcess() {
 		Brick brickDrag = bricks.get(objectHovered.getIndexObject());
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
@@ -1622,7 +1886,9 @@ public class GameManager {
 		gameModified = true;
 		objectHovered.reset();
 	}
-
+	/**
+	 * Cut
+	 */
 	public void cut() {
 		copiedBrickIDMulti = new ArrayList<Brick>();
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
@@ -1648,7 +1914,9 @@ public class GameManager {
 		selectedBrickID = -1;
 		selectedBrickIDMulti.clear();
 	}
-
+	/**
+	 * Copy
+	 */
 	public void copy() {
 		copiedBrickIDMulti = new ArrayList<Brick>();
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
@@ -1687,7 +1955,9 @@ public class GameManager {
 		selectedBrickID = -1;
 		selectedBrickIDMulti.clear();
 	}
-
+	/**
+	 * Paste
+	 */
 	public void paste() {
 		if (copiedBrickIDMulti.size() > 0) {
 			Brick brickDrag = copiedBrickIDMulti.get(0);
@@ -1705,21 +1975,26 @@ public class GameManager {
 			undoRedo.InsertInUnDoRedoForPaste(groupBrickStates);
 		}
 	}
-
-	public void setColorForBick(Vec vec) {
+	/**
+	 * Set Color For Brick
+	 * @param vec
+	 */
+	public void setColorForBrick(Vec vec) {
 		ArrayList<Brick> editBricks = new ArrayList<Brick>();
 		ArrayList<Vec> prevColors = new ArrayList<Vec>();
 		for (int i = 0; i < selectedBrickIDMulti.size(); i++) {
 			prevColors.add(Util.newVecFromVec(bricks.get(
 					selectedBrickIDMulti.get(i)).getColor()));
-			setColorForBick(selectedBrickIDMulti.get(i), vec);
+			setColorForBrick(selectedBrickIDMulti.get(i), vec);
 			editBricks.add(bricks.get(selectedBrickIDMulti.get(i)));
 		}
 		undoRedo.InsertInUnDoRedoForChangeColor(editBricks, vec, prevColors);
 		setCurColor(vec);
 
 	}
-
+	/**
+	 * Mouse Released
+	 */
 	public void mouseReleased() {
 		mouseDrag = false;
 	}

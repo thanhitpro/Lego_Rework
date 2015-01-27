@@ -68,7 +68,9 @@ public class Util {
 	public static String EXTRA_POSITION_VEC_FILE = "ExtraPostionVec.txt";
 	public static PImage tempImage;
 	public static PImage eyeImage;
-
+	/**
+	 * Load Model Name
+	 */
 	public static void LoadModelName() {
 		MODEL_NAME_LIST = new ArrayList<String>();
 		BufferedReader in;
@@ -106,7 +108,9 @@ public class Util {
 			return;
 		}
 	}
-
+	/**
+	 * Load Calibrate Vec
+	 */
 	@SuppressWarnings("resource")
 	public static void LoadCalibrateVec() {
 		CALIBRATE_VEC_MODEL = new ArrayList<Vec>();
@@ -142,7 +146,11 @@ public class Util {
 			return;
 		}
 	}
-
+	/**
+	 * New Vec From Vec
+	 * @param vec
+	 * @return
+	 */
 	public static Vec newVecFromVec(Vec vec) {
 		if (vec == null)
 			return null;

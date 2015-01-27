@@ -40,47 +40,81 @@ public class XmlBrick {
 	 * List rotation define of this brick
 	 */
 	ArrayList<XmlRotation> rotations;
-
+	/**
+	 * Get Name
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * Set Name
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	/**
+	 * Get Default Size Brick
+	 * @return
+	 */
 	public Vec getDefaultSizeBrick() {
 		return defaultSizeBrick;
 	}
-
+	/**
+	 * Set Default Size Brick
+	 * @param defaultSizeBrick
+	 */
 	public void setDefaultSizeBrick(Vec defaultSizeBrick) {
 		this.defaultSizeBrick = Util.newVecFromVec(defaultSizeBrick);
 	}
-
+	/**
+	 * Get Calibrate Vec
+	 * @return
+	 */
 	public Vec getCalibrateVec() {
 		return calibrateVec;
 	}
-
+	/**
+	 * Set Calibrate Vec
+	 * @param calibrateVec
+	 */
 	public void setCalibrateVec(Vec calibrateVec) {
 		this.calibrateVec = Util.newVecFromVec(calibrateVec);
 	}
-
+	/**
+	 * Get Number Of Time Rotation
+	 * @return
+	 */
 	public int getNumberOfTimeRotation() {
 		return numberOfTimeRotation;
 	}
-
+	/**
+	 * Set Number Of Time Rotation
+	 * @param numberOfTimeRotation
+	 */
 	public void setNumberOfTimeRotation(int numberOfTimeRotation) {
 		this.numberOfTimeRotation = numberOfTimeRotation;
 	}
-
+	/**
+	 * Get Rotations
+	 * @return
+	 */
 	public ArrayList<XmlRotation> getRotations() {
 		return rotations;
 	}
-
+	/**
+	 * Set Rotations
+	 * @param rotations
+	 */
 	public void setRotations(ArrayList<XmlRotation> rotations) {
 		this.rotations = rotations;
 	}
-
+	/**
+	 * Read Xml
+	 * @param xmlFileName
+	 * @param id
+	 */
 	public void readXml(String xmlFileName, int id) {
 		try {
 			File xmlFile = new File(xmlFileName);
@@ -217,20 +251,39 @@ public class XmlBrick {
 		System.out.println("Finish");
 
 	}
-
+	/**
+	 * Is Finish Loading
+	 * @return
+	 */
 	public boolean isFinishLoading() {
 		return finishLoading;
 	}
-
+	/**
+	 * Set Finish Loading
+	 */
 	public void setFinishLoading(boolean finishLoading) {
 		this.finishLoading = finishLoading;
 	}
-
+	/**
+	 * Get Float Value
+	 * @param xPath
+	 * @param doc
+	 * @param xPathString
+	 * @return
+	 * @throws XPathExpressionException
+	 */
 	private Float getFloatValue(XPath xPath, Document doc, String xPathString)
 			throws XPathExpressionException {
 		return Float.valueOf(xPath.compile(xPathString).evaluate(doc));
 	}
-
+	/**
+	 * Get Int Value
+	 * @param xPath
+	 * @param doc
+	 * @param xPathString
+	 * @return
+	 * @throws XPathExpressionException
+	 */
 	private Integer getIntValue(XPath xPath, Document doc, String xPathString)
 			throws XPathExpressionException {
 		try {

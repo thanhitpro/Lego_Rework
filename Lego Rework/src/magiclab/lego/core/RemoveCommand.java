@@ -5,21 +5,35 @@ import java.util.ArrayList;
 import magiclab.lego.brick.Brick;
 
 public class RemoveCommand implements ICommand {
+	/**
+	 * Bricks
+	 */
 	private ArrayList<Brick> bricks;
+	/**
+	 * Add Bricks
+	 */
 	private ArrayList<Brick> addBricks;
-
+	/**
+	 * Remove Command
+	 * @param _addBricks
+	 * @param _bricks
+	 */
 	public RemoveCommand(ArrayList<Brick> _addBricks, ArrayList<Brick> _bricks) {
 		addBricks = _addBricks;
 		bricks = _bricks;
 	}
-
+	/**
+	 * Execute
+	 */
 	@Override
 	public void Execute() {
 		for (int i = 0; i < addBricks.size(); i++) {
 			bricks.remove(addBricks.get(i));
 		}
 	}
-
+	/**
+	 * UnExecute
+	 */
 	@Override
 	public void UnExecute() {
 		for (int i = 0; i < addBricks.size(); i++) {
