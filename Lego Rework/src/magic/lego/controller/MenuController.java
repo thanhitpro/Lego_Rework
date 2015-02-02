@@ -110,6 +110,10 @@ public class MenuController {
 					brick.increaseTimesRotate();
 				}
 
+				brick.setTranslation(new Vec(Float.valueOf(positionValue[0]),
+						Float.valueOf(positionValue[1]), Float
+								.valueOf(positionValue[2])));
+
 				String rotationValue[] = xPath
 						.compile(
 								"/Bricks/Brick[@id = " + i

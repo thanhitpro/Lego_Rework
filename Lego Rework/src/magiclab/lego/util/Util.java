@@ -78,7 +78,8 @@ public class Util {
 	public static boolean FINISH_THREAD = true;
 	public static boolean LISTEN_CHANGE_POSITION = false;
 	public static boolean ROTATE_A_CIRCLE = false;
-	public static boolean ROTATE_A_CIRCLE_2 = false;;
+	public static boolean ROTATE_A_CIRCLE_2 = false;
+	public static boolean collapsed = true;
 
 	public static void LoadModelName() {
 		MODEL_NAME_LIST = new ArrayList<String>();

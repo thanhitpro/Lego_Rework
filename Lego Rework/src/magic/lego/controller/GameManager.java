@@ -1,6 +1,5 @@
 package magic.lego.controller;
 
-import java.awt.Point;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Hashtable;
 
 import javafx.application.Platform;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import magiclab.lego.brick.Brick;
@@ -30,7 +28,6 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-import processing.opengl.PGL;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 import remixlab.dandelion.geom.Vec;
@@ -200,8 +197,8 @@ public class GameManager {
 		}
 
 		PGraphicsOpenGL pg = ((PGraphicsOpenGL) parent.g);
-		PGL pgl = pg.beginPGL();
-		GL gl = ((PJOGL) pg.beginPGL()).gl;
+		pg.beginPGL();
+		pg.beginPGL();
 		GL2 gl2 = ((PJOGL) pg.beginPGL()).gl.getGL2();
 
 		int numPoints = vertexts.size();
@@ -433,14 +430,14 @@ public class GameManager {
 			parent.pushMatrix();
 			// planeLego.getpShapes().get(i);
 			// Draw plane
-			Vec curVec = planeLego.getpSquarePosition().get(i).getPosition();
-			Point mPoint = Util.GetScreenspaceCoords(curVec);
-			if (mPoint.x > -40 && mPoint.x < parent.width && mPoint.y > -40
-					&& mPoint.y < parent.height) {
-				parent.shape(planeLego.getpShapes().get(i), planeLego
-						.getpSquarePosition().get(i).getPosition().x(),
-						planeLego.getpSquarePosition().get(i).getPosition().y());
-			}
+			// Vec curVec = planeLego.getpSquarePosition().get(i).getPosition();
+			// Point mPoint = Util.GetScreenspaceCoords(curVec);
+			// if (mPoint.x > -40 && mPoint.x < parent.width && mPoint.y > -40
+			// && mPoint.y < parent.height) {
+			parent.shape(planeLego.getpShapes().get(i), planeLego
+					.getpSquarePosition().get(i).getPosition().x(), planeLego
+					.getpSquarePosition().get(i).getPosition().y());
+			// }
 			parent.popMatrix();
 		}
 	}
@@ -705,6 +702,119 @@ public class GameManager {
 		this.menuController = menuController;
 	}
 
+	public Dictionary<String, PShape[]> getBrickFacesDictionary() {
+		return brickFacesDictionary;
+	}
+
+	public void setBrickFacesDictionary(
+			Dictionary<String, PShape[]> brickFacesDictionary) {
+		this.brickFacesDictionary = brickFacesDictionary;
+	}
+
+	public ArrayList<Brick> getCopiedBrickIDMulti() {
+		return copiedBrickIDMulti;
+	}
+
+	public void setCopiedBrickIDMulti(ArrayList<Brick> copiedBrickIDMulti) {
+		this.copiedBrickIDMulti = copiedBrickIDMulti;
+	}
+
+	public boolean isHoldControlKey() {
+		return holdControlKey;
+	}
+
+	public void setHoldControlKey(boolean holdControlKey) {
+		this.holdControlKey = holdControlKey;
+	}
+
+	public GroupBrickState getGroupBrickStates() {
+		return groupBrickStates;
+	}
+
+	public void setGroupBrickStates(GroupBrickState groupBrickStates) {
+		this.groupBrickStates = groupBrickStates;
+	}
+
+	public UndoRedo getUndoRedo() {
+		return undoRedo;
+	}
+
+	public void setUndoRedo(UndoRedo undoRedo) {
+		this.undoRedo = undoRedo;
+	}
+
+	public boolean isHoldSelectKey() {
+		return holdSelectKey;
+	}
+
+	public void setHoldSelectKey(boolean holdSelectKey) {
+		this.holdSelectKey = holdSelectKey;
+	}
+
+	public boolean isMouseDrag() {
+		return mouseDrag;
+	}
+
+	public void setMouseDrag(boolean mouseDrag) {
+		this.mouseDrag = mouseDrag;
+	}
+
+	public int getNumBrickForTesting() {
+		return numBrickForTesting;
+	}
+
+	public void setNumBrickForTesting(int numBrickForTesting) {
+		this.numBrickForTesting = numBrickForTesting;
+	}
+
+	public FloatBuffer getVbuffer() {
+		return vbuffer;
+	}
+
+	public void setVbuffer(FloatBuffer vbuffer) {
+		this.vbuffer = vbuffer;
+	}
+
+	public FloatBuffer getCbuffer() {
+		return cbuffer;
+	}
+
+	public void setCbuffer(FloatBuffer cbuffer) {
+		this.cbuffer = cbuffer;
+	}
+
+	public PShape getBrick_1x1() {
+		return brick_1x1;
+	}
+
+	public void setBrick_1x1(PShape brick_1x1) {
+		this.brick_1x1 = brick_1x1;
+	}
+
+	public ArrayList<PVector> getVertexts() {
+		return vertexts;
+	}
+
+	public void setVertexts(ArrayList<PVector> vertexts) {
+		this.vertexts = vertexts;
+	}
+
+	public boolean isHoldAltKey() {
+		return holdAltKey;
+	}
+
+	public void setHoldAltKey(boolean holdAltKey) {
+		this.holdAltKey = holdAltKey;
+	}
+
+	public int getCurBrickIndex() {
+		return curBrickIndex;
+	}
+
+	public void setCurBrickIndex(int curBrickIndex) {
+		this.curBrickIndex = curBrickIndex;
+	}
+
 	public Vec getExpandSize() {
 		return expandSize;
 	}
@@ -717,7 +827,9 @@ public class GameManager {
 	 * drawBrickFollowMouse
 	 */
 	public void drawBrickFollowMouse() {
-
+		if (holdControlKey && groupBrickStates.getBrickStates().size() < 0) {
+			disableBrickFollowMouse = true;
+		}
 		if (brickFollowMouse != null
 				&& (objectHovered != null && objectHovered.getIndexNameObject() != 1)) {
 			parent.pushMatrix();
@@ -953,53 +1065,42 @@ public class GameManager {
 		if (brickFollowMouse != null) {
 			groupBrickStates.setConnectPoint(Util
 					.newVecFromVec(brickFollowMouse.getTranslation()));
-			if (brickFollowMouse.getTimesRotation() == 2) {
-				Util.ROTATE_A_CIRCLE_2 = false;
-				if (brickFollowMouse.getTranslation() != brickFollowMouse
-						.getTranslationBeforeRotate()) {
-					Util.LISTEN_CHANGE_POSITION = true;
-				}
-
-				if (Util.LISTEN_CHANGE_POSITION) {
-					groupBrickStates.getConnectPoint().setX(
-							groupBrickStates.getConnectPoint().x()
-									+ (brickFollowMouse.getSizeBrick().x() - 1)
-									* Util.BRICK_SIZE);
-					Util.LISTEN_CHANGE_POSITION = false;
-					Util.ROTATE_A_CIRCLE_2 = true;
-				}
-			}
-
-			if (brickFollowMouse.getTimesRotation() == 3) {
-				Util.ROTATE_A_CIRCLE = false;
-				if (brickFollowMouse.getTranslation() != brickFollowMouse
-						.getTranslationBeforeRotate()) {
-					Util.LISTEN_CHANGE_POSITION = true;
-				}
-
-				if (Util.LISTEN_CHANGE_POSITION) {
-					if (Util.ROTATE_A_CIRCLE_2 == true) {
-						groupBrickStates
-								.getConnectPoint()
-								.setX(groupBrickStates.getConnectPoint().x()
-										+ (brickFollowMouse.getSizeBrick().y() - 1)
-										* Util.BRICK_SIZE);
-					}
-					groupBrickStates.getConnectPoint().setY(
-							groupBrickStates.getConnectPoint().y()
-									+ (brickFollowMouse.getSizeBrick().y() - 1)
-									* Util.BRICK_SIZE);
-					Util.LISTEN_CHANGE_POSITION = false;
-					Util.ROTATE_A_CIRCLE = true;
-				}
-			}
-
-			if (brickFollowMouse.getTimesRotation() == 0
-					&& Util.ROTATE_A_CIRCLE) {
-				groupBrickStates.setBrickPosition(groupBrickStates
-						.getBrickPositionBeforeRotate());
-				Util.ROTATE_A_CIRCLE = false;
-			}
+			// For rotating brick
+			/*
+			 * if (brickFollowMouse.getTimesRotation() == 2) {
+			 * Util.ROTATE_A_CIRCLE_2 = false; if
+			 * (brickFollowMouse.getTranslation() != brickFollowMouse
+			 * .getTranslationBeforeRotate()) { Util.LISTEN_CHANGE_POSITION =
+			 * true; }
+			 * 
+			 * if (Util.LISTEN_CHANGE_POSITION) {
+			 * groupBrickStates.getConnectPoint().setX(
+			 * groupBrickStates.getConnectPoint().x() +
+			 * (brickFollowMouse.getSizeBrick().x() - 1) Util.BRICK_SIZE);
+			 * Util.LISTEN_CHANGE_POSITION = false; Util.ROTATE_A_CIRCLE_2 =
+			 * true; } }
+			 * 
+			 * if (brickFollowMouse.getTimesRotation() == 3) {
+			 * Util.ROTATE_A_CIRCLE = false; if
+			 * (brickFollowMouse.getTranslation() != brickFollowMouse
+			 * .getTranslationBeforeRotate()) { Util.LISTEN_CHANGE_POSITION =
+			 * true; }
+			 * 
+			 * if (Util.LISTEN_CHANGE_POSITION) { if (Util.ROTATE_A_CIRCLE_2 ==
+			 * true) { groupBrickStates .getConnectPoint()
+			 * .setX(groupBrickStates.getConnectPoint().x() +
+			 * (brickFollowMouse.getSizeBrick().y() - 1) Util.BRICK_SIZE); }
+			 * groupBrickStates.getConnectPoint().setY(
+			 * groupBrickStates.getConnectPoint().y() +
+			 * (brickFollowMouse.getSizeBrick().y() - 1) Util.BRICK_SIZE);
+			 * Util.LISTEN_CHANGE_POSITION = false; Util.ROTATE_A_CIRCLE = true;
+			 * } }
+			 * 
+			 * if (brickFollowMouse.getTimesRotation() == 0 &&
+			 * Util.ROTATE_A_CIRCLE) {
+			 * groupBrickStates.setBrickPosition(groupBrickStates
+			 * .getBrickPositionBeforeRotate()); Util.ROTATE_A_CIRCLE = false; }
+			 */
 
 		}
 	}
@@ -1370,7 +1471,7 @@ public class GameManager {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						resetGame();
+						GuiGame.newGame();
 					}
 				});
 			}
@@ -2087,9 +2188,9 @@ public class GameManager {
 
 	public void drawBrickByVertex() {
 		PGraphicsOpenGL pg = ((PGraphicsOpenGL) parent.g);
-		PGL pgl = pg.beginPGL();
+		pg.beginPGL();
 		// pgl.enable(PGL.CULL_FACE);
-		GL gl = ((PJOGL) pg.beginPGL()).gl;
+		pg.beginPGL();
 		GL2 gl2 = ((PJOGL) pg.beginPGL()).gl.getGL2();
 
 		int count = 0;
@@ -2208,7 +2309,6 @@ public class GameManager {
 				Util.RIGHT_WIDTH = (int) Math.abs(maxRight / Util.BRICK_SIZE) + 1;
 			}
 		}
-
 		if (Util.LEFT_WIDTH >= Util.LEFT_WIDTH_DEFAULT
 				|| Util.RIGHT_WIDTH >= Util.RIGHT_WIDTH_DEFAULT
 				|| Util.UP_HEIGHT >= Util.UP_HEIGHT_DEFAULT
@@ -2219,7 +2319,9 @@ public class GameManager {
 			Util.DOWN_HEIGHT_DEFAULT = Util.DOWN_HEIGHT;
 			planeLego.setup();
 			setupPlane();
+			// System.out.println("");
 		}
+
 	}
 
 	public void escProcess() {

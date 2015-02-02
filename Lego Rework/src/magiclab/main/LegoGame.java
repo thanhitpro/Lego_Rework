@@ -63,8 +63,37 @@ public class LegoGame extends PApplet {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				GuiGame.statusText.setText(Util.FPS);
-			}
+				GuiGame.statusText.setText("  Bricks: " + gameManager.getBricks().size() + "");	
+				if (gameManager.getUndoRedo().get_Undocommands()
+						.size() > 0) {
+					GuiGame.enableUndo(false);
+				} else {
+					GuiGame.enableUndo(true);
+				}
+				
+				if (gameManager.getUndoRedo().get_Redocommands()
+						.size() > 0) {
+					GuiGame.enableRedo(false);
+				} else {
+					GuiGame.enableRedo(true);
+				}
+				
+				if (gameManager.getBricks().size() > 0) {
+					GuiGame.enableSave(false);
+				} else {
+					GuiGame.enableSave(true);
+				}
+				if (gameManager.getSelectedBrickIDMulti().size() > 0) {
+					GuiGame.enableCopyCut(false);
+				} else {
+					GuiGame.enableCopyCut(true);
+				}
+				if (gameManager.getCopyedBrickIDMulti().size() > 0) {
+					GuiGame.enablePaste(false);
+				} else {
+					GuiGame.enablePaste(true);
+				}
+			} 
 		});
 
 	}

@@ -11,6 +11,22 @@ public class UndoRedo {
 	private Stack<ICommand> _Undocommands = new Stack<ICommand>();
 	private Stack<ICommand> _Redocommands = new Stack<ICommand>();
 
+	public Stack<ICommand> get_Undocommands() {
+		return _Undocommands;
+	}
+
+	public void set_Undocommands(Stack<ICommand> _Undocommands) {
+		this._Undocommands = _Undocommands;
+	}
+
+	public Stack<ICommand> get_Redocommands() {
+		return _Redocommands;
+	}
+
+	public void set_Redocommands(Stack<ICommand> _Redocommands) {
+		this._Redocommands = _Redocommands;
+	}
+
 	private ArrayList<Brick> bricks;
 
 	public ArrayList<Brick> getBricks() {
